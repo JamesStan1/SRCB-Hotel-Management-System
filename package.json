@@ -1,0 +1,53 @@
+{
+  "name": "hotelmanagement",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "migrate": "node scripts/run_migrations.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
+    "@clerk/nextjs": "^6.29.0",
+    "@heroicons/react": "^2.2.0",
+    "@zxing/library": "^0.21.3",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "chart.js": "^4.5.0",
+    "csv-stringify": "^6.6.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.2",
+    "file-saver": "^2.0.5",
+    "formidable": "^3.5.4",
+    "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.2",
+    "jsqr": "^1.4.0",
+    "jszip": "^3.10.1",
+    "leaflet": "^1.9.4",
+    "mysql2": "^3.14.3",
+    "next": "^15.4.6",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.6",
+    "papaparse": "^5.5.3",
+    "pg": "^8.16.3",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.1.1",
+    "react-calendar": "^6.0.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.1.1",
+    "react-leaflet": "^5.0.0",
+    "react-qr-code": "^2.0.18",
+    "sass": "^1.93.2",
+    "sweetalert2": "^11.22.5",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint-config-next": "15.5.5",
+    "tailwindcss": "^4"
+  }
+}

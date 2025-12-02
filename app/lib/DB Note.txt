@@ -1,0 +1,1348 @@
+CREATE TABLE archive_cafe_dishes (
+    id SERIAL
+        PRIMARY KEY,
+    original_id INTEGER,
+    name VARCHAR(100),
+    description TEXT,
+    price NUMERIC(10,2),
+    category VARCHAR(50),
+    photo_url TEXT,
+    is_available BOOLEAN,
+    archived_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE archive_cafe_dishes
+    ADD CONSTRAINT archive_cafe_dishes_pkey
+        PRIMARY KEY (id);
+
+CREATE UNIQUE INDEX archive_cafe_dishes_pkey
+    ON archive_cafe_dishes
+    USING BTREE (id);
+
+
+CREATE TABLE archive_events (
+    id SERIAL
+        PRIMARY KEY,
+    original_id INTEGER
+        UNIQUE,
+    name VARCHAR(100),
+    type VARCHAR(50),
+    date DATE,
+    allotted_time VARCHAR(50),
+    guests INTEGER,
+    booked_by VARCHAR(100),
+    supervisor VARCHAR(100),
+    status VARCHAR(20),
+    additional_requests TEXT,
+    additional_guests INTEGER,
+    remarks TEXT,
+    total_cost NUMERIC(10,2),
+    menu VARCHAR(100),
+    dishes JSONB,
+    customer_id_url VARCHAR(255),
+    e_signature VARCHAR(255),
+    set VARCHAR(50),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    archived_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE archive_events
+    ADD CONSTRAINT unique_original_id
+        UNIQUE (original_id);
+
+ALTER TABLE archive_events
+    ADD CONSTRAINT archive_events_pkey
+        PRIMARY KEY (id);
+
+CREATE UNIQUE INDEX archive_events_pkey
+    ON archive_events
+    USING BTREE (id);
+
+CREATE UNIQUE INDEX unique_original_id
+    ON archive_events
+    USING BTREE (original_id);
+
+
+CREATE TABLE archive_inventory (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(100)
+        NOT NULL,
+    category VARCHAR(100)
+        NOT NULL,
+    quantity INTEGER
+        NOT NULL
+        DEFAULT 0,
+    threshold INTEGER
+        NOT NULL
+        DEFAULT 0,
+    status VARCHAR(50),
+    section VARCHAR(50)
+        NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    archived_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    archived_by VARCHAR(255),
+    original_id INTEGER,
+    reason_for_archiving TEXT,
+    unit VARCHAR(50)
+        NOT NULL
+        DEFAULT 'piece',
+    on_delivery BOOLEAN
+        NOT NULL
+        DEFAULT false,
+    CONSTRAINT valid_unit
+        CHECK (unit::text = ANY (ARRAY['piece'::character varying, 'pack'::character varying, 'bundle'::character varying]::text[]))
+);
+
+ALTER TABLE archive_inventory
+    ADD CONSTRAINT archive_inventory_pkey
+        PRIMARY KEY (id);
+
+CREATE UNIQUE INDEX archive_inventory_pkey
+    ON archive_inventory
+    USING BTREE (id);
+
+CREATE INDEX idx_archive_inventory_archived_at
+    ON archive_inventory
+    USING BTREE (archived_at);
+
+CREATE INDEX idx_archive_inventory_category
+    ON archive_inventory
+    USING BTREE (category);
+
+CREATE INDEX idx_archive_inventory_status
+    ON archive_inventory
+    USING BTREE (status);
+
+
+CREATE TABLE archive_reservations (
+    id SERIAL
+        PRIMARY KEY,
+    original_id INTEGER,
+    room_id INTEGER,
+    customer_name VARCHAR(255),
+    customer_email VARCHAR(255),
+    contact_number VARCHAR(255),
+    address TEXT,
+    nationality VARCHAR(100),
+    additional_guests INTEGER,
+    additional_requests TEXT,
+    remarks TEXT,
+    check_in_date DATE,
+    check_out_date DATE,
+    id_upload TEXT,
+    e_signature TEXT,
+    archived_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE archive_reservations
+    ADD CONSTRAINT archive_reservations_pkey
+        PRIMARY KEY (id);
+
+CREATE UNIQUE INDEX archive_reservations_pkey
+    ON archive_reservations
+    USING BTREE (id);
+
+
+CREATE TABLE archive_rooms (
+    id SERIAL
+        PRIMARY KEY,
+    original_id INTEGER,
+    room_number VARCHAR(50),
+    type VARCHAR(50),
+    price NUMERIC(10,2),
+    status VARCHAR(20),
+    package_id INTEGER,
+    archived_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE archive_rooms
+    ADD CONSTRAINT archive_rooms_pkey
+        PRIMARY KEY (id);
+
+CREATE UNIQUE INDEX archive_rooms_pkey
+    ON archive_rooms
+    USING BTREE (id);
+
+
+CREATE TABLE archive_users (
+    id SERIAL
+        PRIMARY KEY,
+    original_id INTEGER,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    role VARCHAR(50),
+    phone VARCHAR(50),
+    status VARCHAR(20),
+    hourly_rate NUMERIC(10,2),
+    password VARCHAR(255),
+    archived_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE archive_users
+    ADD CONSTRAINT archive_users_pkey
+        PRIMARY KEY (id);
+
+CREATE UNIQUE INDEX archive_users_pkey
+    ON archive_users
+    USING BTREE (id);
+
+CREATE TABLE attendance (
+    id SERIAL
+        PRIMARY KEY,
+    user_id INTEGER
+        UNIQUE
+        NOT NULL,
+    date DATE
+        UNIQUE
+        NOT NULL,
+    clock_in TIME,
+    clock_out TIME,
+    hours_worked DOUBLE PRECISION
+        GENERATED ALWAYS AS (
+            CASE
+                WHEN (clock_in IS NOT NULL) AND (clock_out IS NOT NULL)
+                THEN (EXTRACT(epoch FROM (clock_out - clock_in)) / 3600)::numeric
+                ELSE NULL::numeric
+            END
+        ) STORED,
+    status VARCHAR(20)
+        NOT NULL
+        DEFAULT 'present',
+    duty_days INTEGER
+        DEFAULT 0,
+    minutes_late INTEGER
+        DEFAULT 0,
+    CONSTRAINT attendance_status_check
+        CHECK (status::text = ANY (ARRAY['present', 'absent', 'leave']::text[])),
+    CONSTRAINT attendance_user_id_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES public.users(id)
+        ON DELETE CASCADE,
+    CONSTRAINT attendance_user_id_date_key
+        UNIQUE (user_id, date),
+    CONSTRAINT attendance_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX attendance_pkey
+    ON attendance
+    USING BTREE (id);
+
+CREATE UNIQUE INDEX attendance_user_id_date_idx
+    ON attendance
+    USING BTREE (user_id, date);
+
+CREATE UNIQUE INDEX attendance_user_id_date_key
+    ON attendance
+    USING BTREE (user_id, date);
+
+CREATE TABLE audit_logs (
+    id SERIAL
+        PRIMARY KEY,
+    user_id INTEGER,
+    action VARCHAR(50)
+        NOT NULL,
+    entity VARCHAR(50),
+    entity_id INTEGER,
+    details JSONB,
+    ip_address VARCHAR(45),
+    timestamp TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT audit_logs_user_id_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES public.users(id)
+        ON DELETE SET NULL,
+    CONSTRAINT audit_logs_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX audit_logs_pkey
+    ON audit_logs
+    USING BTREE (id);
+
+CREATE INDEX idx_audit_logs_timestamp
+    ON audit_logs
+    USING BTREE (timestamp);
+
+CREATE INDEX idx_audit_logs_user_id
+    ON audit_logs
+    USING BTREE (user_id);
+
+CREATE TABLE cafe_dishes (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(255)
+        UNIQUE
+        NOT NULL,
+    description TEXT
+        NOT NULL,
+    price NUMERIC(10,2)
+        NOT NULL,
+    category VARCHAR(100)
+        NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    photo_url TEXT,
+    is_available BOOLEAN
+        DEFAULT true,
+    CONSTRAINT cafe_dishes_name_key
+        UNIQUE (name),
+    CONSTRAINT cafe_dishes_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX cafe_dishes_name_key
+    ON cafe_dishes
+    USING BTREE (name);
+
+CREATE UNIQUE INDEX cafe_dishes_pkey
+    ON cafe_dishes
+    USING BTREE (id);
+
+CREATE TABLE carts (
+    id SERIAL
+        PRIMARY KEY,
+    user_id INTEGER
+        NOT NULL,
+    name VARCHAR(255)
+        NOT NULL,
+    customer_name VARCHAR(255)
+        DEFAULT 'Guest',
+    items JSONB
+        NOT NULL
+        DEFAULT '[]',
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT now(),
+    CONSTRAINT carts_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX carts_pkey
+    ON carts
+    USING BTREE (id);
+
+CREATE UNIQUE INDEX carts_user_cartname_idx
+    ON carts
+    USING BTREE (user_id, name);
+
+CREATE TABLE catering_orders (
+    id SERIAL
+        PRIMARY KEY,
+    event_id INTEGER
+        NOT NULL,
+    menu VARCHAR(255),
+    status VARCHAR(50)
+        NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    event_name VARCHAR(255)
+        NOT NULL
+        DEFAULT '',
+    date TIMESTAMP WITH TIME ZONE,
+    guests INTEGER,
+    CONSTRAINT catering_orders_guests_check
+        CHECK (guests >= 1),
+    CONSTRAINT catering_orders_status_check
+        CHECK (status::text = ANY (ARRAY['Confirmed', 'Preparing', 'Delivered', 'Cancelled']::text[])),
+    CONSTRAINT catering_orders_event_id_fkey
+        FOREIGN KEY (event_id)
+        REFERENCES public.events(id)
+        ON DELETE CASCADE,
+    CONSTRAINT catering_orders_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX catering_orders_pkey
+    ON catering_orders
+    USING BTREE (id);
+
+CREATE INDEX idx_catering_orders_event_id
+    ON catering_orders
+    USING BTREE (event_id);
+
+CREATE TABLE chef_orders (
+    id SERIAL
+        PRIMARY KEY,
+    invoice_id VARCHAR(50)
+        NOT NULL,
+    customer_name VARCHAR(255)
+        DEFAULT 'Guest',
+    items JSONB
+        NOT NULL,
+    order_time TIMESTAMP
+        DEFAULT now(),
+    status VARCHAR(20)
+        DEFAULT 'pending',
+    completed_time TIMESTAMP,
+    notes TEXT,
+    created_at TIMESTAMP
+        DEFAULT now(),
+    CONSTRAINT chef_orders_status_check
+        CHECK (status::text = ANY (ARRAY['pending', 'preparing', 'ready', 'served']::text[])),
+    CONSTRAINT chef_orders_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX chef_orders_pkey
+    ON chef_orders
+    USING BTREE (id);
+
+CREATE INDEX idx_chef_orders_invoice_id
+    ON chef_orders
+    USING BTREE (invoice_id);
+
+CREATE INDEX idx_chef_orders_order_time
+    ON chef_orders
+    USING BTREE (order_time);
+
+CREATE INDEX idx_chef_orders_status
+    ON chef_orders
+    USING BTREE (status);
+
+CREATE TABLE dishes (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(255)
+        UNIQUE
+        NOT NULL,
+    description TEXT
+        NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    category VARCHAR(1)
+        NOT NULL
+        DEFAULT 'A',
+    CONSTRAINT dishes_category_check
+        CHECK (category::text = ANY (ARRAY['A', 'B', 'C', 'D']::text[])),
+    CONSTRAINT dishes_name_key
+        UNIQUE (name),
+    CONSTRAINT dishes_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX dishes_name_key
+    ON dishes
+    USING BTREE (name);
+
+CREATE UNIQUE INDEX dishes_name_key_idx
+    ON dishes
+    USING BTREE (name);
+
+CREATE UNIQUE INDEX dishes_pkey
+    ON dishes
+    USING BTREE (id);
+
+CREATE UNIQUE INDEX dishes_pkey_idx
+    ON dishes
+    USING BTREE (id);
+
+CREATE TABLE event_dishes (
+    event_id INTEGER,
+    dish_id INTEGER,
+    quantity INTEGER
+        NOT NULL,
+    CONSTRAINT event_dishes_quantity_check
+        CHECK (quantity >= 0),
+    CONSTRAINT event_dishes_dish_id_fkey
+        FOREIGN KEY (dish_id)
+        REFERENCES public.dishes(id)
+        ON DELETE CASCADE,
+    CONSTRAINT event_dishes_event_id_fkey
+        FOREIGN KEY (event_id)
+        REFERENCES public.events(id)
+        ON DELETE CASCADE,
+    CONSTRAINT event_dishes_pkey
+        PRIMARY KEY (event_id, dish_id)
+);
+
+CREATE UNIQUE INDEX event_dishes_pkey
+    ON event_dishes
+    USING BTREE (event_id, dish_id);
+
+CREATE TABLE event_packages (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(255)
+        UNIQUE
+        NOT NULL,
+    price NUMERIC(10,2)
+        NOT NULL,
+    guests INTEGER
+        NOT NULL,
+    description TEXT
+        NOT NULL,
+    max_per_dish INTEGER
+        NOT NULL,
+    image VARCHAR(255)
+        NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT event_packages_guests_check
+        CHECK (guests > 0),
+    CONSTRAINT event_packages_max_per_dish_check
+        CHECK (max_per_dish > 0),
+    CONSTRAINT event_packages_price_check
+        CHECK (price >= 0::numeric),
+    CONSTRAINT event_packages_name_key
+        UNIQUE (name),
+    CONSTRAINT event_packages_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX event_packages_name_key
+    ON event_packages
+    USING BTREE (name);
+
+CREATE UNIQUE INDEX event_packages_pkey
+    ON event_packages
+    USING BTREE (id);
+
+CREATE TABLE event_reservation_history (
+    id SERIAL
+        PRIMARY KEY,
+    event_id INTEGER
+        NOT NULL,
+    event_package_id INTEGER,
+    invoice_id VARCHAR(255)
+        NOT NULL,
+    customer_name VARCHAR(255)
+        NOT NULL,
+    event_name VARCHAR(255)
+        NOT NULL,
+    event_date TIMESTAMP WITH TIME ZONE
+        NOT NULL,
+    total_cost NUMERIC(10,2)
+        NOT NULL,
+    guests INTEGER
+        NOT NULL,
+    payment_method VARCHAR(50)
+        NOT NULL,
+    discount_type VARCHAR(50)
+        NOT NULL,
+    discount_amount NUMERIC(10,2)
+        NOT NULL,
+    subtotal NUMERIC(10,2)
+        NOT NULL,
+    total NUMERIC(10,2)
+        NOT NULL,
+    cashier_name VARCHAR(255)
+        NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT event_reservation_history_discount_amount_check
+        CHECK (discount_amount >= 0::numeric),
+    CONSTRAINT event_reservation_history_guests_check
+        CHECK (guests >= 0),
+    CONSTRAINT event_reservation_history_subtotal_check
+        CHECK (subtotal >= 0::numeric),
+    CONSTRAINT event_reservation_history_total_check
+        CHECK (total >= 0::numeric),
+    CONSTRAINT event_reservation_history_total_cost_check
+        CHECK (total_cost >= 0::numeric),
+    CONSTRAINT event_reservation_history_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX event_reservation_history_pkey
+    ON event_reservation_history
+    USING BTREE (id);
+
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(100) NOT NULL,
+    date TIMESTAMP WITH TIME ZONE NOT NULL,
+    allotted_time TIME NOT NULL,
+    guests INTEGER NOT NULL,
+    booked_by VARCHAR(255) NOT NULL,
+    supervisor VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    additional_requests TEXT,
+    additional_guests INTEGER DEFAULT 0,
+    remarks TEXT,
+    total_cost NUMERIC(10,2),
+    menu VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    customer_id_url VARCHAR(255),
+    e_signature VARCHAR(255),
+    dishes JSONB,
+    set VARCHAR(255),
+    event_package_id INTEGER,
+    customer_name VARCHAR(255),
+    customer_email VARCHAR(255),
+    contact_number VARCHAR(50),
+    room_id INTEGER,
+    package_name VARCHAR(255),
+    check_in_date DATE,
+    check_out_date DATE,
+    address TEXT,
+    nationality VARCHAR(100),
+    event_name VARCHAR(255),
+    event_package_name VARCHAR(255),
+    event_date DATE,
+    event_time TIME,
+    attendees INTEGER,
+    set_name VARCHAR(50),
+    selected_dishes JSONB,
+    price NUMERIC(10,2),
+    total NUMERIC(10,2),
+    id_upload TEXT,
+    approved_by INTEGER,
+    approved_at TIMESTAMP,
+    rejection_reason TEXT,
+    CONSTRAINT events_additional_guests_check CHECK (additional_guests >= 0),
+    CONSTRAINT events_guests_check CHECK (guests >= 0),
+    CONSTRAINT events_status_check CHECK (status IN ('Confirmed', 'Pending', 'Cancelled', 'Completed')),
+    CONSTRAINT events_total_cost_check CHECK (total_cost >= 0),
+    CONSTRAINT events_event_package_id_fkey FOREIGN KEY (event_package_id)
+        REFERENCES public.event_packages (id) ON DELETE SET NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX events_pkey ON public.events (id);
+CREATE INDEX idx_events_created_at ON public.events (created_at);
+CREATE INDEX idx_events_date ON public.events (date);
+CREATE INDEX idx_events_status ON public.events (status);
+CREATE INDEX idx_events_type ON public.events (type);
+
+
+CREATE TABLE housekeeping (
+    room_id INTEGER
+        PRIMARY KEY,
+    status VARCHAR(50)
+        DEFAULT 'pending',
+    notes TEXT,
+    updated_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT housekeeping_room_id_fkey
+        FOREIGN KEY (room_id)
+        REFERENCES public.rooms(id)
+        ON DELETE CASCADE,
+    CONSTRAINT housekeeping_pkey
+        PRIMARY KEY (room_id)
+);
+
+CREATE UNIQUE INDEX housekeeping_pkey
+    ON housekeeping
+    USING BTREE (room_id);
+
+CREATE TABLE inventory (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(100)
+        NOT NULL,
+    category VARCHAR(100)
+        NOT NULL,
+    quantity INTEGER
+        NOT NULL
+        DEFAULT 0,
+    threshold INTEGER
+        NOT NULL
+        DEFAULT 0,
+    status VARCHAR(50)
+        GENERATED ALWAYS AS (
+            CASE
+                WHEN (quantity > threshold) THEN 'In Stock'::text
+                WHEN (quantity = threshold) THEN 'Low Stock'::text
+                ELSE 'Out of Stock'::text
+            END
+        ) STORED,
+    section VARCHAR(50)
+        NOT NULL,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    unit VARCHAR(50)
+        NOT NULL
+        DEFAULT 'piece',
+    on_delivery BOOLEAN
+        NOT NULL
+        DEFAULT false,
+    CONSTRAINT inventory_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX inventory_pkey
+    ON inventory
+    USING BTREE (id);
+
+CREATE TABLE inventory_activity (
+    id SERIAL
+        PRIMARY KEY,
+    item_id INTEGER
+        NOT NULL,
+    change_amount INTEGER
+        NOT NULL,
+    type VARCHAR(32)
+        NOT NULL,
+    note TEXT,
+    performed_by INTEGER,
+    occurred_at TIMESTAMP WITH TIME ZONE
+        DEFAULT now(),
+    CONSTRAINT inventory_activity_item_id_fkey
+        FOREIGN KEY (item_id)
+        REFERENCES public.inventory(id)
+        ON DELETE CASCADE,
+    CONSTRAINT inventory_activity_performed_by_fkey
+        FOREIGN KEY (performed_by)
+        REFERENCES public.users(id)
+        ON DELETE SET NULL,
+    CONSTRAINT inventory_activity_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_inventory_activity_item_id
+    ON inventory_activity
+    USING BTREE (item_id);
+
+CREATE INDEX idx_inventory_activity_occurred_at
+    ON inventory_activity
+    USING BTREE (occurred_at);
+
+CREATE UNIQUE INDEX inventory_activity_pkey
+    ON inventory_activity
+    USING BTREE (id);
+
+CREATE TABLE notifications (
+    id SERIAL
+        PRIMARY KEY,
+    room_id INTEGER,
+    reservation_id INTEGER,
+    message TEXT
+        NOT NULL,
+    scheduled_time TIMESTAMP
+        NOT NULL,
+    status VARCHAR(20)
+        NOT NULL
+        DEFAULT 'scheduled',
+    created_at TIMESTAMP
+        DEFAULT now(),
+    user_id INTEGER,
+    target_role VARCHAR(50),
+    CONSTRAINT notifications_reservation_id_fkey
+        FOREIGN KEY (reservation_id)
+        REFERENCES public.reservations(id)
+        ON DELETE CASCADE,
+    CONSTRAINT notifications_room_id_fkey
+        FOREIGN KEY (room_id)
+        REFERENCES public.rooms(id)
+        ON DELETE CASCADE,
+    CONSTRAINT notifications_user_id_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES public.users(id)
+        ON DELETE SET NULL,
+    CONSTRAINT notifications_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX notifications_pkey
+    ON notifications
+    USING BTREE (id);
+
+CREATE TABLE package_dishes (
+    package_id INTEGER,
+    dish_id INTEGER,
+    CONSTRAINT package_dishes_dish_id_fkey
+        FOREIGN KEY (dish_id)
+        REFERENCES public.dishes(id)
+        ON DELETE CASCADE,
+    CONSTRAINT package_dishes_package_id_fkey
+        FOREIGN KEY (package_id)
+        REFERENCES public.event_packages(id)
+        ON DELETE CASCADE,
+    CONSTRAINT package_dishes_pkey
+        PRIMARY KEY (package_id, dish_id)
+);
+
+CREATE UNIQUE INDEX package_dishes_pkey
+    ON package_dishes
+    USING BTREE (package_id, dish_id);
+
+CREATE TABLE packages (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(100)
+        NOT NULL,
+    price INTEGER
+        NOT NULL,
+    guests INTEGER
+        NOT NULL,
+    image TEXT
+        NOT NULL,
+    description TEXT,
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT packages_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX packages_pkey
+    ON packages
+    USING BTREE (id);
+
+CREATE TABLE payment_history (
+    id SERIAL
+        PRIMARY KEY,
+    invoice_id VARCHAR(255)
+        NOT NULL,
+    type VARCHAR(50)
+        NOT NULL,
+    item_id INTEGER
+        NOT NULL,
+    item_name TEXT
+        NOT NULL,
+    customer_name VARCHAR(255)
+        NOT NULL,
+    payment_method VARCHAR(50)
+        NOT NULL,
+    discount_type VARCHAR(50),
+    discount_amount NUMERIC(10,2)
+        DEFAULT 0,
+    subtotal NUMERIC(10,2)
+        NOT NULL,
+    total NUMERIC(10,2)
+        NOT NULL,
+    cashier_name VARCHAR(255)
+        NOT NULL,
+    payment_date TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT payment_history_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX payment_history_pkey
+    ON payment_history
+    USING BTREE (id);
+
+CREATE TABLE payments (
+    id SERIAL
+        PRIMARY KEY,
+    reservation_id INTEGER,
+    amount NUMERIC(12,2)
+        NOT NULL,
+    method VARCHAR(50)
+        DEFAULT 'cash',
+    type VARCHAR(20)
+        DEFAULT 'payment',
+    note TEXT,
+    created_by INTEGER,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    event_id INTEGER,
+    CONSTRAINT payments_amount_check
+        CHECK (amount >= 0::numeric),
+    CONSTRAINT payments_event_id_fkey
+        FOREIGN KEY (event_id)
+        REFERENCES public.events(id)
+        ON DELETE SET NULL,
+    CONSTRAINT payments_reservation_id_fkey
+        FOREIGN KEY (reservation_id)
+        REFERENCES public.reservations(id)
+        ON DELETE CASCADE,
+    CONSTRAINT payments_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX payments_event_id_idx
+    ON payments
+    USING BTREE (event_id);
+
+CREATE UNIQUE INDEX payments_pkey
+    ON payments
+    USING BTREE (id);
+
+CREATE INDEX payments_reservation_id_idx
+    ON payments
+    USING BTREE (reservation_id);
+
+CREATE TABLE payroll (
+    id SERIAL
+        PRIMARY KEY,
+    user_id INTEGER
+        UNIQUE
+        NOT NULL,
+    period_start DATE
+        UNIQUE
+        NOT NULL,
+    period_end DATE
+        UNIQUE
+        NOT NULL,
+    total_hours NUMERIC(5,2),
+    total_pay NUMERIC(10,2),
+    generated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT payroll_user_id_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES public.users(id)
+        ON DELETE CASCADE,
+    CONSTRAINT payroll_user_id_period_key
+        UNIQUE (user_id, period_start, period_end),
+    CONSTRAINT payroll_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX payroll_pkey
+    ON payroll
+    USING BTREE (id);
+
+CREATE UNIQUE INDEX payroll_user_id_period_key
+    ON payroll
+    USING BTREE (user_id, period_start, period_end);
+
+CREATE UNIQUE INDEX payroll_user_period_idx
+    ON payroll
+    USING BTREE (user_id, period_start, period_end);
+
+CREATE TABLE pending_reservations (
+    id SERIAL
+        PRIMARY KEY,
+    type VARCHAR(20)
+        NOT NULL,
+    status VARCHAR(20)
+        DEFAULT 'pending',
+    customer_name VARCHAR(255)
+        NOT NULL,
+    customer_email VARCHAR(255),
+    contact_number VARCHAR(50),
+    room_id INTEGER,
+    package_name VARCHAR(255),
+    check_in_date DATE,
+    check_out_date DATE,
+    address TEXT,
+    nationality VARCHAR(100),
+    additional_guests INTEGER
+        DEFAULT 0,
+    additional_requests TEXT,
+    event_name VARCHAR(255),
+    event_package_name VARCHAR(255),
+    event_date DATE,
+    event_time TIME,
+    attendees INTEGER,
+    set_name VARCHAR(50),
+    selected_dishes JSONB,
+    price NUMERIC(10,2),
+    total NUMERIC(10,2),
+    id_upload TEXT,
+    approved_by INTEGER,
+    approved_at TIMESTAMP,
+    rejection_reason TEXT,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    payment_option VARCHAR(20),
+    downpayment_amount NUMERIC(10,2)
+        DEFAULT 0,
+    downpayment_paid BOOLEAN
+        DEFAULT false,
+    downpayment_date TIMESTAMP,
+    remaining_balance NUMERIC(10,2)
+        DEFAULT 0,
+    downpayment_method VARCHAR(20),
+    CONSTRAINT pending_reservations_downpayment_method_check
+        CHECK ((downpayment_method IS NULL) OR (downpayment_method::text = ANY (ARRAY['GCash', 'Cash']::text[]))),
+    CONSTRAINT pending_reservations_payment_option_check
+        CHECK (payment_option::text = ANY (ARRAY['downpayment', 'checkout']::text[])),
+    CONSTRAINT pending_reservations_status_check
+        CHECK (status::text = ANY (ARRAY['pending', 'awaiting_downpayment', 'downpayment_paid', 'approved', 'rejected', 'completed']::text[])),
+    CONSTRAINT pending_reservations_type_check
+        CHECK (type::text = ANY (ARRAY['room', 'event']::text[])),
+    CONSTRAINT pending_reservations_approved_by_fkey
+        FOREIGN KEY (approved_by)
+        REFERENCES public.users(id),
+    CONSTRAINT pending_reservations_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_pending_reservations_created_at
+    ON pending_reservations
+    USING BTREE (created_at);
+
+CREATE INDEX idx_pending_reservations_downpayment_method
+    ON pending_reservations
+    USING BTREE (downpayment_method);
+
+CREATE INDEX idx_pending_reservations_downpayment_paid
+    ON pending_reservations
+    USING BTREE (downpayment_paid);
+
+CREATE INDEX idx_pending_reservations_payment_option
+    ON pending_reservations
+    USING BTREE (payment_option);
+
+CREATE INDEX idx_pending_reservations_status
+    ON pending_reservations
+    USING BTREE (status);
+
+CREATE INDEX idx_pending_reservations_type
+    ON pending_reservations
+    USING BTREE (type);
+
+CREATE UNIQUE INDEX pending_reservations_pkey
+    ON pending_reservations
+    USING BTREE (id);
+
+CREATE TABLE push_subscriptions (
+    id SERIAL
+        PRIMARY KEY,
+    user_id INTEGER,
+    role VARCHAR(128),
+    endpoint TEXT
+        UNIQUE
+        NOT NULL,
+    p256dh TEXT
+        NOT NULL,
+    auth TEXT
+        NOT NULL,
+    created_at TIMESTAMP
+        DEFAULT now(),
+    is_mobile BOOLEAN
+        DEFAULT false,
+    user_agent TEXT,
+    CONSTRAINT push_subscriptions_endpoint_key
+        UNIQUE (endpoint),
+    CONSTRAINT push_subscriptions_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX push_subscriptions_endpoint_key
+    ON push_subscriptions
+    USING BTREE (endpoint);
+
+CREATE UNIQUE INDEX push_subscriptions_pkey
+    ON push_subscriptions
+    USING BTREE (id);
+
+CREATE TABLE reservation_history (
+    id SERIAL
+        PRIMARY KEY,
+    room_id INTEGER,
+    customer_name VARCHAR(255)
+        NOT NULL,
+    customer_email VARCHAR(255)
+        NOT NULL,
+    contact_number VARCHAR(20)
+        NOT NULL,
+    address TEXT,
+    nationality VARCHAR(100),
+    additional_guests INTEGER
+        DEFAULT 0,
+    additional_requests TEXT,
+    remarks TEXT,
+    check_in_date DATE
+        NOT NULL,
+    check_out_date DATE
+        NOT NULL,
+    id_upload TEXT,
+    e_signature TEXT,
+    checkout_date TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    payment_details JSONB,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    room_number VARCHAR(50),
+    package_name VARCHAR(100),
+    CONSTRAINT reservation_history_room_id_fkey
+        FOREIGN KEY (room_id)
+        REFERENCES public.rooms(id)
+        ON DELETE CASCADE,
+    CONSTRAINT reservation_history_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_reservation_history_checkout_date
+    ON reservation_history
+    USING BTREE (checkout_date);
+
+CREATE INDEX idx_reservation_history_room_id
+    ON reservation_history
+    USING BTREE (room_id);
+
+CREATE UNIQUE INDEX reservation_history_pkey
+    ON reservation_history
+    USING BTREE (id);
+
+CREATE TABLE reservations (
+    id SERIAL
+        PRIMARY KEY,
+    room_id INTEGER,
+    customer_name VARCHAR(100),
+    customer_email VARCHAR(100),
+    contact_number VARCHAR(20),
+    address TEXT,
+    nationality VARCHAR(50),
+    additional_guests INTEGER
+        DEFAULT 0,
+    additional_requests TEXT,
+    remarks TEXT,
+    check_in_date DATE,
+    check_out_date DATE,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    id_upload TEXT,
+    total_price NUMERIC
+        DEFAULT 0,
+    status VARCHAR(50)
+        DEFAULT 'confirmed',
+    package_name VARCHAR(255),
+    updated_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    approval_status VARCHAR(50)
+        DEFAULT 'confirmed',
+    payment_option VARCHAR(50)
+        DEFAULT 'full_payment',
+    downpayment_amount NUMERIC(10,2)
+        DEFAULT 0,
+    downpayment_paid BOOLEAN
+        DEFAULT false,
+    downpayment_method VARCHAR(50),
+    remaining_balance NUMERIC(10,2)
+        DEFAULT 0,
+    approved_by INTEGER,
+    approved_at TIMESTAMP,
+    rejection_reason TEXT,
+    reservation_source VARCHAR(50)
+        DEFAULT 'dashboard',
+    CONSTRAINT reservations_approval_status_check
+        CHECK (approval_status::text = ANY (ARRAY['pending', 'approved', 'rejected', 'confirmed', 'downpayment_pending', 'downpayment_paid']::text[])),
+    CONSTRAINT reservations_downpayment_method_check
+        CHECK (downpayment_method::text = ANY (ARRAY['GCash', 'Cash', NULL]::text[])),
+    CONSTRAINT reservations_payment_option_check
+        CHECK (payment_option::text = ANY (ARRAY['full_payment', 'downpayment', 'checkout']::text[])),
+    CONSTRAINT reservations_reservation_source_check
+        CHECK (reservation_source::text = ANY (ARRAY['dashboard', 'homepage', 'walk-in']::text[])),
+    CONSTRAINT reservations_source_check
+        CHECK (reservation_source::text = ANY (ARRAY['dashboard', 'homepage', 'walk-in']::text[])),
+    CONSTRAINT reservations_approved_by_fkey
+        FOREIGN KEY (approved_by)
+        REFERENCES public.users(id),
+    CONSTRAINT reservations_room_id_fkey
+        FOREIGN KEY (room_id)
+        REFERENCES public.rooms(id)
+        ON DELETE CASCADE,
+    CONSTRAINT reservations_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_check_in_out
+    ON reservations
+    USING BTREE (check_in_date, check_out_date);
+
+CREATE INDEX idx_reservations_approval_status
+    ON reservations
+    USING BTREE (approval_status);
+
+CREATE INDEX idx_reservations_downpayment_paid
+    ON reservations
+    USING BTREE (downpayment_paid);
+
+CREATE INDEX idx_reservations_payment_option
+    ON reservations
+    USING BTREE (payment_option);
+
+CREATE INDEX idx_reservations_source
+    ON reservations
+    USING BTREE (reservation_source);
+
+CREATE INDEX idx_reservations_status
+    ON reservations
+    USING BTREE (status);
+
+CREATE INDEX idx_reservations_total_price
+    ON reservations
+    USING BTREE (total_price);
+
+CREATE UNIQUE INDEX reservations_pkey
+    ON reservations
+    USING BTREE (id);
+
+CREATE TABLE room_limits (
+    id SERIAL
+        PRIMARY KEY,
+    room_type VARCHAR(50)
+        UNIQUE
+        NOT NULL,
+    max_count INTEGER
+        NOT NULL,
+    CONSTRAINT room_limits_room_type_key
+        UNIQUE (room_type),
+    CONSTRAINT room_limits_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX room_limits_pkey
+    ON room_limits
+    USING BTREE (id);
+
+CREATE UNIQUE INDEX room_limits_room_type_key
+    ON room_limits
+    USING BTREE (room_type);
+
+CREATE TABLE rooms (
+    id SERIAL
+        PRIMARY KEY,
+    room_number VARCHAR(10)
+        NOT NULL,
+    type VARCHAR(50),
+    price NUMERIC(10,2),
+    status VARCHAR(20)
+        DEFAULT 'Available',
+    package_id INTEGER
+        NOT NULL,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    room_limit_id INTEGER,
+    CONSTRAINT fk_package
+        FOREIGN KEY (package_id)
+        REFERENCES public.packages(id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_rooms_packages
+        FOREIGN KEY (package_id)
+        REFERENCES public.packages(id)
+        ON DELETE SET NULL,
+    CONSTRAINT rooms_room_limit_id_fkey
+        FOREIGN KEY (room_limit_id)
+        REFERENCES public.room_limits(id),
+    CONSTRAINT rooms_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_room_status
+    ON rooms
+    USING BTREE (status);
+
+CREATE INDEX idx_rooms_package_status
+    ON rooms
+    USING BTREE (package_id, status);
+
+CREATE UNIQUE INDEX rooms_pkey
+    ON rooms
+    USING BTREE (id);
+
+CREATE TABLE settings (
+    key TEXT
+        PRIMARY KEY,
+    value TEXT
+        NOT NULL,
+    CONSTRAINT settings_pkey
+        PRIMARY KEY (key)
+);
+
+CREATE UNIQUE INDEX settings_pkey
+    ON settings
+    USING BTREE (key);
+
+CREATE TABLE traffic_logs (
+    id SERIAL
+        PRIMARY KEY,
+    user_id INTEGER,
+    ip_address VARCHAR(100)
+        NOT NULL,
+    route TEXT
+        NOT NULL,
+    request_count INTEGER
+        DEFAULT 1,
+    status VARCHAR(50)
+        DEFAULT 'allowed',
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT traffic_logs_user_id_fkey
+        FOREIGN KEY (user_id)
+        REFERENCES public.users(id)
+        ON DELETE SET NULL,
+    CONSTRAINT traffic_logs_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_traffic_ip_timestamp
+    ON traffic_logs
+    USING BTREE (ip_address, created_at);
+
+CREATE INDEX idx_traffic_route
+    ON traffic_logs
+    USING BTREE (route);
+
+CREATE UNIQUE INDEX traffic_logs_pkey
+    ON traffic_logs
+    USING BTREE (id);
+
+CREATE TABLE users (
+    id SERIAL
+        PRIMARY KEY,
+    name VARCHAR(255)
+        NOT NULL,
+    email VARCHAR(255)
+        UNIQUE
+        NOT NULL,
+    password VARCHAR(255)
+        NOT NULL,
+    role VARCHAR(50)
+        NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE
+        DEFAULT CURRENT_TIMESTAMP,
+    phone VARCHAR(20),
+    status VARCHAR(20)
+        NOT NULL
+        DEFAULT 'Active',
+    hourly_rate NUMERIC(10,2)
+        NOT NULL
+        DEFAULT 0.00,
+    CONSTRAINT users_status_check
+        CHECK (status::text = ANY (ARRAY['Active', 'Paused']::text[])),
+    CONSTRAINT users_email_key
+        UNIQUE (email),
+    CONSTRAINT users_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX users_email_idx
+    ON users
+    USING BTREE (email);
+
+CREATE UNIQUE INDEX users_email_key
+    ON users
+    USING BTREE (email);
+
+CREATE UNIQUE INDEX users_pkey
+    ON users
+    USING BTREE (id);
+
+CREATE TABLE verification_codes (
+    id SERIAL
+        PRIMARY KEY,
+    email VARCHAR(255)
+        NOT NULL,
+    code VARCHAR(6)
+        NOT NULL,
+    expires_at TIMESTAMP
+        NOT NULL,
+    created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT verification_codes_pkey
+        PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX verification_codes_pkey
+    ON verification_codes
+    USING BTREE (id);
+
+    

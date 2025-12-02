@@ -1,0 +1,110 @@
+=== System Logs — Full code excerpt ===
+Generated: 2025-10-27
+
+-- app/api/system-logs/route.js --
+
+```javascript
+// app/api/system-logs/route.js
+import pool from "../../lib/db";
+import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
+import { logAudit } from "../../lib/auditLogger";
+
+export async function GET(req) {
+	try {
+		const authHeader = req.headers.get('authorization');
+		if (!authHeader || !authHeader.startsWith('Bearer ')) {
+			return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+		}
+		const token = authHeader.split(' ')[1];
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		if ((decoded.role || '').toLowerCase() !== 'admin' && (decoded.role || '').toLowerCase() !== 'manager') {
+			return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+		}
+
+		const client = await pool.connect();
+		try {
+			// Recent activities from audit logs, mapped to higher-level labels
+			const activitiesQuery = `
+				SELECT al.id, al.timestamp, al.user_id, u.name AS user_name, al.action, al.entity,
+							 al.details,
+							 CASE
+								 WHEN al.entity = 'page' OR al.action = 'page_view' THEN 'Page View'
+								 WHEN al.action ILIKE '%room%' AND al.action ILIKE '%reservation%' THEN 'Room Reservation'
+								 WHEN al.action ILIKE '%event%' AND (al.action ILIKE '%reservation%' OR al.action ILIKE '%checkout%' OR al.action ILIKE '%settle%') THEN 'Event Activity'
+								 WHEN al.action ILIKE '%receipt%' OR al.entity = 'receipt' THEN 'POS Sale'
+								 ELSE 'Activity'
+							 END AS category
+				FROM audit_logs al
+				LEFT JOIN users u ON u.id = al.user_id
+				ORDER BY al.timestamp DESC
+				LIMIT 100
+			`;
+			const activitiesRes = await client.query(activitiesQuery);
+
+			// Active user count heuristic: users with audit activity in last 24h
+			const activeUsersRes = await client.query(
+				`SELECT COUNT(DISTINCT user_id) AS active_users
+				 FROM audit_logs
+				 WHERE timestamp >= NOW() - INTERVAL '24 hours'`
+			);
+
+			return NextResponse.json({
+				activities: activitiesRes.rows,
+				metrics: {
+					active_users_24h: Number(activeUsersRes.rows[0]?.active_users || 0),
+				}
+			}, { status: 200 });
+		} finally {
+			client.release();
+		}
+	} catch (error) {
+		console.error('System logs GET error:', error);
+		return NextResponse.json({ error: 'Failed to fetch system logs' }, { status: 500 });
+	}
+}
+
+export async function POST(req) {
+	try {
+		const authHeader = req.headers.get('authorization');
+		if (!authHeader || !authHeader.startsWith('Bearer ')) {
+			return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+		}
+		const token = authHeader.split(' ')[1];
+		let decoded;
+		try {
+			decoded = jwt.verify(token, process.env.JWT_SECRET);
+		} catch (err) {
+			return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+		}
+
+		const body = await req.json();
+		const action = body.action || 'page_view';
+		const entity = body.entity || 'page';
+		const entityId = body.entity_id || null;
+		const details = body.details || {};
+
+		const userId = decoded.sub || decoded.userId || decoded.id || null;
+
+		// Best-effort logging; do not fail the API if logging fails
+		try {
+			await logAudit(userId, action, entity, entityId, details, req);
+		} catch (e) {
+			console.warn('Failed to write audit log for system event', e?.message || e);
+		}
+
+		return NextResponse.json({ ok: true }, { status: 201 });
+	} catch (error) {
+		console.error('System logs POST error:', error);
+		return NextResponse.json({ error: 'Failed to record system log' }, { status: 500 });
+	}
+
+}
+```
+
+(Notes)
+- `GET` returns recent activities and active user count in the last 24h; requires manager/admin JWT.
+- `POST` accepts system events and writes an audit log via `logAudit` (best-effort) — used for internal telemetry events.
+- The endpoint expects Authorization: Bearer <token> header for POST and GET.
+
+File path: `app/api/system-logs/route.js` in the repo.

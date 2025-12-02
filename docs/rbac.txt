@@ -1,0 +1,114 @@
+=== RBAC — Full code excerpt ===
+Generated: 2025-10-27
+
+-- app/lib/rbac.js --
+
+```javascript
+// app/lib/rbac.js
+
+export const Roles = {
+  Admin: 'admin',
+  Manager: 'manager',
+  Housekeeping: 'housekeeping',
+  Cashier: 'cashier',
+  Cook: 'cook',
+  Frontdesk: 'frontdesk',
+  Guest: 'guest',
+};
+
+export const Permissions = {
+  Inventory: 'inventory',
+  Reservations: 'reservations',
+  Payments: 'payments',
+  Settings: 'settings',
+  Payroll: 'payroll',
+  Reports: 'reports',
+  Users: 'users',
+  AuditLogs: 'audit_logs',
+  // ... more permissions
+};
+
+export const rolePermissions = {
+  [Roles.Admin]: Object.values(Permissions),
+  [Roles.Manager]: [Permissions.Inventory, Permissions.Reservations, Permissions.Payments, Permissions.Settings, Permissions.Reports],
+  [Roles.Housekeeping]: [Permissions.Inventory, Permissions.Reservations],
+  [Roles.Cashier]: [Permissions.Payments, Permissions.Reservations],
+  [Roles.Cook]: [Permissions.Inventory],
+  [Roles.Frontdesk]: [Permissions.Reservations, Permissions.Users],
+  [Roles.Guest]: [],
+};
+
+export function can(role, permission) {
+  if (!role) return false;
+  const perms = rolePermissions[role] || [];
+  return perms.includes(permission);
+}
+
+// For server-side route handling - parse auth session and ensure role has permission
+export function requireRole(request, permission, action) {
+  try {
+    // request may contain a session cookie or Authorization header. We read headers.
+    const authHeader = request.headers.get('authorization') || request.headers.get('Authorization');
+    // fallback: a cookie-based session called 'session' with JSON: { userId, role }
+    let role = null;
+    let userId = null;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      // In this app, bearer token is a simple serialized session stored in localStorage on the client and then passed in headers
+      try {
+        const token = authHeader.replace('Bearer ', '');
+        const session = JSON.parse(decodeURIComponent(token));
+        role = session.role;
+        userId = session.userId;
+      } catch (e) {
+        console.warn('Invalid bearer session token', e);
+      }
+    }
+
+    if (!role) {
+      const cookie = request.headers.get('cookie') || '';
+      const match = cookie.match(/session=([^;]+)/);
+      if (match) {
+        try {
+          const s = JSON.parse(decodeURIComponent(match[1]));
+          role = s.role;
+          userId = s.userId;
+        } catch (e) { /* ignore */ }
+      }
+    }
+
+    const allowed = can(role, permission);
+    return { allowed, role, userId, message: allowed ? null : 'Insufficient permissions' };
+  } catch (err) {
+    console.error('requireRole error', err);
+    return { allowed: false, message: 'Authorization parsing error' };
+  }
+}
+
+export function maskNavByRole(role) {
+  // Returns an object of nav keys visible for the given role
+  const mapping = {
+    inventory: can(role, Permissions.Inventory),
+    reservations: can(role, Permissions.Reservations),
+    payments: can(role, Permissions.Payments),
+    reports: can(role, Permissions.Reports),
+  };
+  return mapping;
+}
+
+export function canAccessArchives(role) {
+  return [Roles.Manager, Roles.Admin].includes(role);
+}
+
+export function defaultPageForRole(role) {
+  if (role === Roles.Admin) return '/dashboard/overview';
+  if (role === Roles.Manager) return '/dashboard/overview';
+  if (role === Roles.Housekeeping) return '/dashboard/housekeeping';
+  if (role === Roles.Cook) return '/dashboard/cafe';
+  return '/dashboard/overview';
+}
+```
+
+Notes:
+- Server routes call `requireRole(request, permission, action)` which parses the request headers/cookies for a session and returns { allowed, role, userId }.
+- Client-side RBAC checks should use `useAuth().user.role` when available. The `Roles` keys are the canonical strings to compare against.

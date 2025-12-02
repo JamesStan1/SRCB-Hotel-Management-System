@@ -1,0 +1,182 @@
+FUNCTIONALITY CODES - Project: Capstone2Project
+Generated: 2025-10-27
+
+Purpose:
+This file groups the codebase by functionality and lists the main files, server routes, client pages, and key function signatures to help you locate and understand where specific behavior lives. It is not exhaustive, but covers the primary modules in the app.
+
+---
+1) Authentication
+Files:
+- app/api/auth/login/route.js          -> POST login
+- app/api/auth/verify/route.js         -> POST verify token
+- app/api/auth/log-login/route.js      -> POST log login (used by AuthProvider)
+- app/api/auth/forgot_password/route.js
+- app/api/auth/reset-password/route.js
+- app/context/AuthContext.js          -> client Auth provider (login, logoutCurrent, sessions)
+
+Key client functions/signatures:
+- AuthProvider.login(userData, authToken, rememberMe, redirectTo)
+- useAuth() -> { user, token, sessions, activeSessionId, login, logoutCurrent, ... }
+
+Notes:
+- Session storage: localStorage 'sessions' JSON and 'activeSessionId'.
+- AuthProvider verifies token on init via '/api/auth/verify'.
+
+---
+2) RBAC (Role-Based Access Control)
+Files:
+- app/lib/rbac.js
+- lib/rbac-client.js
+
+Key functions:
+- export const Roles = { Admin, Manager, FrontDesk, Housekeeping, Chef, ... }
+- export function can(role, moduleKey, action) -> boolean
+- export function requireRole(req, moduleKey, action='view') -> { allowed, userId?, role?, message? }
+- export function maskNavByRole(role, navItems)
+
+Notes:
+- Server routes call requireRole(req, moduleKey, action) to authorize.
+- Client pages import Roles for consistent role names.
+
+---
+3) Settings
+Files:
+- app/api/settings/route.js            -> GET (all settings), PUT (upsert: { key, value })
+- app/dashboard/settings/general/page.js -> UI for settings: billing, holidays, notifications, audit logs
+- app/dashboard/settings/export/page.js
+
+Key server functions:
+- GET: returns settings as key/value object by reading DB settings table
+- PUT: expects { key, value } and upserts into settings table
+
+Client behavior:
+- General page loads settings via GET /api/settings and writes PUT /api/settings for billing & holidays.
+- Holidays: addHoliday/removeHoliday now persist immediately via PUT { key: 'holidays', value: [...] }
+
+---
+4) Inventory
+Files:
+- app/api/inventory/route.js
+- app/api/inventory/[id]/route.js
+- app/api/inventory/withdraw/route.js
+- app/api/inventory/activity/route.js
+- app/dashboard/inventory-management/page.js
+- app/dashboard/inventory/page.js
+
+Key behaviors:
+- Inventory endpoints provide CRUD and activity log. Withdraw endpoint accepts a payload to withdraw stock and logs activity.
+- UI contains modals for Add/Edit/Withdraw and an Activity view. Inventory-management page is client-heavy and controls UX.
+
+---
+5) Reservations / Rooms / Housekeeping
+Files:
+- app/api/reservations/route.js
+- app/api/reservation/[id]/route.js
+- app/api/room/route.js
+- app/api/rooms/route.js
+- app/api/room/checkout/route.js
+- app/api/room/update/route.js
+- app/dashboard/reservation/room-management/page.js
+- app/dashboard/reservation/room-management/editroom/page.js
+- app/dashboard/housekeeping/page.js
+
+Key client functions:
+- Room management UI and room status pages, reservation history, and housekeeping lists.
+
+---
+6) Café / POS / Dishes
+Files:
+- app/api/dishes/route.js
+- app/api/cafe_dishes/route.js
+- app/api/cafe_dishes/[id]/route.js
+- app/dashboard/cafe-managment/page.js
+- app/dashboard/cafe/page.js
+- app/dashboard/pos/page.js
+
+Notes:
+- Dishes and cafe management pages use placeholder images for missing photos (public/placeholder.svg).
+- After editing a dish, UI shows a modal 'Updated successfully'.
+
+---
+7) Receipts / Payments / Payment History
+Files:
+- app/api/receipts/route.js
+- app/api/payments/route.js
+- app/api/payment-history/route.js
+- app/api/reservation/[id]/payments/route.js
+- app/dashboard/pos/order-history/page.js
+- app/dashboard/pos/downpayments/page.js
+
+---
+8) Payroll / Attendance
+Files:
+- app/api/payroll/route.js
+- app/api/payroll/generate/route.js
+- app/api/payroll/records/route.js
+- app/api/attendance/route.js
+- app/api/attendance/clock-in/route.js
+- app/api/attendance/clock-out/route.js
+- app/dashboard/staff-management/payroll/page.js
+- app/dashboard/staff-management/attendance/page.js
+
+---
+9) Audit Logs / System Logs / Reports
+Files:
+- app/api/audit-logs/route.js
+- app/api/audit-logs/cashier-sales/route.js
+- app/api/audit-logs/my-sales/route.js
+- app/api/system-logs/route.js
+- app/dashboard/settings/general/page.js (Audit Logs UI)
+- app/lib/auditLogger.js
+
+Key behaviors:
+- Audit logs are aggregated (receipts, reservations, events) and displayed with details modal.
+- System logs endpoint accepts POSTs for page view perf/telemetry.
+
+---
+10) Events / Catering / Packages
+Files:
+- app/api/event/route.js
+- app/api/events/route.js
+- app/api/event_packages/route.js
+- app/dashboard/reservation/event-catering-management/page.js
+- app/dashboard/reservation/event-catering-management/editpackage/page.js
+
+---
+11) Notifications
+Files:
+- app/api/notifications/route.js
+- app/dashboard/settings/general/page.js (notifications toggles)
+
+---
+12) Archive Utilities
+Files:
+- app/api/archive/* (export-all, download, restore-*)
+- app/dashboard/... archived pages (inventory, cafe, events, rooms, staff)
+
+---
+13) Utilities & Lib helpers
+Files:
+- app/lib/db.js                -> Postgres pool wrapper
+- app/lib/rbac.js              -> RBAC definitions and helpers (can, requireRole, maskNavByRole)
+- app/lib/apiClient.js         -> client fetch helpers (used by pages)
+- app/lib/validators.js
+- app/lib/logger.js
+- app/lib/email.js / email-*   -> email transport wrappers
+- app/lib/trafficHandler.js
+- app/lib/auditLogger.js
+- lib/rbac-client.js           -> client-facing rbac utilities
+- lib/swal.js                  -> sweetalert wrapper for modals
+
+---
+How to use this file
+- Search for a functionality name (e.g., "inventory" or "settings") to find the major server route(s) and client pages.
+- Open the listed file to inspect the concrete implementation and handlers. Routes under app/api are serverless route handlers (GET/PUT/POST functions).
+
+Notes & suggestions
+- This file deliberately lists files and responsibilities rather than copy-pasting huge code blocks. If you'd prefer, I can create a second version that includes the exact function bodies for each listed function (e.g., full PUT /api/settings handler, fetchWithRetry implementation, Add/Edit inventory modal component code). Tell me the format you want:
+  - Option A: Short summaries and file list (current)
+  - Option B: Include full code excerpts for the key handlers and client functions (one large text file)
+  - Option C: Produce per-feature files under a docs/ folder (e.g., docs/auth.txt, docs/inventory.txt) with full code excerpts and navigation links.
+
+If you want the full function bodies pasted into this file, tell me which modules to expand first (I recommend Settings, Inventory, and RBAC).

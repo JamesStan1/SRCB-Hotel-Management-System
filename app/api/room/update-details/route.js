@@ -1,0 +1,234 @@
+import pool from "../../../lib/db";
+import { NextResponse } from 'next/server'; // Add this import
+
+// -------------------- PUT (Update or Create Reservation) --------------------
+export async function PUT(request, context) {
+  const { id } = await context.params;
+  const body = await request.json();
+  const { status, reservation, packageId } = body;
+
+  try {
+    await pool.query("BEGIN");
+
+    // Get room details
+    const roomResult = await pool.query(
+      `SELECT id, package_id FROM rooms WHERE id = $1`,
+      [id]
+    );
+    if (roomResult.rows.length === 0) {
+      await pool.query("ROLLBACK");
+      return new Response(JSON.stringify({ error: "Room not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Check for duplicate reservation
+    if (reservation) {
+      const existingReservation = await pool.query(
+        `SELECT id FROM reservations 
+         WHERE customer_name = $1 
+         AND customer_email = $2 
+         AND contact_number = $3
+         AND room_id != $4`,
+        [
+          reservation.customerName,
+          reservation.customerEmail,
+          reservation.contactNumber,
+          id,
+        ]
+      );
+
+      if (existingReservation.rows.length > 0) {
+        await pool.query("ROLLBACK");
+        return new Response(
+          JSON.stringify({
+            error: "A reservation already exists for this customer",
+          }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
+      }
+    }
+
+    // Update room status
+    if (status) {
+      await pool.query(`UPDATE rooms SET status = $1 WHERE id = $2`, [
+        status,
+        id,
+      ]);
+    }
+
+    let reservationResult;
+    if (reservation) {
+      const existingRes = await pool.query(
+        `SELECT id FROM reservations WHERE room_id = $1`,
+        [id]
+      );
+
+      if (existingRes.rows.length > 0) {
+        // Update existing reservation
+        // compute nights and total_price
+        const computeNights = (startRaw, endRaw) => {
+          if (!startRaw || !endRaw) return 1;
+          const s = new Date(startRaw);
+          const e = new Date(endRaw);
+          if (isNaN(s.getTime()) || isNaN(e.getTime())) return 1;
+          const toMid = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+          const diff = Math.round((toMid(e) - toMid(s)) / (1000 * 60 * 60 * 24));
+          return diff > 0 ? diff : 1;
+        };
+        const nights = computeNights(reservation.checkInDate, reservation.checkOutDate);
+        const roomPriceRes = await pool.query('SELECT price FROM rooms WHERE id = $1', [id]);
+        const perNight = roomPriceRes.rows[0] ? Number(roomPriceRes.rows[0].price || 0) : 0;
+        const totalPrice = (nights * perNight) - perNight;
+
+        reservationResult = await pool.query(
+          `UPDATE reservations SET
+            customer_name = $1,
+            customer_email = $2,
+            contact_number = $3,
+            address = $4,
+            nationality = $5,
+            additional_guests = $6,
+            additional_requests = $7,
+            remarks = $8,
+            check_in_date = $9,
+            check_out_date = $10,
+            id_upload = $11,
+            e_signature = $12,
+            total_price = $13
+          WHERE room_id = $14
+          RETURNING *`,
+          [
+            reservation.customerName,
+            reservation.customerEmail,
+            reservation.contactNumber,
+            reservation.address || "",
+            reservation.nationality || "",
+            reservation.additionalGuests || 0,
+            reservation.additionalRequests || "",
+            reservation.remarks || "",
+            reservation.checkInDate,
+            reservation.checkOutDate,
+            reservation.idUpload || null,
+            reservation.eSignature || null,
+            totalPrice,
+            id,
+          ]
+        );
+      } else {
+        // Insert new reservation
+        const computeNights = (startRaw, endRaw) => {
+          if (!startRaw || !endRaw) return 1;
+          const s = new Date(startRaw);
+          const e = new Date(endRaw);
+          if (isNaN(s.getTime()) || isNaN(e.getTime())) return 1;
+          const toMid = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+          const diff = Math.round((toMid(e) - toMid(s)) / (1000 * 60 * 60 * 24));
+          return diff > 0 ? diff : 1;
+        };
+        const nights = computeNights(reservation.checkInDate, reservation.checkOutDate);
+        const roomPriceRes = await pool.query('SELECT price FROM rooms WHERE id = $1', [id]);
+        const perNight = roomPriceRes.rows[0] ? Number(roomPriceRes.rows[0].price || 0) : 0;
+        const totalPrice = (nights * perNight) - perNight;
+
+        reservationResult = await pool.query(
+          `INSERT INTO reservations (
+            room_id, customer_name, customer_email, contact_number,
+            address, nationality, additional_guests, additional_requests,
+            remarks, check_in_date, check_out_date, id_upload, e_signature, total_price
+          ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) 
+          RETURNING *`,
+          [
+            id,
+            reservation.customerName,
+            reservation.customerEmail,
+            reservation.contactNumber,
+            reservation.address || "",
+            reservation.nationality || "",
+            reservation.additionalGuests || 0,
+            reservation.additionalRequests || "",
+            reservation.remarks || "",
+            reservation.checkInDate,
+            reservation.checkOutDate,
+            reservation.idUpload || null,
+            reservation.eSignature || null,
+            totalPrice,
+          ]
+        );
+      }
+    }
+
+    await pool.query("COMMIT");
+
+    return new Response(
+      JSON.stringify({
+        message: "Reservation updated successfully",
+        room_id: id,
+        reservation: reservationResult?.rows[0] ? {
+          ...reservationResult.rows[0],
+          idUpload: reservationResult.rows[0].id_upload,
+          eSignature: reservationResult.rows[0].e_signature
+        } : null,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    await pool.query("ROLLBACK");
+    console.error("PUT /api/room/[id] error:", error);
+    return new Response(
+      JSON.stringify({ error: "Error saving reservation" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+}
+
+// -------------------- DELETE (Archive Room & Reservation) --------------------
+export async function DELETE(request) {
+  let client;
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    
+    if (!id) {
+      return NextResponse.json({ error: 'Room ID is required' }, { status: 400 });
+    }
+
+    client = await pool.connect();
+    await client.query('BEGIN');
+
+    // Check for active reservations
+    const resCheck = await client.query('SELECT * FROM reservations WHERE room_id = $1', [id]);
+    if (resCheck.rows.length > 0) {
+      await client.query('ROLLBACK');
+      return NextResponse.json({ error: 'Cannot archive room with active reservations' }, { status: 400 });
+    }
+
+    // Fetch the room to archive
+    const roomResult = await client.query('SELECT * FROM rooms WHERE id = $1', [id]);
+    if (roomResult.rowCount === 0) {
+      await client.query('ROLLBACK');
+      return NextResponse.json({ error: 'Room not found' }, { status: 404 });
+    }
+
+    const room = roomResult.rows[0];
+
+    // Insert into archive_rooms
+    await client.query(`
+      INSERT INTO archive_rooms (original_id, room_number, type, price, status, package_id)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [room.id, room.room_number, room.type, room.price, room.status, room.package_id]);
+
+    // Delete from rooms
+    await client.query('DELETE FROM rooms WHERE id = $1', [id]);
+
+    await client.query('COMMIT');
+    return NextResponse.json({ message: 'Room archived successfully' }, { status: 200 });
+  } catch (error) {
+    if (client) await client.query('ROLLBACK');
+    console.error('Error archiving room:', error);
+    return NextResponse.json({ error: 'Failed to archive room', details: error.message }, { status: 500 });
+  } finally {
+    if (client) client.release();
+  }
+}

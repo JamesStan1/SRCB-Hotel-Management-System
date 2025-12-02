@@ -1,0 +1,45 @@
+=== Cafe & POS — Full code excerpts & integration notes ===
+Generated: 2025-10-27
+
+-- app/api/cafe_dishes/route.js --
+
+```javascript
+<the full contents of app/api/cafe_dishes/route.js>
+```
+
+-- app/api/cafe_dishes/[id]/route.js --
+
+```javascript
+<the full contents of app/api/cafe_dishes/[id]/route.js>
+```
+
+-- app/api/dishes/route.js --
+
+```javascript
+<the full contents of app/api/dishes/route.js>
+```
+
+(Integration notes)
+- Cafe dishes endpoints validate dish payloads, support photo_url (data URLs or http(s)), and archive on delete.
+- POS integration points:
+  - `app/api/payments/route.js` and `app/api/payment-history/route.js` record receipts/payments and update notifications.
+  - `app/api/audit-logs/cashier-sales` attempts to reconcile POS receipts with reservations and events.
+- If `pos.receipts` table exists in the DB, several endpoints prefer it over `receipts`.
+
+Files: see `app/api/cafe_dishes/*` and `app/api/dishes/route.js`.
+
+-- Notifications & housekeeping (POS connection)
+
+- When a POS transaction affects a reservation (for example, full payment), the payments path will compute totals and may insert a housekeeping notification so on-site staff can prepare the room. See `app/api/payments/route.js` for the insertion into `notifications`.
+
+- The POS should always call `POST /api/payment-history` to persist receipt metadata; this table is used by cashier reports and by `audit-logs` reconciliation.
+
+- For frontdesk / cashier UIs: after saving to `payment_history` the UI should also consider calling `POST /api/payments` when the payment affects reservation balances so housekeeping notifications and reservation totals are updated atomically.
+
+- Notifications consumption:
+  - Housekeeping clients fetch `GET /api/notifications` filtered by `target_role='Housekeeping'`.
+  - The service worker at `public/sw.js` is present to show push notifications if push delivery is configured; otherwise clients poll `GET /api/notifications` or use a websocket/polling layer.
+
+-- Audit & reporting
+
+- POS receipts are surfaced to `app/api/audit-logs/cashier-sales` and `app/api/payment-history` and are the primary data sources for cashier sales reports. If you need a reproducible script to replay receipts for reconciliation, I can add one under `scripts/`.

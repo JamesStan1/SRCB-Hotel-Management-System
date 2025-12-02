@@ -1,0 +1,325 @@
+=== Payments — Full code excerpts ===
+Generated: 2025-10-27
+
+-- app/api/payments/route.js --
+
+```javascript
+// app/api/payments/route.js
+import pool from '../../lib/db';
+import { NextResponse } from 'next/server';
+import { requireRole } from '../../lib/rbac';
+import { withTrafficHandler } from '../../lib/trafficHandler';
+
+async function safeRequireRole(request, permission, action) {
+	try {
+		return await requireRole(request, permission, action);
+	} catch (err) {
+		console.error('RBAC check failed:', err);
+		return { allowed: false, message: 'Authorization error' };
+	}
+}
+
+export async function POST(request) {
+	let client;
+	try {
+		const t = await withTrafficHandler(request);
+		if (!t.allowed) return NextResponse.json({ error: t.reason || 'Too many requests' }, { status: t.status || 429 });
+
+		const auth = await safeRequireRole(request, 'reservations', 'manage');
+		if (!auth.allowed) return NextResponse.json({ error: auth.message || 'Forbidden' }, { status: 403 });
+
+		const body = await request.json();
+		const { reservationId, eventId, amount, method = 'cash', type = 'payment', note } = body;
+
+		if (!amount || Number(amount) <= 0) {
+			return NextResponse.json({ error: 'Invalid payload: amount required' }, { status: 400 });
+		}
+
+		client = await pool.connect();
+		await client.query('BEGIN');
+
+		// If reservationId is provided, validate it. Otherwise allow NULL reservation payments.
+		if (reservationId) {
+			const r = await client.query('SELECT id FROM reservations WHERE id = $1 FOR UPDATE', [reservationId]);
+			if (r.rowCount === 0) {
+				await client.query('ROLLBACK');
+				return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
+			}
+		}
+
+		const insert = await client.query(
+			`INSERT INTO payments (reservation_id, event_id, amount, method, type, note, created_by) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, reservation_id, event_id, amount, method, type, note, created_at`,
+			[reservationId || null, eventId || null, amount, method, type, note, auth.userId || null]
+		);
+
+		await client.query('COMMIT');
+
+		// Compute totals only if reservationId provided
+		let totals = null;
+		if (reservationId) {
+			// Sum normal payments
+			const paidRes = await pool.query("SELECT COALESCE(SUM(amount),0) AS paid FROM payments WHERE reservation_id=$1 AND type='payment'", [reservationId]);
+			const refundRes = await pool.query("SELECT COALESCE(SUM(amount),0) AS refund FROM payments WHERE reservation_id=$1 AND type='refund'", [reservationId]);
+			const downRes = await pool.query("SELECT COALESCE(SUM(amount),0) AS down FROM payments WHERE reservation_id=$1 AND type='downpayment'", [reservationId]);
+
+			const totalPaid = Number(paidRes.rows[0].paid || 0) - Number(refundRes.rows[0].refund || 0) + Number(downRes.rows[0].down || 0);
+
+			const resRow = await pool.query('SELECT id, receipt_total FROM reservations WHERE id = $1', [reservationId]);
+			const totalDue = resRow.rowCount ? (resRow.rows[0].receipt_total || 0) : 0;
+
+			const downTotal = Number(downRes.rows[0].down || 0);
+
+			totals = { totalPaid, totalDue, downTotal, remaining: Math.max(0, totalDue - totalPaid) };
+		}
+
+		// If reservation reached full payment, notify Housekeeping so they can act quickly.
+		try {
+			if (reservationId && totals && Number(totals.remaining) === 0) {
+				// Get room number for nicer message
+				const resInfo = await pool.query(
+					`SELECT r.id AS reservation_id, r.room_id, rm.room_number FROM reservations r LEFT JOIN rooms rm ON r.room_id = rm.id WHERE r.id = $1`,
+					[reservationId]
+				);
+				if (resInfo.rowCount > 0) {
+					const roomId = resInfo.rows[0].room_id || null;
+					const roomNumber = resInfo.rows[0].room_number || `Reservation ${reservationId}`;
+					const message = `Payment completed for ${roomNumber} (Reservation ${reservationId}).`;
+					await pool.query(
+						`INSERT INTO notifications (room_id, reservation_id, message, target_role, scheduled_time, status, created_at) VALUES ($1,$2,$3,$4,CURRENT_TIMESTAMP,$5,CURRENT_TIMESTAMP)`,
+						[roomId, reservationId, message, 'Housekeeping', 'scheduled']
+					);
+				}
+			}
+		} catch (e) {
+			// Non-fatal: log and continue. Notifications are best-effort.
+			console.error('Failed to insert housekeeping notification after payment:', e);
+		}
+
+		return NextResponse.json({ success: true, payment: insert.rows[0], totals }, { status: 201 });
+	} catch (error) {
+		if (client) await client.query('ROLLBACK');
+		console.error('POST /api/payments error:', error);
+		return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
+	} finally {
+		if (client) client.release();
+	}
+}
+
+export async function GET(request) {
+	try {
+		const auth = await safeRequireRole(request, 'reservations', 'manage');
+		if (!auth.allowed) return NextResponse.json({ error: auth.message || 'Forbidden' }, { status: 403 });
+
+		const { searchParams } = new URL(request.url);
+	const reservationId = searchParams.get('reservationId') || searchParams.get('reservation_id') || null;
+	const eventId = searchParams.get('eventId') || searchParams.get('event_id') || null;
+	const type = searchParams.get('type') || null;
+	const createdBy = searchParams.get('created_by') || searchParams.get('createdBy') || null;
+
+		let where = [];
+		let params = [];
+		let idx = 1;
+
+		if (reservationId) {
+			where.push(`reservation_id = $${idx++}`);
+			params.push(reservationId);
+		}
+		if (eventId) {
+			// prefer explicit event_id column when passed
+			where.push(`event_id = $${idx++}`);
+			params.push(eventId);
+		}
+		// if eventId wasn't provided but a note-based search was requested, still allow searching by note
+		const noteEventId = searchParams.get('noteEventId') || null;
+		if (!eventId && noteEventId) {
+			where.push(`note ILIKE $${idx++}`);
+			params.push(`%event:${noteEventId}%`);
+		}
+		if (type) {
+			where.push(`type = $${idx++}`);
+			params.push(type);
+		}
+		if (createdBy) {
+			where.push(`created_by = $${idx++}`);
+			params.push(createdBy);
+		}
+
+		const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+
+		// Pagination & date filters
+		const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
+		const limit = Math.min(200, parseInt(searchParams.get('limit') || '50', 10));
+		const offset = (page - 1) * limit;
+		const fromDate = searchParams.get('fromDate') || null;
+		const toDate = searchParams.get('toDate') || null;
+		if (fromDate) {
+			where.push(`created_at >= $${idx++}`);
+			params.push(fromDate);
+		}
+		if (toDate) {
+			where.push(`created_at <= $${idx++}`);
+			params.push(toDate);
+		}
+
+		const finalWhere = where.length ? `WHERE ${where.join(' AND ')}` : '';
+		// Return list of payments matching filters with pagination
+		const q = `SELECT id, reservation_id, event_id, amount, method, type, note, created_by, created_at FROM payments ${finalWhere} ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`;
+		const res = await pool.query(q, params);
+
+		// Also compute sum for downpayments when requested per reservation or event
+		let summary = null;
+		if (reservationId && (!type || type === 'downpayment')) {
+			const s = await pool.query("SELECT COALESCE(SUM(amount),0) AS downTotal FROM payments WHERE reservation_id=$1 AND type='downpayment'", [reservationId]);
+			summary = { downTotal: Number(s.rows[0].downTotal || s.rows[0].downtotal || 0) };
+		}
+		if (eventId && (!type || type === 'downpayment')) {
+			const s = await pool.query("SELECT COALESCE(SUM(amount),0) AS downTotal FROM payments WHERE event_id=$1 AND type='downpayment'", [eventId]);
+			summary = { downTotal: Number(s.rows[0].downTotal || s.rows[0].downtotal || 0) };
+		}
+
+		return NextResponse.json({ payments: res.rows, summary }, { status: 200 });
+	} catch (err) {
+		console.error('GET /api/payments error:', err);
+		return NextResponse.json({ error: 'Failed to fetch payments' }, { status: 500 });
+	}
+}
+
+```
+
+(Implementation notes)
+- Accepts POST to record payments for reservations or events; uses transactions and validates reservation if provided.
+- Returns totals and may insert a housekeeping notification when reservation is fully paid.
+- GET supports filters: reservationId, eventId, type, createdBy, with pagination and date filters.
+
+-- app/api/payment-history/route.js --
+
+```javascript
+// app/api/payment-history/route.js
+import { NextResponse } from 'next/server';
+import pool from '../../lib/db';
+
+// API route to fetch type, item_name, and total from payment_history
+export async function GET() {
+	try {
+		// Use the pool to get a client
+		const client = await pool.connect();
+
+		// Query to fetch type, item_name, and total
+		const query = 'SELECT type, item_name, total FROM payment_history';
+		const { rows } = await client.query(query);
+
+		// Release the client back to the pool
+		client.release();
+
+		// Return the results as JSON
+		return NextResponse.json(rows, { status: 200 });
+	} catch (error) {
+		console.error('Error fetching payment history:', error.message, error.stack);
+		return NextResponse.json(
+			{ error: 'Failed to fetch payment history', details: error.message },
+			{ status: 500 }
+		);
+	}
+}
+
+// API route to save payment history to payment_history table
+export async function POST(request) {
+	try {
+		// Parse the request body
+		const paymentData = await request.json();
+
+		// Validate required fields
+		const requiredFields = [
+			'invoice_id',
+			'type',
+			'item_id',
+			'item_name',
+			'customer_name',
+			'payment_method',
+			'subtotal',
+			'total',
+			'cashier_name',
+			'payment_date',
+		];
+		for (const field of requiredFields) {
+			if (!paymentData[field]) {
+				return NextResponse.json(
+					{ error: `Missing required field: ${field}` },
+					{ status: 400 }
+				);
+			}
+		}
+
+		// Use the pool to get a client
+		const client = await pool.connect();
+
+		// Insert payment data into payment_history table
+		const query = `
+			INSERT INTO payment_history (
+				invoice_id, type, item_id, item_name, customer_name, payment_method,
+				discount_type, discount_amount, subtotal, total, cashier_name, payment_date
+			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+			RETURNING id, invoice_id, type, item_name, total
+		`;
+		const values = [
+			paymentData.invoice_id,
+			paymentData.type,
+			paymentData.item_id,
+			paymentData.item_name,
+			paymentData.customer_name,
+			paymentData.payment_method,
+			paymentData.discount_type || null,
+			paymentData.discount_amount || 0,
+			paymentData.subtotal,
+			paymentData.total,
+			paymentData.cashier_name,
+			paymentData.payment_date,
+		];
+
+		const { rows } = await client.query(query, values);
+
+		// Release the client back to the pool
+		client.release();
+
+		// Return the saved payment record
+		return NextResponse.json(rows[0], { status: 201 });
+	} catch (error) {
+		console.error('Error saving payment history:', error.message, error.stack);
+		return NextResponse.json(
+			{ error: 'Failed to save payment history', details: error.message },
+			{ status: 500 }
+		);
+	}
+}
+```
+
+(Implementation notes)
+- Simple GET to return payment_history rows and POST to save payment history entries used by POS receipts saving.
+- Validates required fields like invoice_id, type, item_name, total, cashier_name, payment_date.
+
+(Usage)
+- Payments are integrated with `auditLogger` and `notifications` in the code paths.
+- The Payments endpoint expects authenticated sessions with RBAC checks in some caller paths (see reservation-specific endpoints that call payments).
+
+You can find the real code in `app/api/payments/route.js` and `app/api/payment-history/route.js` in the repo.
+
+---
+
+Notifications, Housekeeping & POS integration (notes)
+--------------------------------------------------
+
+- Housekeeping notifications: the payments route contains best-effort logic to create a housekeeping notification when a reservation's remaining balance reaches zero. See `app/api/payments/route.js` lines that insert into `notifications` with `target_role = 'Housekeeping'`.
+
+- Room checkout and housekeeping: other flows also create housekeeping notifications (for example `app/api/room/checkout/route.js` inserts a housekeeping notification on checkout). Housekeeping APIs then surface and manage these tasks (see `app/api/housekeeping/*`).
+
+- POS receipts & payment history:
+	- The POS frontend should call `POST /api/payment-history` to persist receipt metadata (invoice_id, cashier_name, total, payment_date, etc.).
+	- The POS may also call `POST /api/payments` when a reservation payment is recorded through POS; that path triggers totals computation and housekeeping notifications as described above.
+
+- Service worker & browser notifications:
+	- `public/sw.js` contains client-side service worker code that handles push events (if push is configured) and shows notifications. Notifications created in the DB (target_role = 'Housekeeping') are fetched by Housekeeping clients via `GET /api/notifications` and can be surfaced with the in-page bell or via push when available.
+
+- Audit & reconciliation:
+	- `app/api/audit-logs/cashier-sales/route.js` contains heuristics to reconcile POS receipts with reservation and event sales for reporting. Use that route when implementing cashier reports.
+
+If you'd like, I can add a short example POS-to-payment flow diagram or a small unit test that validates the notification insertion logic when a reservation goes to zero remaining balance.

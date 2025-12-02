@@ -1,0 +1,405 @@
+import pool from "../../lib/db";
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  try {
+    const result = await pool.query(`
+      SELECT 
+  r.*, 
+  p.name AS package_name, 
+  p.price AS package_price, 
+  p.guests AS package_guests, 
+  p.image AS package_image,
+  p.description AS package_description,
+  res.id AS reservation_id,
+  res.customer_name,
+  res.customer_email,
+  res.contact_number,
+  res.address,
+  res.nationality,
+  res.additional_guests,
+  res.additional_requests,
+  res.remarks,
+  res.check_in_date,
+  res.check_out_date,
+  res.id_upload,
+  res.e_signature
+FROM rooms r
+LEFT JOIN packages p ON r.package_id = p.id
+LEFT JOIN reservations res ON res.room_id = r.id  -- Remove the AND clause here
+    `);
+
+    const rows = result.rows.map((row) => ({
+      id: row.id,
+      room_number: row.room_number,
+      type: row.type,
+      price: row.price,
+      status: row.status,
+      packageId: row.package_id,
+      package: {
+        name: row.package_name,
+        price: row.package_price,
+        guests: row.package_guests,
+        image: row.package_image,
+        description: row.package_description,
+      },
+      reservation: row.reservation_id
+        ? {
+          id: row.reservation_id,
+          customerName: row.customer_name,
+          customerEmail: row.customer_email,
+          contactNumber: row.contact_number,
+          address: row.address,
+          nationality: row.nationality,
+          additionalGuests: row.additional_guests,
+          additionalRequests: row.additional_requests,
+          remarks: row.remarks,
+          checkInDate: row.check_in_date,
+          checkOutDate: row.check_out_date,
+          idUpload: row.id_upload,
+          eSignature: row.e_signature,
+        }
+        : null,
+    }));
+
+    return NextResponse.json(rows, { status: 200 });
+  } catch (error) {
+    console.error("GET /api/room error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error", details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request) {
+  let client;
+  try {
+    const {
+      packageId,
+      customerName,
+      customerEmail,
+      contactNumber,
+      idUpload,
+      eSignature,
+      ...otherData
+    } = await request.json();
+
+    if (!packageId) {
+      return NextResponse.json(
+        { error: "Package ID is required" },
+        { status: 400 }
+      );
+    }
+    if (!customerName || !customerEmail || !contactNumber) {
+      return NextResponse.json(
+        { error: "Customer name, email, and contact number are required" },
+        { status: 400 }
+      );
+    }
+    if (!idUpload) {
+      return NextResponse.json(
+        { error: "ID upload is required" },
+        { status: 400 }
+      );
+    }
+    if (!eSignature) {
+      return NextResponse.json(
+        { error: "E-signature is required" },
+        { status: 400 }
+      );
+    }
+
+    client = await pool.connect();
+    await client.query("BEGIN");
+
+    const existingReservation = await client.query(
+      `SELECT id FROM reservations WHERE customer_name=$1 AND customer_email=$2 AND contact_number=$3`,
+      [customerName, customerEmail, contactNumber]
+    );
+    if (existingReservation.rows.length > 0) {
+      await client.query("ROLLBACK");
+      return NextResponse.json(
+        { error: "A reservation already exists for this customer" },
+        { status: 400 }
+      );
+    }
+
+    const roomResult = await client.query(
+      `SELECT id FROM rooms WHERE package_id=$1 AND status='Available' ORDER BY id FOR UPDATE SKIP LOCKED LIMIT 1`,
+      [packageId]
+    );
+    if (roomResult.rows.length === 0) {
+      await client.query("ROLLBACK");
+      return NextResponse.json(
+        { error: "No available rooms for this package" },
+        { status: 400 }
+      );
+    }
+
+    const roomId = roomResult.rows[0].id;
+
+    await client.query(`UPDATE rooms SET status='Occupied' WHERE id=$1`, [
+      roomId,
+    ]);
+
+    const reservationResult = await client.query(
+      `INSERT INTO reservations (
+        room_id, customer_name, customer_email, contact_number,
+        address, nationality, additional_guests, additional_requests,
+        remarks, check_in_date, check_out_date, id_upload, e_signature
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
+      [
+        roomId,
+        customerName,
+        customerEmail,
+        contactNumber,
+        otherData.address || "",
+        otherData.nationality || "",
+        otherData.additionalGuests || 0,
+        otherData.additionalRequests || "",
+        otherData.remarks || "",
+        otherData.checkInDate,
+        otherData.checkOutDate,
+        idUpload,
+        eSignature,
+      ]
+    );
+
+    await client.query("COMMIT");
+
+    return NextResponse.json(
+      {
+        success: true,
+        roomId,
+        reservation: {
+          ...reservationResult.rows[0],
+          idUpload: reservationResult.rows[0].id_upload,
+          eSignature: reservationResult.rows[0].e_signature,
+        },
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    if (client) await client.query("ROLLBACK");
+    console.error("POST /api/room error:", error);
+    return NextResponse.json(
+      { error: "Error creating reservation", details: error.message },
+      { status: 500 }
+    );
+  } finally {
+    if (client) client.release();
+  }
+}
+
+export async function PUT(request, context) {
+  const { id } = await context.params;
+  const body = await request.json();
+  const { status, reservation, packageId } = body;
+
+  try {
+    await pool.query("BEGIN");
+
+    const roomResult = await pool.query(
+      `SELECT id, package_id FROM rooms WHERE id = $1`,
+      [id]
+    );
+    if (roomResult.rows.length === 0) {
+      await pool.query("ROLLBACK");
+      return NextResponse.json({ error: "Room not found" }, { status: 404 });
+    }
+
+    if (reservation) {
+      const existingReservation = await pool.query(
+        `SELECT id FROM reservations 
+         WHERE customer_name = $1 
+         AND customer_email = $2 
+         AND contact_number = $3
+         AND room_id != $4`,
+        [
+          reservation.customerName,
+          reservation.customerEmail,
+          reservation.contactNumber,
+          id,
+        ]
+      );
+
+      if (existingReservation.rows.length > 0) {
+        await pool.query("ROLLBACK");
+        return NextResponse.json(
+          { error: "A reservation already exists for this customer" },
+          { status: 400 }
+        );
+      }
+    }
+
+    if (status) {
+      await pool.query(`UPDATE rooms SET status = $1 WHERE id = $2`, [
+        status,
+        id,
+      ]);
+    }
+
+    let reservationResult;
+    if (reservation) {
+      const existingRes = await pool.query(
+        `SELECT id FROM reservations WHERE room_id = $1`,
+        [id]
+      );
+
+      if (existingRes.rows.length > 0) {
+        reservationResult = await pool.query(
+          `UPDATE reservations SET
+            customer_name = $1,
+            customer_email = $2,
+            contact_number = $3,
+            address = $4,
+            nationality = $5,
+            additional_guests = $6,
+            additional_requests = $7,
+            remarks = $8,
+            check_in_date = $9,
+            check_out_date = $10,
+            id_upload = $11,
+            e_signature = $12
+          WHERE room_id = $13
+          RETURNING *`,
+          [
+            reservation.customerName,
+            reservation.customerEmail,
+            reservation.contactNumber,
+            reservation.address || "",
+            reservation.nationality || "",
+            reservation.additionalGuests || 0,
+            reservation.additionalRequests || "",
+            reservation.remarks || "",
+            reservation.checkInDate,
+            reservation.checkOutDate,
+            reservation.idUpload || null,
+            reservation.eSignature || null,
+            id,
+          ]
+        );
+      } else {
+        reservationResult = await pool.query(
+          `INSERT INTO reservations (
+            room_id, customer_name, customer_email, contact_number,
+            address, nationality, additional_guests, additional_requests,
+            remarks, check_in_date, check_out_date, id_upload, e_signature
+          ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) 
+          RETURNING *`,
+          [
+            id,
+            reservation.customerName,
+            reservation.customerEmail,
+            reservation.contactNumber,
+            reservation.address || "",
+            reservation.nationality || "",
+            reservation.additionalGuests || 0,
+            reservation.additionalRequests || "",
+            reservation.remarks || "",
+            reservation.checkInDate,
+            reservation.checkOutDate,
+            reservation.idUpload || null,
+            reservation.eSignature || null,
+          ]
+        );
+      }
+    }
+
+    await pool.query("COMMIT");
+
+    return NextResponse.json(
+      {
+        message: "Reservation updated successfully",
+        room_id: id,
+        reservation: reservationResult?.rows[0]
+          ? {
+            ...reservationResult.rows[0],
+            idUpload: reservationResult.rows[0].id_upload,
+            eSignature: reservationResult.rows[0].e_signature,
+          }
+          : null,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    await pool.query("ROLLBACK");
+    console.error("PUT /api/room/[id] error:", error);
+    return NextResponse.json(
+      { error: "Error saving reservation", details: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request) {
+  let client;
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Room ID is required" }, { status: 400 });
+    }
+
+    client = await pool.connect();
+    if (!client) {
+      throw new Error("Failed to connect to the database");
+    }
+
+    await client.query("BEGIN");
+
+    const resCheck = await pool.query(
+      "SELECT * FROM reservations WHERE room_id = $1 AND check_out_date IS NULL",
+      [id]
+    );
+    if (resCheck.rows.length > 0) {
+      await client.query("ROLLBACK");
+      return NextResponse.json(
+        { error: "Cannot archive room with active reservations" },
+        { status: 400 }
+      );
+    }
+
+    const roomResult = await client.query("SELECT * FROM rooms WHERE id = $1", [
+      id,
+    ]);
+    if (roomResult.rowCount === 0) {
+      await client.query("ROLLBACK");
+      return NextResponse.json({ error: "Room not found" }, { status: 404 });
+    }
+
+    const room = roomResult.rows[0];
+
+    await client.query(
+      `INSERT INTO archive_rooms (original_id, room_number, type, price, status, package_id, archived_at)
+       VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)`,
+      [
+        room.id,
+        room.room_number,
+        room.type,
+        room.price,
+        room.status,
+        room.package_id,
+      ]
+    );
+
+    await client.query("DELETE FROM rooms WHERE id = $1", [id]);
+
+    await client.query("COMMIT");
+    return NextResponse.json(
+      { message: "Room archived successfully", roomId: id },
+      { status: 200 }
+    );
+  } catch (error) {
+    if (client) await client.query("ROLLBACK");
+    console.error("Error archiving room:", error);
+    return NextResponse.json(
+      { error: "Failed to archive room", details: error.message },
+      { status: 500 }
+    );
+  } finally {
+    if (client) client.release();
+  }
+}

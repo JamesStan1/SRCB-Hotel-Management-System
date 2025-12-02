@@ -1,0 +1,540 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* Root theme colors */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --brand-green-50: #ecfdf5;
+  --brand-green-100: #d1fae5;
+  --brand-green-200: #a7f3d0;
+  --brand-green-300: #6ee7b7;
+  --brand-green-400: #34d399;
+  --brand-green-500: #10b981;
+  --brand-green-600: #059669;
+  --brand-green-700: #047857;
+  --brand-green-800: #065f46;
+  --brand-green-900: #064e3b;
+}
+
+/* QR code canvas image sizing */
+#qr-code-canvas img {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* Theme variables for Tailwind integration */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Dark mode color scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffffff;
+    --foreground: #ededed;
+  }
+}
+
+/* Base body styling */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Global typography accents */
+h1, h2, h3 {
+  color: var(--brand-green-700);
+}
+
+a {
+  color: var(--brand-green-700);
+}
+a:hover {
+  color: var(--brand-green-600);
+}
+
+/* Inputs focus ring tint */
+input, select, textarea {
+  accent-color: var(--brand-green-600);
+}
+input:focus, select:focus, textarea:focus {
+  outline-color: var(--brand-green-500);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+}
+
+/* Scrollbar (WebKit) */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--brand-green-500);
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-green-600);
+}
+
+/* Sidebar / Navigation scrollbar - ensure sidebar scrollbars match the app theme
+   (override any utility classes like scrollbar-thumb-gray-300 used on specific containers)
+*/
+.dashboard-sidebar {
+  /* Firefox: set thumb and track colors and make scrollbar thin */
+  scrollbar-color: var(--brand-green-500) #f1f5f9;
+  scrollbar-width: thin;
+}
+.dashboard-sidebar *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.dashboard-sidebar *::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.dashboard-sidebar *::-webkit-scrollbar-thumb {
+  background: var(--brand-green-500);
+  border-radius: 10px;
+}
+.dashboard-sidebar *::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-green-600);
+}
+
+/* Hide the visible scrollbar for the dashboard sidebar while keeping it scrollable.
+   This ensures the sidebar can still be scrolled (via mouse wheel, touch, or trackpad)
+   but only the main content area shows a visible scrollbar. Place after the
+   sidebar scrollbar styles so it overrides them. */
+.dashboard-sidebar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.dashboard-sidebar::-webkit-scrollbar,
+.dashboard-sidebar *::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+  width: 0;
+  height: 0;
+}
+
+/* === React Calendar Styling === */
+.react-calendar {
+  border: none;
+  font-family: inherit;
+  width: 100%;
+  max-width: 100%;
+  background: transparent;
+}
+
+/* Today’s date (highlight current day) */
+.react-calendar__tile--now {
+  background: linear-gradient(135deg, #facc15, #f59e0b); /* yellow-400 → yellow-500 */
+  border-radius: 999px;
+  color: #000 !important;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.react-calendar__tile--now:hover {
+  background: linear-gradient(135deg, #fde047, #facc15);
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.7);
+}
+
+/* Selected date */
+.react-calendar__tile--active {
+  background: linear-gradient(135deg, var(--brand-green-400), var(--brand-green-600));
+  color: #fff !important;
+  border-radius: 999px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.35);
+}
+
+/* Hover effect for all tiles */
+.react-calendar__tile:hover {
+  background: #d1fae5 !important; /* Tailwind emerald-100 */
+  border-radius: 6px;
+}
+
+/* === Custom Highlight Classes for Reservations === */
+
+/* Occupied days (green gradient + glow) */
+.react-calendar__tile.occupied-day {
+  background: linear-gradient(135deg, #86efac, #22c55e); /* green-300 → green-500 */
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.react-calendar__tile.occupied-day:hover {
+  background: linear-gradient(135deg, #bbf7d0, #16a34a); /* lighter green → dark green */
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
+}
+
+/* Reserved days (yellow gradient + glow) */
+.react-calendar__tile.reserved-day {
+  background: linear-gradient(135deg, #fde68a, #f59e0b); /* yellow-200 → yellow-500 */
+  color: #000 !important;
+  font-weight: 600;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.react-calendar__tile.reserved-day:hover {
+  background: linear-gradient(135deg, #fef9c3, #ca8a04); /* lighter yellow → deep yellow */
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
+}
+
+/* Optional: Slightly dim weekends */
+.react-calendar__month-view__days__day--weekend {
+  color: #9ca3af !important; /* Tailwind gray-400 */
+}
+
+/* Disabled past dates */
+.react-calendar__tile:disabled {
+  background: #f3f4f6 !important; /* Tailwind gray-100 */
+  color: #9ca3af !important; /* Tailwind gray-400 */
+  border-radius: 6px;
+  transition: opacity 0.3s ease;
+}
+
+/* Optional hover style for disabled tiles */
+.react-calendar__tile:disabled:hover {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Fade-in animation (already in your CSS) */
+@keyframes fade-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+/* Carousel animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+/* Bell ring animation */
+@keyframes bell-ring {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(5deg); }
+  60% { transform: rotate(-5deg); }
+  70% { transform: rotate(3deg); }
+  80% { transform: rotate(-3deg); }
+  90% { transform: rotate(1deg); }
+  100% { transform: rotate(0); }
+}
+.animate-bell-ring {
+  animation: bell-ring 1s ease-in-out;
+}
+
+/* === Custom responsive layout for 720px breakpoint ===
+   We need a layout that switches to vertical (sidebar above main)
+   when the viewport is narrower than 720px. Tailwind's built-in
+   breakpoints don't include 720px, so add a small custom CSS
+   block that adjusts the dashboard layout at that width.
+*/
+@media (max-width: 720px) {
+  /* Make the top-level dashboard wrapper flow vertically */
+  .dashboard-vertical {
+    flex-direction: column;
+    height: auto; /* let content size vertically on small screens */
+  }
+
+  /* Sidebar should become full-width and sit above the main content */
+  .dashboard-sidebar {
+    width: 100% !important;
+    height: auto !important;
+    flex: 0 0 auto;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Ensure the main area stretches below the sidebar */
+  .dashboard-main {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* When the sidebar contains internal scrolling, limit its height to natural content height */
+  .dashboard-sidebar .overflow-y-auto {
+    max-height: none;
+    overflow: visible;
+  }
+
+  /* Slightly tweak header spacing on very narrow screens */
+  header.flex.items-center.justify-between.px-4.sm\:px-6.py-3.sm\:py-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Anchor the header on narrow screens and ensure it stays above content */
+@media (max-width: 720px) {
+  .anchored-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: var(--brand-green-800); /* match sidebar/header background */
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: #fff; /* ensure header text is white on narrow screens */
+  }
+  /* Also ensure any h2 inside the anchored header renders white (overrides global h2 rule) */
+  .anchored-header h2 {
+    color: #fff;
+  }
+}
+
+/* Utility: hide elements specifically on our 720px narrow breakpoint */
+@media (max-width: 720px) {
+  .hide-on-720 { display: none !important; }
+}
+
+/* Anchored bottom bar friendliness tweaks
+   - Center the icon row, normalize button sizes to a uniform square,
+     and keep captions accessible on hover/focus/active.
+*/
+.anchored-bar {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ensure the icon-row is centered within the bar */
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.anchored-bar .icon-row {
+  display: flex;
+  gap: 0.75rem; /* slightly larger gap for breathing room */
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.anchored-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 48px; /* upgraded touch target */
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0; /* remove variable padding that caused uneven sizes */
+  border-radius: 10px; /* slightly larger rounding for 48px */
+  background: transparent;
+  transition: background-color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease;
+}
+
+.anchored-button svg, .anchored-button .icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+/* Captions: render above the icon, keep visually hidden until hover/focus/active */
+.anchored-button .anchored-caption {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #d1fae5;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.anchored-button:focus, .anchored-button:hover {
+  background-color: rgba(4, 120, 87, 0.12);
+  transform: translateY(-1px);
+}
+
+.anchored-button:focus .anchored-caption, .anchored-button:hover .anchored-caption,
+.anchored-button[aria-pressed="true"] .anchored-caption {
+  opacity: 1;
+}
+
+.anchored-button[aria-pressed="true"] {
+  background-color: rgba(16, 185, 129, 0.18);
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+}
+
+@media (max-width: 520px) {
+  /* small devices: slightly smaller but still touch friendly */
+  .anchored-button .anchored-caption { font-size: 10px; }
+  .anchored-button { width: 44px; height: 44px; min-width:44px; min-height:44px; }
+  .anchored-button svg, .anchored-button .icon { width: 20px; height: 20px; }
+}
+
+@media (max-width: 420px) {
+  .anchored-button .anchored-caption { font-size: 10px; }
+  .anchored-button { width: 40px; height: 40px; min-width:40px; min-height:40px; }
+  .anchored-button svg, .anchored-button .icon { width: 18px; height: 18px; }
+}
+
+/* compact select for ultra-compact screens */
+.compact-select {
+  width: 56px;
+  text-align: center;
+  padding-left: 6px;
+  padding-right: 18px; /* leave room for native arrow */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.compact-select { color: #000; }
+
+/* make the horizontal category scroller snap to category buttons */
+.snap-x { scroll-snap-type: x mandatory; }
+.snap-center { scroll-snap-align: center; }
+
+/* Keep certain notification controls from being treated as anchored/fixed
+   on narrow screens. Use the `not-anchored` class on wrappers that should
+   remain in-flow (or at least not float above the anchored bottom bar). */
+.not-anchored {
+  position: relative;
+  z-index: 20;
+}
+
+@media (max-width: 720px) {
+  .not-anchored {
+    /* Ensure these controls flow with the content on small screens
+       so they are not visually overlapped by (or visually above) the
+       anchored bottom bar. */
+    position: static !important;
+    z-index: auto !important;
+  }
+}
+
+/* Utility: hide scrollbar visually but keep content scrollable
+   Use the `no-scrollbar` class on containers where you want to erase
+   the scrollbar while preserving scroll behavior. This overrides the
+   global scrollbar styles above. */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+  height: 0px;
+}
+
+/* Sidebar scrollbar styling: thin, subtle thumb for dark sidebar background */
+.dashboard-sidebar .overflow-y-auto {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.dashboard-sidebar .overflow-y-auto::-webkit-scrollbar {
+  width: 8px;
+}
+.dashboard-sidebar .overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dashboard-sidebar .overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  border: 2px solid transparent; /* gives padding around thumb */
+  background-clip: content-box;
+} 
+ 
+/* Leaflet Map Customization */
+.leaflet-container {
+  font-family: inherit;
+}
+
+/* Fix Leaflet marker icon paths */
+.leaflet-default-icon-path {
+  background-image: url('https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png');
+}
+
+/* Customize popup styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px;
+  line-height: 1.4;
+}
+
+/* Zoom control styling */
+.leaflet-control-zoom {
+  border: none !important;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.leaflet-control-zoom a {
+  background-color: white !important;
+  color: #059669 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: #f3f4f6 !important;
+}

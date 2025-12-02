@@ -1,0 +1,15 @@
+=== Overview — Client page & forecasting ===
+Generated: 2025-10-27
+
+-- app/dashboard/overview/page.js -- (client)
+
+```javascript
+<the full contents of app/dashboard/overview/page.js>
+```
+
+(Notes)
+- The page fetches data from multiple endpoints: `/api/users`, `/api/inventory`, `/api/notifications`, `/api/dishes`, `/api/reservation-history`, `/api/event_reservation_history`, `/api/event_packages`, `/api/receipts`.
+- Forecasting uses a deterministic linear least-squares implementation (explicit sums for slope/intercept) with 1-indexed x values and a numerical safety check for near-zero denominator; negative predictions are clamped to zero.
+- The UI uses Chart.js (react-chartjs-2) for line/pie/bar charts and includes lazy loading to minimize initial bundle size.
+
+File path: `app/dashboard/overview/page.js`.

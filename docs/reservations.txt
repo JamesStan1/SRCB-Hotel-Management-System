@@ -1,0 +1,455 @@
+=== Reservations — Full code excerpts ===
+Generated: 2025-10-27
+
+-- app/api/reservations/route.js --
+
+```javascript
+// app/api/reservations/route.js
+import { NextResponse } from 'next/server';
+import pool from '../../lib/db';
+
+// GET handler for fetching room and event reservations
+export async function GET(request) {
+	try {
+		// Quick DB connection check to provide clearer 503 when DB is unreachable
+		try {
+			await pool.query('SELECT 1');
+		} catch (dbErr) {
+			console.error('Database connectivity check failed for /api/reservations:', dbErr);
+			return NextResponse.json({ error: 'Database connection error' }, { status: 503 });
+		}
+		const { searchParams } = new URL(request.url);
+		const startDate = searchParams.get('start_date');
+		const endDate = searchParams.get('end_date');
+		const customerName = searchParams.get('customer_name');
+
+		// Determine receipts table (pos.receipts preferred)
+		const tblRes = await pool.query("SELECT CASE WHEN to_regclass('pos.receipts') IS NOT NULL THEN 'pos.receipts' WHEN to_regclass('receipts') IS NOT NULL THEN 'receipts' ELSE NULL END as tbl");
+		const receiptsTable = tblRes.rows[0] && tblRes.rows[0].tbl;
+
+		// Build lateral join for receipts matching (optional)
+		const lateralJoin = receiptsTable ? `LEFT JOIN LATERAL (
+			SELECT rec.id as receipt_id, rec.cashier as receipt_cashier, (rec.total)::numeric as receipt_total,
+				-- indicate if this receipt explicitly references the reservation id inside items
+				(
+					CASE WHEN EXISTS (
+						SELECT 1 FROM jsonb_array_elements(rec.items) elem WHERE (elem->>'reservation_id') = rh.id::text
+					) THEN true ELSE false END
+				) as explicit_reservation_match
+			FROM ${receiptsTable} rec
+			WHERE (
+				-- 1) exact reservation id stored inside items JSON
+				EXISTS (SELECT 1 FROM jsonb_array_elements(rec.items) elem WHERE (elem->>'reservation_id') = rh.id::text)
+				-- 2) fallback: reservation id appears somewhere in the items JSON text (less strict)
+				OR rec.items::text ILIKE ('%' || rh.id::text || '%')
+				-- 3) fallback: matching customer name
+				OR (rec.customer ILIKE rh.customer_name)
+				-- 4) fallback: exact total match
+				OR (
+					(rh.payment_details->>'total') IS NOT NULL
+					AND (rec.total)::numeric = ((rh.payment_details->>'total')::numeric)
+				)
+			)
+			ORDER BY 
+				-- prefer explicit reservation id matches first, then by time proximity
+				(CASE WHEN EXISTS (SELECT 1 FROM jsonb_array_elements(rec.items) elem WHERE (elem->>'reservation_id') = rh.id::text) THEN 0 ELSE 1 END),
+				ABS(EXTRACT(EPOCH FROM (rec.created_at - COALESCE(rh.check_out_date, rh.created_at)))) ASC
+			LIMIT 1
+		) rec_match ON true` : '';
+
+		// Build room query (includes lateral join when receipts table is present)
+		let roomQuery = `
+			SELECT 
+				rh.id,
+					rh.room_id,
+					rh.check_in_date,
+					rh.check_out_date,
+					(rh.payment_details->>'total')::NUMERIC AS price,
+					-- Some schemas store total_price separately; others embed it in payment_details JSON.
+					-- To avoid column-missing errors on deployments where rh.total_price doesn't exist,
+					-- derive total_price from payment_details as a safe fallback.
+					(COALESCE((rh.payment_details->>'total')::NUMERIC, NULL)) AS total_price,
+					rh.customer_name,
+					rooms.room_number,
+					rh.package_name,
+				rec_match.receipt_cashier,
+				rec_match.receipt_total
+			FROM reservation_history rh
+			LEFT JOIN rooms ON rh.room_id = rooms.id
+			${lateralJoin}
+			WHERE 1=1
+		`;
+		// Select event reservation fields and join to receipts to include receipt cashier/total when linked by invoice_id
+		const receiptsJoin = receiptsTable ? `LEFT JOIN ${receiptsTable} r ON (erh.invoice_id::text = r.id::text)` : '';
+
+		let eventQuery = `SELECT erh.*, r.cashier as receipt_cashier, (r.total)::numeric as receipt_total
+			FROM event_reservation_history erh
+			${receiptsJoin}
+			WHERE 1=1`;
+		const queryParams = [];
+
+		if (startDate) {
+			roomQuery += ' AND rh.check_in_date >= $' + (queryParams.length + 1);
+			eventQuery += ' AND erh.event_date >= $' + (queryParams.length + 1);
+			queryParams.push(startDate);
+		}
+
+		if (endDate) {
+			roomQuery += ' AND rh.check_out_date <= $' + (queryParams.length + 1);
+			eventQuery += ' AND erh.event_date <= $' + (queryParams.length + 1);
+			queryParams.push(endDate);
+		}
+
+		if (customerName) {
+			roomQuery += ' AND rh.customer_name ILIKE $' + (queryParams.length + 1);
+			eventQuery += ' AND erh.customer_name ILIKE $' + (queryParams.length + 1);
+			queryParams.push(`%${customerName}%`);
+		}
+
+		// Execute queries
+		const roomResult = await pool.query(roomQuery, queryParams);
+		const eventResult = await pool.query(eventQuery, queryParams);
+
+		// Normalize room rows: add a display_name that prefers receipt_cashier when available
+		const roomReservations = roomResult.rows.map((r) => ({
+			...r,
+			display_name: (r.receipt_cashier && String(r.receipt_cashier).trim()) ? r.receipt_cashier : r.customer_name,
+		}));
+
+		return NextResponse.json({
+			roomReservations,
+			eventReservations: eventResult.rows,
+		}, { status: 200 });
+
+	} catch (error) {
+		console.error('API Error:', error);
+		// If the error looks like a DB connectivity issue, return 503 to help debugging
+		const msg = (error && error.message) ? String(error.message) : '';
+		if (/connect|ECONN|timeout|ENOTFOUND|Database connection/i.test(msg)) {
+			return NextResponse.json({ error: 'Database connection error' }, { status: 503 });
+		}
+		return NextResponse.json({ error: 'Failed to fetch reservations' }, { status: 500 });
+	}
+}
+
+// POST handler for creating new room reservations
+export async function POST(request) {
+	try {
+		const body = await request.json();
+		const {
+			type, // 'room' or 'event' to determine reservation type
+			room_id, // Changed from room_number to match schema
+			package_name,
+			customer_name,
+			check_in_date,
+			check_out_date,
+			price,
+			event_name,
+			event_package_name,
+			event_date,
+			guests,
+			total
+		} = body;
+
+		if (type === 'room') {
+			// Validate room reservation fields
+			if (!room_id || !customer_name || !check_in_date || !check_out_date || !price) {
+				return NextResponse.json(
+					{ error: 'Missing required fields for room reservation' },
+					{ status: 400 }
+				);
+			}
+
+			const query = `
+				INSERT INTO reservation_history (
+					room_id, customer_name, check_in_date, check_out_date, payment_details, room_number, package_name
+				)
+				VALUES ($1, $2, $3, $4, $5, $6, $7)
+				RETURNING *
+			`;
+
+			const values = [
+				room_id,
+				customer_name,
+				check_in_date,
+				check_out_date,
+				{ price: price }, // Store price in payment_details JSONB
+				body.room_number || null,
+				package_name || null
+			];
+
+			const result = await pool.query(query, values);
+
+			return NextResponse.json(result.rows[0], { status: 201 });
+
+		} else if (type === 'event') {
+			// Validate event reservation fields
+			if (!event_name || !customer_name || !event_date || !guests || !total) {
+				return NextResponse.json(
+					{ error: 'Missing required fields for event reservation' },
+					{ status: 400 }
+				);
+			}
+
+			const query = `
+				INSERT INTO event_reservation_history (
+					event_name, event_package_name, customer_name,
+					event_date, guests, total
+				)
+				VALUES ($1, $2, $3, $4, $5, $6)
+				RETURNING *
+			`;
+
+			const values = [
+				event_name,
+				event_package_name || null,
+				customer_name,
+				event_date,
+				guests,
+				total
+			];
+
+			const result = await pool.query(query, values);
+
+			return NextResponse.json(result.rows[0], { status: 201 });
+
+		} else {
+			return NextResponse.json(
+				{ error: 'Invalid reservation type' },
+				{ status: 400 }
+			);
+		}
+
+	} catch (error) {
+		console.error('API Error:', error);
+		return NextResponse.json(
+			{ error: 'Failed to create reservation' },
+			{ status: 500 }
+		);
+	}
+}
+```
+
+-- app/api/reservation/[id]/route.js --
+
+```javascript
+// app/api/reservation/[id]/route.js
+import pool from "../../../lib/db";
+import { NextResponse } from "next/server";
+
+export async function DELETE(request, { params }) {
+	let client;
+	try {
+		const { id } = params;
+
+		if (!id) {
+			return NextResponse.json(
+				{ error: "Reservation ID is required" },
+				{ status: 400 }
+			);
+		}
+
+		client = await pool.connect();
+		await client.query("BEGIN");
+
+		const resResult = await client.query(
+			"SELECT * FROM reservations WHERE id = $1",
+			[id]
+		);
+		if (resResult.rowCount === 0) {
+			await client.query("ROLLBACK");
+			return NextResponse.json(
+				{ error: "Reservation not found" },
+				{ status: 404 }
+			);
+		}
+
+		const reservation = resResult.rows[0];
+
+		await client.query(
+			`INSERT INTO archive_reservations (
+				original_id, room_id, customer_name, customer_email, contact_number,
+				address, nationality, additional_guests, additional_requests, remarks,
+				check_in_date, check_out_date, id_upload, e_signature, archived_at
+			) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, CURRENT_TIMESTAMP)`,
+			[
+				reservation.id,
+				reservation.room_id,
+				reservation.customer_name,
+				reservation.customer_email,
+				reservation.contact_number,
+				reservation.address,
+				reservation.nationality,
+				reservation.additional_guests,
+				reservation.additional_requests,
+				reservation.remarks,
+				reservation.check_in_date,
+				reservation.check_out_date,
+				reservation.id_upload,
+				reservation.e_signature,
+			]
+		);
+
+		await client.query("UPDATE rooms SET status = $1 WHERE id = $2", [
+			"Available",
+			reservation.room_id,
+		]);
+
+		await client.query("DELETE FROM reservations WHERE id = $1", [id]);
+
+		await client.query("COMMIT");
+		return NextResponse.json(
+			{ message: "Reservation archived successfully", reservationId: id },
+			{ status: 200 }
+		);
+	} catch (error) {
+		if (client) await client.query("ROLLBACK");
+		console.error("Error archiving reservation:", error);
+		return NextResponse.json(
+			{ error: "Failed to archive reservation", details: error.message },
+			{ status: 500 }
+		);
+	} finally {
+		if (client) client.release();
+	}
+}
+
+export async function GET(request, { params }) {
+	let client;
+	try {
+		const { id } = params;
+		if (!id) return NextResponse.json({ error: 'Reservation ID is required' }, { status: 400 });
+
+		client = await pool.connect();
+		const resResult = await client.query('SELECT * FROM reservations WHERE id = $1', [id]);
+		if (resResult.rowCount === 0) {
+			return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
+		}
+
+		const r = resResult.rows[0];
+		const reservation = {
+			id: r.id,
+			roomId: r.room_id,
+			customerName: r.customer_name,
+			customerEmail: r.customer_email,
+			contactNumber: r.contact_number,
+			address: r.address,
+			nationality: r.nationality,
+			additionalGuests: r.additional_guests,
+			additionalRequests: r.additional_requests,
+			remarks: r.remarks,
+			checkInDate: r.check_in_date,
+			checkOutDate: r.check_out_date,
+			idUpload: r.id_upload,
+			eSignature: r.e_signature,
+			total_price: r.total_price !== undefined ? Number(r.total_price) : null,
+			totalPrice: r.total_price !== undefined ? Number(r.total_price) : null,
+		};
+
+		return NextResponse.json(reservation, { status: 200 });
+	} catch (error) {
+		console.error('GET /api/reservation/[id] error:', error);
+		return NextResponse.json({ error: 'Failed to fetch reservation', details: error.message }, { status: 500 });
+	} finally {
+		if (client) client.release();
+	}
+}
+```
+
+-- app/api/reservation/[id]/payments/route.js --
+
+```javascript
+// app/api/reservation/[id]/payments/route.js
+import pool from '../../../../lib/db';
+import { NextResponse } from 'next/server';
+import { requireRole } from '../../../../lib/rbac';
+import { withTrafficHandler } from '../../../../lib/trafficHandler';
+
+async function safeRequireRole(request, permission, action) {
+	try { return await requireRole(request, permission, action); }
+	catch (err) { console.error('RBAC check failed:', err); return { allowed: false, message: 'Authorization error' }; }
+}
+
+export async function GET(request, { params }) {
+	try {
+		const t = await withTrafficHandler(request);
+		if (!t.allowed) return NextResponse.json({ error: t.reason || 'Too many requests' }, { status: t.status || 429 });
+
+		const auth = await safeRequireRole(request, 'reservations', 'view');
+		if (!auth.allowed) return NextResponse.json({ error: auth.message || 'Unauthorized' }, { status: 401 });
+
+		const reservationId = params.id;
+		if (!reservationId) return NextResponse.json({ error: 'Reservation id is required' }, { status: 400 });
+
+		const paymentsRes = await pool.query('SELECT id, amount, method, type, note, created_by, created_at FROM payments WHERE reservation_id = $1 ORDER BY created_at ASC', [reservationId]);
+		const paidRes = await pool.query("SELECT COALESCE(SUM(amount),0) AS paid FROM payments WHERE reservation_id=$1 AND type='payment'", [reservationId]);
+		const refundRes = await pool.query("SELECT COALESCE(SUM(amount),0) AS refund FROM payments WHERE reservation_id=$1 AND type='refund'", [reservationId]);
+		const totalPaid = Number(paidRes.rows[0].paid || 0) - Number(refundRes.rows[0].refund || 0);
+
+		const resRow = await pool.query('SELECT id, receipt_total FROM reservations WHERE id = $1', [reservationId]);
+		const totalDue = resRow.rowCount ? (resRow.rows[0].receipt_total || 0) : 0;
+
+		return NextResponse.json({ payments: paymentsRes.rows, totals: { totalPaid, totalDue, remaining: Math.max(0, totalDue - totalPaid) } }, { status: 200 });
+	} catch (error) {
+		console.error('GET /api/reservation/[id]/payments error:', error);
+		return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
+	}
+}
+```
+
+-- app/api/reservation/[id]/attachments/route.js --
+
+```javascript
+// app/api/reservation/[id]/attachments/route.js
+import pool from '../../../../lib/db';
+import { NextResponse } from 'next/server';
+import { requireRole, Permissions } from '../../../../lib/rbac';
+import { withTrafficHandler } from '../../../../lib/trafficHandler';
+
+// Safe role wrapper
+async function safeRequireRole(request, permission, action) {
+	try {
+		const auth = await requireRole(request, permission, action);
+		return auth;
+	} catch (err) {
+		console.error('RBAC check failed:', err);
+		return { allowed: false, message: 'Authorization error' };
+	}
+}
+
+export async function GET(request, { params }) {
+	let client;
+	try {
+		const t = await withTrafficHandler(request);
+		if (!t.allowed) return NextResponse.json({ error: t.reason || 'Too many requests' }, { status: t.status || 429 });
+
+		const auth = await safeRequireRole(request, Permissions.Reservations, 'view');
+		if (!auth.allowed) {
+			return NextResponse.json({ error: auth.message || 'Unauthorized' }, { status: 401 });
+		}
+
+		const reservationId = params.id;
+		if (!reservationId) return NextResponse.json({ error: 'Reservation id is required' }, { status: 400 });
+
+		client = await pool.connect();
+		const res = await client.query('SELECT id_upload, e_signature FROM reservations WHERE id = $1', [reservationId]);
+		if (res.rowCount === 0) return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
+
+		const row = res.rows[0];
+
+		return NextResponse.json({ idUpload: row.id_upload, eSignature: row.e_signature }, { status: 200 });
+	} catch (error) {
+		console.error('GET /api/reservation/[id]/attachments error:', error);
+		return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
+	} finally {
+		if (client) client.release();
+	}
+}
+```
+
+(Notes)
+- `reservations` supports both room and event reservation creation (POST) and list fetch (GET).
+- Reservation detail endpoint (`/api/reservation/[id]`) supports GET and DELETE (archive-on-delete) and the attached payments and attachments helper routes are for payments history and id/e-signature attachments.
+- The implementation attempts to safely join receipts and receipts tables when available (pos.receipts preferred) and has defensive DB connectivity checks.
+
+Find these files in the repo under `app/api/reservations` and `app/api/reservation/[id]`.

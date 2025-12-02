@@ -1,0 +1,193 @@
+Staff
+Files
+- app/api/staff/route.js (GET, POST, DELETE)
+- app/api/staff/[id]/route.js (per-id handlers)
+- app/api/users/route.js (central users CRUD used elsewhere; includes more validation and approval in other parts of the code)
+
+Handlers & behavior (key points)
+- GET (app/api/staff/route.js)
+  - Returns all users: SELECT * FROM users ORDER BY created_at DESC.
+  - 500 on DB failure.
+
+- POST (app/api/staff/route.js)
+  - Reads: name, role, email, phone, status, password, hourly_rate.
+  - Validates presence of name/email/password/role.
+  - Inserts into users table then inserts into staff table (links user_id).
+  - Returns 201 on success.
+  - 500 on failure; unique constraint handling may be in place on DB but not explicitly handled here.
+
+- DELETE (app/api/staff/route.js)
+  - Expects id as query param.
+  - Looks up user_id from staff row, deletes from staff and users tables.
+  - 400 if missing id, 404 if not found.
+
+Notes
+- app/api/users/route.js contains central users creation logic with manager approval and password hashing (bcrypt). For consistent approval and hashing prefer centralizing staff creation through users route.
+
+---
+
+Reservations (room + event)
+Files
+- app/api/reservations/route.js (combined reservations GET + create)
+- app/api/reservation/[id]/route.js (GET single, DELETE -> archive)
+
+Handlers & behavior
+- GET (app/api/reservations/route.js)
+  - Returns room reservations (reservation_history) and event reservations (event_reservation_history).
+  - Supports filtering: start_date, end_date, customer_name.
+  - Attempts to join / associate receipts using lateral join to find matching receipt.
+
+- POST (app/api/reservations/route.js)
+  - Supports type: 'room' or 'event'.
+  - room: required: room_id, customer_name, check_in_date, check_out_date, price. Inserts into reservation_history and stores payment_details JSONB.
+  - event: required: event_name, customer_name, event_date, guests, total. Inserts into event_reservation_history.
+
+- GET single / DELETE archive (app/api/reservation/[id]/route.js)
+  - GET: returns normalized reservation object mapping DB columns to camelCase.
+  - DELETE: archives a reservation (INSERT into archive_reservations), sets room status to Available, deletes from reservations. Uses transaction.
+
+Notes
+- Lateral receipt matching used to associate POS receipts. Archive flow uses transactions and sets room availability.
+
+---
+
+Rooms (room CRUD + reservation flows)
+Files
+- app/api/room/route.js (GET rooms, POST create reservation)
+- app/api/room/[id]/route.js (GET single, PUT update room & reservation, DELETE archive room)
+
+Handlers & key behaviors
+- GET (/api/room)
+  - RBAC via requireRole(..., Permissions.RoomManagement, "view").
+  - Returns rooms with package and reservation join.
+
+- POST (/api/room)
+  - RBAC manage required.
+  - Endpoint used to create reservations, not rooms. Validates payload isn't for room creation.
+  - Validates packageId, customerName, customerEmail, contactNumber, idUpload, eSignature.
+  - Transaction: check duplicate reservation, validate package, find available room with FOR UPDATE SKIP LOCKED, update room status to 'Occupied', insert reservation with computed total_price. Returns reservation and assigned roomId.
+
+- PUT (/api/room/[id])
+  - RBAC manage required.
+  - Can update room fields or reservation. Supports partial updates (status-only) and full updates (validates room_number, type, non-negative price, packageId). For reservation, checks duplicates and updates or inserts reservation; computes total price.
+
+- DELETE (/api/room or /api/room/[id])
+  - RBAC manage required.
+  - Archives room into archive_rooms, deletes from rooms. Prevents deleting rooms with active reservations.
+
+Notes
+- Uses FOR UPDATE SKIP LOCKED to prevent concurrent assignment races. Transactions ensure atomic updates.
+
+---
+
+Event
+Files
+- app/api/event/route.js (GET, POST, PUT, DELETE)
+- app/api/event/[id]/route.js (PUT per-id updates)
+- app/api/event/checkout/route.js (POST checkout -> move to history)
+
+Handlers & behavior
+- POST (app/api/event/route.js)
+  - Accepts multipart formData: event JSON string + customerId file + eSignature file.
+  - Validates required fields and file types. Saves files to public/uploads (dev) or /tmp/uploads (prod). Inserts into events (dishes saved as JSON string).
+
+- GET
+  - Returns events with parsed dishes.
+
+- PUT
+  - Accepts formData for updates; optionally new eSignature.
+  - Updates event and returns updated event.
+
+- DELETE
+  - Archives event into archive_events and deletes events; handles cases when event has reservation history.
+
+- POST checkout (app/api/event/checkout/route.js)
+  - Accepts eventId + paymentDetails. Inserts into event_reservation_history, deletes original event, writes audit log.
+
+Notes
+- Handles file uploads. Checkout moves event to history and logs audit.
+
+---
+
+Inventory
+Files
+- app/api/inventory/route.js (GET, POST, DELETE)
+- app/api/inventory/[id]/route.js (GET, PUT)
+
+Handlers & behavior
+- GET
+  - RBAC requireRole(..., Permissions.Inventory, 'view'). Returns items.
+
+- POST
+  - RBAC manage required. Accepts name, category (or legacy section), quantity, unit, threshold, on_delivery. Inserts into inventory and logs audit.
+
+- DELETE
+  - RBAC manage required. Expects { id } in body. Archives row into archive_inventory then deletes from inventory in a transaction. Writes audit.
+
+- GET by id
+  - Returns single inventory item.
+
+- PUT by id
+  - RBAC manage required. Supports updating fields and an optional logActivity object to record inventory_activity (add/withdraw) inside same transaction. Returns updated item and activity when activity occurred.
+
+Notes
+- Accepts legacy 'section' field as category. Uses transactions for atomic updates + activity logging. Audit logging used.
+
+---
+
+Cafe (dishes)
+Files
+- app/api/cafe_dishes/route.js
+- app/api/cafe_dishes/[id]/route.js
+
+Handlers & behavior
+- GET: returns dishes ordered by created_at desc.
+- POST: validates dish (name, description, price>0, category, optional photo_url allowed as http(s) or base64 data URL, is_available boolean). Inserts into cafe_dishes. Handles unique name violations and photo size errors.
+- PUT: accepts id in path, validates same constraints, updates dish.
+
+Notes
+- Strict validation. Photo storage currently expects URL or base64; large base64 may need DB migration to TEXT.
+
+---
+
+POS (Carts, Payments, Receipts)
+Files
+- app/api/carts/route.js
+- app/api/payments/route.js
+- app/api/receipts/route.js
+
+Carts
+- GET: requires user_id query param; returns carts and creates a "Default Cart" if missing.
+- POST: inserts or updates a cart (INSERT ... ON CONFLICT (user_id, name) DO UPDATE).
+- DELETE: deletes cart by id.
+
+Payments
+- POST: RBAC requireRole(..., 'reservations', 'manage'). Accepts reservationId or eventId, amount, method, type (payment/downpayment/refund), note. Creates payment row in transaction, computes totals for reservation when reservationId provided, and when fully paid inserts a housekeeping notification. Returns payment + totals.
+- GET: RBAC check. Supports filters (reservationId, eventId, type, created_by, date range) and pagination. Returns list and optional downpayment summary.
+
+Receipts
+- POST: RBAC receipts manage required. Accepts cashier, customer, items array, subtotal, discount, total, paymentMethod. Resolves receipts table (pos.receipts preferred) and inserts into it. Writes audit log.
+- GET: RBAC receipts view required. Resolves receipts table and returns list.
+
+Notes
+- Payments create notifications for housekeeping when reservation fully paid. Receipts resolve table name dynamically to allow schema differences. Audit logging used in receipts and payments.
+
+---
+
+Permissions & Approval Notes
+- Many endpoints require RBAC via requireRole(request, Permissions.X, 'view'|'manage').
+- Staff creation can be done via app/api/staff/route.js but app/api/users/route.js contains manager approval and password hashing — prefer centralizing to ensure approvals and bcrypt hashing are enforced consistently.
+- Audit logging (logAudit) is used widely; ensure audit logger is functional.
+
+---
+
+Edge-cases & implementation details
+- Use of transactions (BEGIN/COMMIT/ROLLBACK) for multi-statement atomic operations (reservations, inventory activity, archiving).
+- Concurrency control: room assignment uses FOR UPDATE SKIP LOCKED to safely allocate rooms across concurrent requests.
+- Event endpoints handle file uploads: ensure server has write permissions in production for /tmp or configured path.
+- Some routes detect presence of different DB schemas (pos.receipts vs receipts) for backwards compatibility.
+- Error codes: 400 validation, 401/403 RBAC, 404 not found, 500 internal, 503 for DB connectivity in some reservation GETs.
+
+---
+
+If you want a verbatim paste of any handler function bodies (full code extracts) in the document instead of the summary, or a mapping table (frontend call → method → required fields), tell me which endpoints to include and I will add them to the .docx file.
