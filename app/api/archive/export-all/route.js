@@ -115,7 +115,7 @@ export default function Export() {
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white shadow rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <CalendarIcon className="h-6 w-6 text-green-500 mr-2" />
+              <CalendarIcon className="h-6 w-6 text-blue-500 mr-2" />
               <h2 className="text-lg font-medium text-gray-900">Monthly Data Print</h2>
             </div>
             <div className="space-y-4">
@@ -125,14 +125,14 @@ export default function Export() {
                   type="month"
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 text-gray-700"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
                 />
               </div>
               <button
                 onClick={handlePrint}
                 disabled={printing || !selectedMonth}
                 className={`w-full flex items-center justify-center px-4 py-2 rounded-md ${
-                  printing ? "bg-green-400" : "bg-green-600 hover:bg-green-700"
+                  printing ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
                 } text-white`}
               >
                 {printing ? (
@@ -151,7 +151,7 @@ export default function Export() {
         <div className="space-y-6">
           <div className="bg-white shadow rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <PrinterIcon className="h-6 w-6 text-green-500 mr-2" />
+              <PrinterIcon className="h-6 w-6 text-blue-500 mr-2" />
               <h2 className="text-lg font-medium text-gray-900">Print All Data</h2>
             </div>
             <div className="space-y-4">
@@ -160,7 +160,7 @@ export default function Export() {
                 onClick={handlePrintAll}
                 disabled={printing}
                 className={`w-full flex items-center justify-center px-4 py-2 rounded-md ${
-                  printing ? "bg-green-400" : "bg-green-600 hover:bg-green-700"
+                  printing ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
                 } text-white`}
               >
                 {printing ? (

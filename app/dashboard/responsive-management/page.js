@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { MagnifyingGlassIcon, HomeIcon, ChartBarIcon, ShoppingCartIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
+import Loading from '@/app/components/Loading';
 
 function SegmentedControl({ value, onChange, options }) {
   return (
@@ -20,14 +21,6 @@ function SegmentedControl({ value, onChange, options }) {
           {opt.label}
         </button>
       ))}
-    </div>
-  );
-}
-
-function Loading() {
-  return (
-    <div className="py-12 flex justify-center">
-      <div className="animate-spin h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full" />
     </div>
   );
 }

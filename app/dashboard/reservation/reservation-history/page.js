@@ -318,7 +318,7 @@ export default function Reservations() {
       {notification && (
         <div className={`fixed top-4 right-4 px-4 py-2 rounded-md text-white text-sm
           ${notification.type === 'error' ? 'bg-red-500' :
-            notification.type === 'success' ? 'bg-green-500' :
+            notification.type === 'success' ? 'bg-blue-500' :
             notification.type === 'warning' ? 'bg-yellow-500' :
             'bg-blue-500'}`}>
           {notification.message}
@@ -331,7 +331,7 @@ export default function Reservations() {
         </div>
       )}
 
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-green-700 text-center">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-blue-700 text-center">
         Reservation History
       </h1>
 
@@ -346,7 +346,7 @@ export default function Reservations() {
               name="startDate"
               value={filters.startDate}
               onChange={handleFilterChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm p-2"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm p-2"
             />
           </div>
           <div>
@@ -356,7 +356,7 @@ export default function Reservations() {
               name="endDate"
               value={filters.endDate}
               onChange={handleFilterChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm p-2"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm p-2"
             />
           </div>
           <div>
@@ -367,14 +367,14 @@ export default function Reservations() {
               value={filters.customerName}
               onChange={handleFilterChange}
               placeholder="Enter customer name"
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm p-2"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm p-2"
             />
           </div>
         </div>
         <div className="mt-4 flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
           <button 
             type="submit" 
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm disabled:bg-gray-400"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm disabled:bg-gray-400"
             disabled={loading}
           >
             {loading ? 'Applying...' : 'Apply Filters'}
@@ -395,8 +395,8 @@ export default function Reservations() {
         <button
           onClick={() => switchTab('room')}
           className={`px-4 py-2 font-semibold text-sm sm:text-base ${activeTab === 'room'
-              ? 'text-green-700 border-b-2 border-green-700'
-              : 'text-gray-500 hover:text-green-700'
+              ? 'text-blue-700 border-b-2 border-blue-700'
+              : 'text-gray-500 hover:text-blue-700'
             }`}
           disabled={loading}
         >
@@ -405,8 +405,8 @@ export default function Reservations() {
         <button
           onClick={() => switchTab('event')}
           className={`px-4 py-2 font-semibold text-sm sm:text-base ${activeTab === 'event'
-              ? 'text-green-700 border-b-2 border-green-700'
-              : 'text-gray-500 hover:text-green-700'
+              ? 'text-blue-700 border-b-2 border-blue-700'
+              : 'text-gray-500 hover:text-blue-700'
             }`}
           disabled={loading}
         >
@@ -416,7 +416,7 @@ export default function Reservations() {
 
       {loading && (
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-500"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
           <p className="text-black text-sm mt-2">Loading reservations...</p>
         </div>
       )}
@@ -445,9 +445,9 @@ export default function Reservations() {
               <p className="text-black text-sm">No room reservations found.</p>
             ) : (
               <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
-                <table className="min-w-full bg-white border border-green-200 text-black table-fixed">
+                <table className="min-w-full bg-white border border-blue-200 text-black table-fixed">
                   <thead>
-                    <tr className="bg-green-100">
+                    <tr className="bg-blue-100">
                       <th className="py-2 px-3 border-b text-left text-xs sm:text-sm w-1/6">Room No.</th>
                       <th className="py-2 px-3 border-b text-left text-xs sm:text-sm w-1/6">Package</th>
                       <th className="py-2 px-3 border-b text-left text-xs sm:text-sm w-1/6">Customer</th>
@@ -494,7 +494,7 @@ export default function Reservations() {
                     ))}
                   </tbody>
                   <tfoot>
-                    <tr className="bg-green-50 font-semibold">
+                    <tr className="bg-blue-50 font-semibold">
                       <td colSpan="6" className="py-2 px-3 border-t text-left text-xs sm:text-sm">
                         Total
                       </td>
@@ -516,7 +516,7 @@ export default function Reservations() {
               <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
                 <table className="min-w-full bg-white border border-gray-200 text-black table-fixed">
                   <thead>
-                    <tr className="bg-green-100">
+                    <tr className="bg-blue-100">
                       <th className="py-2 px-3 border-b text-left text-xs sm:text-sm">Event Name</th>
                       <th className="py-2 px-3 border-b text-left text-xs sm:text-sm">Package</th>
                       <th className="py-2 px-3 border-b text-left text-xs sm:text-sm">Customer</th>
@@ -546,7 +546,7 @@ export default function Reservations() {
                     ))}
                   </tbody>
                   <tfoot>
-                    <tr className="bg-green-50 font-semibold">
+                    <tr className="bg-blue-50 font-semibold">
                       <td colSpan="7" className="py-2 px-3 border-t text-left text-xs sm:text-sm">
                         Total
                       </td>

@@ -100,9 +100,9 @@ export default function PayrollSummary({ users = [], payrollRecords = [], userRo
           <h3 className="text-sm font-medium text-blue-800">Employees</h3>
           <p className="text-2xl font-bold text-blue-900">{safeUsers.length}</p>
         </div>
-        <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-          <h3 className="text-sm font-medium text-green-800">Total Weekly Hours</h3>
-          <p className="text-2xl font-bold text-green-900">{totalHours.toFixed(2)}</p>
+        <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+          <h3 className="text-sm font-medium text-blue-800">Total Weekly Hours</h3>
+          <p className="text-2xl font-bold text-blue-900">{totalHours.toFixed(2)}</p>
         </div>
         <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
           <h3 className="text-sm font-medium text-purple-800">Total Weekly Pay</h3>
@@ -193,7 +193,7 @@ export default function PayrollSummary({ users = [], payrollRecords = [], userRo
                     className={`text-white px-3 py-1 rounded transition-colors ${
                       ["admin", "manager"].includes(userRole)
                         ? record.status === "Paused"
-                          ? "bg-green-600 hover:bg-green-700"
+                          ? "bg-blue-600 hover:bg-blue-700"
                           : "bg-red-600 hover:bg-red-700"
                         : "bg-gray-400 cursor-not-allowed"
                     }`}

@@ -369,7 +369,7 @@ export default function SignInForm() {
               <div className="flex">
                 <div className="flex-shrink-0">
                   {localError === 'Password reset successfully. Please sign in.' ? (
-                    <CheckCircleIcon className="h-5 w-5 text-green-500" aria-hidden="true" />
+                    <CheckCircleIcon className="h-5 w-5 text-blue-500" aria-hidden="true" />
                   ) : (
                     <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -377,7 +377,7 @@ export default function SignInForm() {
                   )}
                 </div>
                 <div className="ml-3">
-                  <p className={`text-sm sm:text-base ${localError === 'Password reset successfully. Please sign in.' ? 'text-green-700' : 'text-red-700'}`}>{localError || authError}</p>
+                  <p className={`text-sm sm:text-base ${localError === 'Password reset successfully. Please sign in.' ? 'text-blue-700' : 'text-red-700'}`}>{localError || authError}</p>
                 </div>
               </div>
             </div>
@@ -475,7 +475,7 @@ export default function SignInForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`group relative w-full flex justify-center py-2 sm:py-2 px-4 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
+                className={`group relative w-full flex justify-center py-2 sm:py-2 px-4 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
               >
                 {loading ? (
                   <>
@@ -494,7 +494,7 @@ export default function SignInForm() {
             <button
               type="button"
               onClick={startQrScanner}
-              className="w-full py-2 sm:py-2 px-4 border border-green-600 text-green-700 rounded-md hover:bg-green-50 text-sm sm:text-base"
+              className="w-full py-2 sm:py-2 px-4 border border-blue-600 text-blue-700 rounded-md hover:bg-blue-50 text-sm sm:text-base"
             >
               Sign in with QR Code
             </button>
@@ -540,7 +540,7 @@ export default function SignInForm() {
             <div className="text-sm sm:text-base text-gray-600">
               <p>
                 <strong>Email:</strong>{' '}
-                <a href="mailto:Jamesstanleymacarulay@gmail.com" className="text-green-600 hover:text-green-700 font-semibold underline">
+                <a href="mailto:Jamesstanleymacarulay@gmail.com" className="text-blue-600 hover:text-blue-700 font-semibold underline">
                   Jamesstanleymacarulay@gmail.com
                 </a>
               </p>
@@ -555,7 +555,7 @@ export default function SignInForm() {
               <button
                 type="button"
                 onClick={toggleContactModal}
-                className="px-4 py-2 bg-green-600 text-white text-sm sm:text-base font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="px-4 py-2 bg-blue-600 text-white text-sm sm:text-base font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Close
               </button>
@@ -608,7 +608,7 @@ export default function SignInForm() {
                         required
                         value={resetEmail}
                         onChange={(e) => setResetEmail(e.target.value)}
-                        className="text-gray-700 focus:ring-green-500 focus:border-green-500 block w-full pl-10 sm:pl-12 text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
+                        className="text-gray-700 focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:pl-12 text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
                         placeholder="you@example.com"
                       />
                     </div>
@@ -629,7 +629,7 @@ export default function SignInForm() {
                         required
                         value={resetCode}
                         onChange={(e) => setResetCode(e.target.value)}
-                        className="text-gray-700 focus:ring-green-500 focus:border-green-500 block w-full text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
+                        className="text-gray-700 focus:ring-blue-500 focus:border-blue-500 block w-full text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
                         placeholder="Enter 6-digit code"
                       />
                     </div>
@@ -653,7 +653,7 @@ export default function SignInForm() {
                         required
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        className="text-gray-700 focus:ring-green-500 focus:border-green-500 block w-full pl-10 sm:pl-12 pr-10 sm:pr-12 text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
+                        className="text-gray-700 focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:pl-12 pr-10 sm:pr-12 text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
                         placeholder="••••••••"
                         minLength="6"
                       />
@@ -687,7 +687,7 @@ export default function SignInForm() {
                         required
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="text-gray-700 focus:ring-green-500 focus:border-green-500 block w-full pl-10 sm:pl-12 text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
+                        className="text-gray-700 focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:pl-12 text-sm sm:text-base border-gray-300 rounded-md py-2 sm:py-3 border transition duration-150 ease-in-out"
                         placeholder="••••••••"
                         minLength="6"
                       />
@@ -706,7 +706,7 @@ export default function SignInForm() {
                 <button
                   type="submit"
                   disabled={resetLoading}
-                  className={`px-4 py-2 bg-green-600 text-white text-sm sm:text-base font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out ${resetLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
+                  className={`px-4 py-2 bg-blue-600 text-white text-sm sm:text-base font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out ${resetLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
                 >
                   {resetLoading ? (
                     <>

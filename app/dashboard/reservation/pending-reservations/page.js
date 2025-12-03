@@ -126,7 +126,7 @@ export default function PendingReservations() {
       {/* Notification */}
       {notification && (
         <div className={`mb-4 p-4 rounded-lg ${
-          notification.type === 'success' ? 'bg-green-100 text-green-800' :
+          notification.type === 'success' ? 'bg-blue-100 text-blue-800' :
           notification.type === 'error' ? 'bg-red-100 text-red-800' :
           'bg-blue-100 text-blue-800'
         }`}>
@@ -143,7 +143,7 @@ export default function PendingReservations() {
               onClick={() => setActiveTab(tab)}
               className={`pb-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab
-                  ? 'border-emerald-500 text-emerald-600'
+                  ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -159,7 +159,7 @@ export default function PendingReservations() {
       {/* Loading State */}
       {loading && (
         <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       )}
 
@@ -251,7 +251,7 @@ export default function PendingReservations() {
                   </button>
                   <button
                     onClick={() => handleApprove(reservation)}
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                   >
                     <CheckCircleIcon className="h-5 w-5" />
                     Approve
@@ -267,7 +267,7 @@ export default function PendingReservations() {
       {viewItem && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-emerald-700">Reservation Details</h2>
+            <h2 className="text-2xl font-bold mb-6 text-blue-700">Reservation Details</h2>
             
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">

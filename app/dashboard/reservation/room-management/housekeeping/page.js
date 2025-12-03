@@ -465,7 +465,7 @@ const HousekeepingTable = ({
   const getStatusColor = (status) => {
     switch (status) {
       case 'Available':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'Occupied':
         return 'bg-red-100 text-red-800';
       case 'Maintenance':
@@ -477,7 +477,7 @@ const HousekeepingTable = ({
       case 'in_progress':
         return 'bg-orange-100 text-orange-800';
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'inspected':
         return 'bg-blue-100 text-blue-800';
       default:
@@ -570,7 +570,7 @@ const HousekeepingTable = ({
             {/* Desktop / larger screens: keep existing table */}
             <div className="hidden md:block">
               <table className="w-full border-collapse">
-                <thead className="sticky top-0 bg-blue-100 text-left text-white dark:bg-blue-700 dark:text-white">>
+                <thead className="sticky top-0 bg-blue-100 text-left text-white dark:bg-blue-700 dark:text-white">
                   <tr>
                     <th className="p-3 font-semibold">Room Number</th>
                     <th className="p-3 font-semibold">Room Status</th>

@@ -116,11 +116,11 @@ export default function ManagePackages() {
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       {/* Alerts */}
       {saveSuccess && (
-        <div className="mb-6 flex items-center gap-3 p-4 bg-green-100 rounded-lg shadow-sm border border-green-200">
-          <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="mb-6 flex items-center gap-3 p-4 bg-blue-100 rounded-lg shadow-sm border border-blue-200">
+          <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          <p className="text-green-800 font-medium">{saveSuccess}</p>
+          <p className="text-blue-800 font-medium">{saveSuccess}</p>
         </div>
       )}
 
@@ -136,8 +136,8 @@ export default function ManagePackages() {
       {/* Main Card */}
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
         <div className="flex items-center gap-3 mb-6">
-          <HomeIcon className="h-7 w-7 text-green-600" />
-          <h2 className="text-2xl font-semibold text-green-700">Manage Event Packages</h2>
+          <HomeIcon className="h-7 w-7 text-blue-600" />
+          <h2 className="text-2xl font-semibold text-blue-700">Manage Event Packages</h2>
         </div>
 
         {/* Package Edit/Create Form */}
@@ -147,32 +147,32 @@ export default function ManagePackages() {
               <h3 className="text-lg font-medium text-gray-800 mb-4">{editingPackage === "new" ? "Create Event Package" : "Edit Event Package"}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-1.5">Package Name</label>
+                  <label className="block text-sm font-medium text-blue-700 mb-1.5">Package Name</label>
                   <input type="text" name="name" value={packageForm.name} onChange={handlePackageFormChange} className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-1.5">Price ($)</label>
+                  <label className="block text-sm font-medium text-blue-700 mb-1.5">Price ($)</label>
                   <input type="number" name="price" value={packageForm.price} onChange={handlePackageFormChange} min="0" className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-1.5">Guests</label>
+                  <label className="block text-sm font-medium text-blue-700 mb-1.5">Guests</label>
                   <input type="number" name="guests" value={packageForm.guests} onChange={handlePackageFormChange} min="1" className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-green-700 mb-1.5">Max Per Dish</label>
+                  <label className="block text-sm font-medium text-blue-700 mb-1.5">Max Per Dish</label>
                   <input type="number" name="max_per_dish" value={packageForm.max_per_dish} onChange={handlePackageFormChange} min="0" className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-green-700 mb-1.5">Description</label>
+                  <label className="block text-sm font-medium text-blue-700 mb-1.5">Description</label>
                   <textarea name="description" value={packageForm.description} onChange={handlePackageFormChange} className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg" rows={4} />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-green-700 mb-1.5">Image URL</label>
+                  <label className="block text-sm font-medium text-blue-700 mb-1.5">Image URL</label>
                   <input name="image" value={packageForm.image} onChange={handlePackageFormChange} className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg" />
                 </div>
               </div>
               <div className="mt-6 flex gap-3">
-                <button onClick={savePackage} className="px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700">{editingPackage === "new" ? "Create Package" : "Save Package"}</button>
+                <button onClick={savePackage} className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">{editingPackage === "new" ? "Create Package" : "Save Package"}</button>
                 <button onClick={cancelEditing} className="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700">Cancel</button>
               </div>
             </div>
@@ -182,8 +182,8 @@ export default function ManagePackages() {
         {/* Package List */}
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-large text-green-800">Event Packages</h3>
-            {canModify && <button onClick={() => startEditingPackage()} className="px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700">Add New Package</button>}
+            <h3 className="text-lg font-large text-blue-800">Event Packages</h3>
+            {canModify && <button onClick={() => startEditingPackage()} className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">Add New Package</button>}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {packages.map((pkg) => (
@@ -197,7 +197,7 @@ export default function ManagePackages() {
                 <div className="mt-3 flex gap-2 justify-end">
                   {canModify ? (
                     <>
-                      <button onClick={() => startEditingPackage(pkg)} className="p-2 text-green-600"><PencilIcon className="h-5 w-5" /></button>
+                      <button onClick={() => startEditingPackage(pkg)} className="p-2 text-blue-600"><PencilIcon className="h-5 w-5" /></button>
                       <button onClick={() => deletePackage(pkg.id)} className="p-2 text-red-600"><TrashIcon className="h-5 w-5" /></button>
                     </>
                   ) : (

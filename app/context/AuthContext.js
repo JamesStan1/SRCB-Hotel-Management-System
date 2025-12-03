@@ -3,23 +3,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Loading from '../components/Loading';
-import Image from 'next/image';
 import { defaultPageForRole } from '../lib/rbac';
 
-export const LoadingComponent = () => (
-  <div className="flex justify-center items-center h-screen bg-white">
-      <div className="animate-pulse p-8 bg-white">
-        <Image
-          src="/SRCB.png"
-          alt="Hotel Logo"
-          width={350}
-          height={350}
-          className="object-contain"
-          loading="lazy"
-        />
-      </div>
-    </div>
-);
+export const LoadingComponent = () => <Loading fullScreen />;
 
 const AuthContext = createContext();
 

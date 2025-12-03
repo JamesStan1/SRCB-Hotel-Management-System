@@ -194,7 +194,7 @@ export default function ArchivedItems() {
       cancelButtonText: "No, cancel!",
       reverseButtons: true,
       customClass: {
-        confirmButton: "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2",
+        confirmButton: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2",
         cancelButton: "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2",
       },
       buttonsStyling: false,
@@ -221,7 +221,7 @@ export default function ArchivedItems() {
       cancelButtonText: "No, cancel!",
       reverseButtons: true,
       customClass: {
-        confirmButton: "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2",
+        confirmButton: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2",
         cancelButton: "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2",
       },
       buttonsStyling: false,
@@ -243,7 +243,7 @@ export default function ArchivedItems() {
   const getStatusColor = (status) => {
     switch (status) {
       case "Available":
-        return "bg-green-100 text-green-800";
+        return "bg-blue-100 text-blue-800";
       case "Occupied":
         return "bg-red-100 text-red-800";
       case "Maintenance":
@@ -401,9 +401,9 @@ export default function ArchivedItems() {
     <div>
       {/* Notifications */}
       {successMessage && (
-        <div className="mb-6 flex items-center gap-3 p-4 bg-green-100 rounded-lg shadow-sm border border-green-200 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="mb-6 flex items-center gap-3 p-4 bg-blue-100 rounded-lg shadow-sm border border-blue-200 animate-in fade-in slide-in-from-top-2 duration-300">
           <svg
-            className="h-6 w-6 text-green-600"
+            className="h-6 w-6 text-blue-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -415,7 +415,7 @@ export default function ArchivedItems() {
               d="M5 13l4 4L19 7"
             />
           </svg>
-          <p className="text-green-800 font-medium">{successMessage}</p>
+          <p className="text-blue-800 font-medium">{successMessage}</p>
         </div>
       )}
       {error && (
@@ -461,7 +461,7 @@ export default function ArchivedItems() {
             onClick={() => setActiveTab("rooms")}
             disabled={isLoading}
             className={`px-4 py-2 ${
-              activeTab === "rooms" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700"
+              activeTab === "rooms" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
             } rounded-l-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             Archived Rooms
@@ -470,7 +470,7 @@ export default function ArchivedItems() {
             onClick={() => setActiveTab("reservations")}
             disabled={isLoading}
             className={`px-4 py-2 ${
-              activeTab === "reservations" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700"
+              activeTab === "reservations" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
             } rounded-r-lg ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             Archived Reservations
@@ -494,7 +494,7 @@ export default function ArchivedItems() {
             </div>
             <div className="mt-6">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-green-700">
+                <thead className="bg-blue-700">
                   <tr>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider cursor-pointer"
@@ -581,7 +581,7 @@ export default function ArchivedItems() {
                         {!isSecurity && (
                           <button
                             onClick={() => handleRestoreRoom(item.id)}
-                            className={`text-green-600 hover:text-green-900 mr-4 ${
+                            className={`text-blue-600 hover:text-blue-900 mr-4 ${
                               isLoading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                             disabled={isLoading}
@@ -626,7 +626,7 @@ export default function ArchivedItems() {
             </div>
             <div className="mt-6">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-green-700">
+                <thead className="bg-blue-700">
                   <tr>
                     <th
                       className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider cursor-pointer"
@@ -713,7 +713,7 @@ export default function ArchivedItems() {
                         {!isSecurity && (
                           <button
                             onClick={() => handleRestoreReservation(item.id)}
-                            className={`text-green-600 hover:text-green-900 mr-4 ${
+                            className={`text-blue-600 hover:text-blue-900 mr-4 ${
                               isLoading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                             disabled={isLoading}
@@ -752,7 +752,7 @@ export default function ArchivedItems() {
                   alt="Package"
                   className="rounded-lg mb-4 w-full h-48 object-cover"
                 />
-                <h3 className="text-lg font-bold mb-1 text-green-700">
+                <h3 className="text-lg font-bold mb-1 text-blue-700">
                   {getPackageById(viewItem.package_id)?.name}
                 </h3>
                 <p className="text-sm text-gray-600 mb-1">
@@ -767,7 +767,7 @@ export default function ArchivedItems() {
             <div className="w-1/2">
               {viewType === "room" ? (
                 <>
-                  <h2 className="text-xl font-bold mb-3 text-green-700">
+                  <h2 className="text-xl font-bold mb-3 text-blue-700">
                     Room {viewItem.room_number}
                   </h2>
                   <p><strong>Type:</strong> {viewItem.type}</p>
@@ -786,7 +786,7 @@ export default function ArchivedItems() {
                 </>
               ) : (
                 <>
-                  <h2 className="text-xl font-bold mb-3 text-green-700">
+                  <h2 className="text-xl font-bold mb-3 text-blue-700">
                     Reservation for Room {viewItem.room_id}
                   </h2>
                   <p><strong>Name:</strong> {viewItem.customer_name}</p>
@@ -824,7 +824,7 @@ export default function ArchivedItems() {
                 {!isSecurity && (
                   <button
                     onClick={() => viewType === "room" ? handleRestoreRoom(viewItem.id) : handleRestoreReservation(viewItem.id)}
-                    className={`bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg ${
+                    className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg ${
                       isLoading ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     disabled={isLoading}

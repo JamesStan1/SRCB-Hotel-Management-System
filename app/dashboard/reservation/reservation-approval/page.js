@@ -143,7 +143,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
         icon: 'warning',
         title: 'Payment Option Required',
         text: 'Please select a payment option',
-        confirmButtonColor: '#10b981'
+        confirmButtonColor: '#3b82f6'
       });
       return;
     }
@@ -153,7 +153,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
         icon: 'warning',
         title: 'Invalid Amount',
         text: 'Please enter a valid downpayment amount',
-        confirmButtonColor: '#10b981'
+        confirmButtonColor: '#3b82f6'
       });
       return;
     }
@@ -165,7 +165,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
         icon: 'warning',
         title: 'Credentials Required',
         text: 'Manager credentials are required for approval',
-        confirmButtonColor: '#10b981'
+        confirmButtonColor: '#3b82f6'
       });
       return;
     }
@@ -415,7 +415,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
         icon: 'warning',
         title: 'Payment Method Required',
         text: 'Please select how the downpayment was received (GCash or Cash)',
-        confirmButtonColor: '#10b981'
+        confirmButtonColor: '#3b82f6'
       });
       return;
     }
@@ -426,7 +426,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
         icon: 'warning',
         title: 'Credentials Required',
         text: 'Please enter your manager credentials for verification',
-        confirmButtonColor: '#10b981'
+        confirmButtonColor: '#3b82f6'
       });
       return;
     }
@@ -470,7 +470,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
             icon: 'info',
             title: 'Already Processed',
             html: `This reservation has already been processed.<br><br><strong>Current Status:</strong> ${data.currentStatus}`,
-            confirmButtonColor: '#10b981'
+            confirmButtonColor: '#3b82f6'
           });
           setShowDownpaymentModal(null);
           setDownpaymentCredentials({ email: '', password: '', paymentMethod: '', reference: '' });
@@ -581,7 +581,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, Approve',
-      confirmButtonColor: '#10b981',
+      confirmButtonColor: '#3b82f6',
       cancelButtonText: 'Cancel',
       preConfirm: () => {
         if (!isManager) {
@@ -672,7 +672,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
           icon: 'success',
           title: 'Reservation Approved!',
           text: `The reservation has been moved to ${reservation.type === 'room' ? 'Room Management' : 'Event Management'}`,
-          confirmButtonColor: '#10b981'
+          confirmButtonColor: '#3b82f6'
         });
 
         fetchReservations();
@@ -729,8 +729,8 @@ export default function ReservationApproval({ highlightedReservationId }) {
     const colors = {
       pending: 'bg-yellow-100 text-yellow-800',
       awaiting_downpayment: 'bg-teal-100 text-teal-800',
-      downpayment_paid: 'bg-green-100 text-green-800',
-      approved: 'bg-emerald-100 text-emerald-800',
+      downpayment_paid: 'bg-blue-100 text-blue-800',
+      approved: 'bg-blue-100 text-blue-800',
       rejected: 'bg-red-100 text-red-800',
       completed: 'bg-gray-100 text-gray-800'
     };
@@ -789,7 +789,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
               onClick={() => setActiveTab(tab)}
               className={`pb-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === tab
-                  ? 'border-emerald-500 text-emerald-600'
+                  ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
             >
@@ -803,7 +803,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
       {/* Loading State */}
       {loading && (
         <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       )}
 
@@ -844,7 +844,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                         id={`reservation-${r.id}`}
                         className={`transition-all duration-300 ${
                           highlightedReservationId === r.id 
-                            ? 'bg-emerald-50 border-l-4 border-emerald-500' 
+                            ? 'bg-blue-50 border-l-4 border-blue-500' 
                             : 'hover:bg-gray-50'
                         }`}
                       >
@@ -866,14 +866,14 @@ export default function ReservationApproval({ highlightedReservationId }) {
                             {r.status === 'pending' && (
                               <>
                                 <button onClick={() => handleReject(r)} className="text-red-600 hover:text-red-800"><XCircleIcon className="h-5 w-5 inline" /></button>
-                                <button onClick={() => handleApprove(r)} className="text-emerald-600 hover:text-emerald-800"><CheckCircleIcon className="h-5 w-5 inline" /></button>
+                                <button onClick={() => handleApprove(r)} className="text-blue-600 hover:text-blue-800"><CheckCircleIcon className="h-5 w-5 inline" /></button>
                               </>
                             )}
                             {r.status === 'awaiting_downpayment' && (
                               <button onClick={() => handleConfirmDownpayment(r)} className="text-teal-600 hover:text-teal-800"><BanknotesIcon className="h-5 w-5 inline" /></button>
                             )}
                             {r.status === 'downpayment_paid' && (
-                              <button onClick={() => handleFinalApprove(r)} className="text-emerald-600 hover:text-emerald-800"><CheckCircleIcon className="h-5 w-5 inline" /></button>
+                              <button onClick={() => handleFinalApprove(r)} className="text-blue-600 hover:text-blue-800"><CheckCircleIcon className="h-5 w-5 inline" /></button>
                             )}
                           </div>
                         </td>
@@ -908,7 +908,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                 id={`reservation-${reservation.id}`}
                 className={`bg-white rounded-lg shadow-md p-6 border transition-all duration-300 ${
                   highlightedReservationId === reservation.id 
-                    ? 'border-emerald-500 border-2 ring-4 ring-emerald-200 bg-emerald-50' 
+                    ? 'border-blue-500 border-2 ring-4 ring-emerald-200 bg-blue-50' 
                     : 'border-gray-200'
                 }`}
               >
@@ -963,7 +963,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                           <p className={`text-xs font-semibold inline-block px-2 py-1 rounded-full ${
                             reservation.downpayment_method === 'GCash'
                               ? 'bg-blue-100 text-blue-800'
-                              : 'bg-green-100 text-green-800'
+                              : 'bg-blue-100 text-blue-800'
                           }`}>
                             {reservation.downpayment_method}
                           </p>
@@ -982,7 +982,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                       <button onClick={() => handleReject(reservation)} className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
                         <XCircleIcon className="h-5 w-5" /> Reject
                       </button>
-                      <button onClick={() => handleApprove(reservation)} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                      <button onClick={() => handleApprove(reservation)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                         <CheckCircleIcon className="h-5 w-5" /> Approve
                       </button>
                     </>
@@ -993,7 +993,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                     </button>
                   )}
                   {reservation.status === 'downpayment_paid' && (
-                    <button onClick={() => handleFinalApprove(reservation)} className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                    <button onClick={() => handleFinalApprove(reservation)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                       <CheckCircleIcon className="h-5 w-5" /> Approve
                     </button>
                   )}
@@ -1037,7 +1037,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h2 className="text-2xl font-bold mb-6 text-emerald-700">Approve Reservation</h2>
+            <h2 className="text-2xl font-bold mb-6 text-blue-700">Approve Reservation</h2>
             
             <div className="space-y-4 mb-6">
               <div>
@@ -1127,7 +1127,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
               <button
                 onClick={submitApproval}
                 disabled={loading}
-                className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition disabled:opacity-50"
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
               >
                 {loading ? 'Processing...' : 'Confirm Approval'}
               </button>
@@ -1169,7 +1169,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                   <strong>Total Amount:</strong> {formatPHP(showDownpaymentModal.total || showDownpaymentModal.price || 0)}
                 </p>
                 <p className="text-sm text-gray-700 mb-2">
-                  <strong>Downpayment Amount:</strong> <span className="text-green-600 font-bold">{formatPHP(showDownpaymentModal.downpayment_amount)}</span>
+                  <strong>Downpayment Amount:</strong> <span className="text-blue-600 font-bold">{formatPHP(showDownpaymentModal.downpayment_amount)}</span>
                 </p>
                 <p className="text-sm text-gray-700">
                   <strong>Remaining Balance:</strong> <span className="text-orange-600 font-bold">{formatPHP(showDownpaymentModal.remaining_balance)}</span>
@@ -1192,14 +1192,14 @@ export default function ReservationApproval({ highlightedReservationId }) {
                     />
                     <span className="ml-3 text-sm font-medium text-gray-700">GCash</span>
                   </label>
-                  <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-green-50 transition">
+                  <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50 transition">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="Cash"
                       checked={downpaymentCredentials.paymentMethod === 'Cash'}
                       onChange={(e) => setDownpaymentCredentials(prev => ({ ...prev, paymentMethod: e.target.value }))}
-                      className="w-4 h-4 text-green-600"
+                      className="w-4 h-4 text-blue-600"
                     />
                     <span className="ml-3 text-sm font-medium text-gray-700">Cash</span>
                   </label>
@@ -1287,7 +1287,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
               </svg>
             </button>
             <div className="p-8">
-              <h2 className="text-2xl font-bold text-emerald-700 mb-6">Reservation Details</h2>
+              <h2 className="text-2xl font-bold text-blue-700 mb-6">Reservation Details</h2>
 
               {/* Printable Content */}
               <div id="print-content" className="space-y-6">
@@ -1393,7 +1393,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                       <>
                         <div className="flex justify-between items-center mb-2">
                           <span className="font-semibold text-gray-700">Downpayment:</span>
-                          <span className="text-lg text-green-600">{formatPHP(viewItem.downpayment_amount)}</span>
+                          <span className="text-lg text-blue-600">{formatPHP(viewItem.downpayment_amount)}</span>
                         </div>
                         {viewItem.downpayment_method && (
                           <div className="flex justify-between items-center mb-2">
@@ -1401,7 +1401,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
                             <span className={`text-sm font-semibold px-3 py-1 rounded-full ${
                               viewItem.downpayment_method === 'GCash' 
                                 ? 'bg-blue-100 text-blue-800' 
-                                : 'bg-green-100 text-green-800'
+                                : 'bg-blue-100 text-blue-800'
                             }`}>
                               {viewItem.downpayment_method}
                             </span>
@@ -1600,7 +1600,7 @@ export default function ReservationApproval({ highlightedReservationId }) {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
           }
-          .bg-green-100 {
+          .bg-blue-100 {
             background-color: #dcfce7 !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;

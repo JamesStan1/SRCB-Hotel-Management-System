@@ -362,7 +362,7 @@ export default function ArchivedEvents() {
                         <>
                           <button
                             onClick={() => handleRestore(event.id)}
-                            className="text-green-600 hover:text-green-900 mr-4"
+                            className="text-blue-600 hover:text-blue-900 mr-4"
                             title="Restore Event"
                             disabled={loading}
                           >

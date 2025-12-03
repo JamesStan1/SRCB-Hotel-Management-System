@@ -212,14 +212,14 @@ export default function ArchivedCafe() {
             <div
               key={notification.id}
               className={`flex items-center justify-between gap-3 p-4 rounded-lg shadow-sm border transition-opacity duration-300 ${
-                notification.type === 'success' ? 'bg-green-100 border-green-300' :
+                notification.type === 'success' ? 'bg-blue-100 border-blue-300' :
                 notification.type === 'error' ? 'bg-red-100 border-red-300' :
                 'bg-blue-100 border-blue-300'
               }`}
             >
               <div className="flex items-center gap-3">
                 {notification.type === 'success' ? (
-                  <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : notification.type === 'error' ? (
@@ -232,7 +232,7 @@ export default function ArchivedCafe() {
                   </svg>
                 )}
                 <p className={`font-medium ${
-                  notification.type === 'success' ? 'text-green-800' :
+                  notification.type === 'success' ? 'text-blue-800' :
                   notification.type === 'error' ? 'text-red-800' :
                   'text-blue-800'
                 }`}>
@@ -269,7 +269,7 @@ export default function ArchivedCafe() {
 
       <div className="bg-white shadow rounded-lg p-6">
         <div className="flex items-center mb-4">
-          <h2 className="text-xl font-bold text-green-700">Archived Cafe Items</h2>
+          <h2 className="text-xl font-bold text-blue-700">Archived Cafe Items</h2>
         </div>
         <div className="mt-6">
           {loading ? (
@@ -278,7 +278,7 @@ export default function ArchivedCafe() {
             <div className="text-center py-4 text-gray-500">No archived cafe items available.</div>
           ) : (
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-green-300">
+              <thead className="bg-blue-300">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     ID
@@ -325,7 +325,7 @@ export default function ArchivedCafe() {
                       </button>
                       <button
                         onClick={() => handleRestore(item.id)}
-                        className="text-green-600 hover:text-green-900 mr-4 disabled:opacity-50"
+                        className="text-blue-600 hover:text-blue-900 mr-4 disabled:opacity-50"
                         title="Restore Dish"
                         disabled={loading}
                       >
@@ -351,7 +351,7 @@ export default function ArchivedCafe() {
       {viewItem && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-[500px] text-gray-700">
-            <h2 className="text-xl font-bold mb-3 text-green-700">
+            <h2 className="text-xl font-bold mb-3 text-blue-700">
               Dish Details: {viewItem.name || "N/A"}
             </h2>
             <p><strong>ID:</strong> {viewItem.id || 'N/A'}</p>
@@ -386,7 +386,7 @@ export default function ArchivedCafe() {
               </button>
               <button
                 onClick={() => handleRestore(viewItem.id)}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
                 disabled={loading}
               >
                 Restore

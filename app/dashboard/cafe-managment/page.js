@@ -556,7 +556,7 @@ export default function Home() {
               >
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-2">
-                className="text-xl font-semibold text-blue-700">{dish.name}</h2>
+                    <h2 className="text-xl font-semibold text-blue-700">{dish.name}</h2>
                     <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
                       {dish.category}
                     </span>

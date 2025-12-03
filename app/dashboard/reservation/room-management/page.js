@@ -634,7 +634,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       showCancelButton: true,
       confirmButtonText: 'Yes, check out',
       cancelButtonText: 'Cancel',
-      confirmButtonColor: '#059669',
+      confirmButtonColor: '#2563eb',
       reverseButtons: true,
     });
 
@@ -827,7 +827,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         confirmButtonText: 'View Reservations',
         showCancelButton: true,
         cancelButtonText: 'Dismiss',
-        confirmButtonColor: '#059669',
+        confirmButtonColor: '#2563eb',
         cancelButtonColor: '#6b7280',
         timer: 15000,
         timerProgressBar: true,
@@ -1134,15 +1134,15 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           </div>
           <div class="info-row">
             <div class="info-label">Discount (1st night):</div>
-            <div class="info-value" style="color: #10b981;">- ₱${packagePrice.toFixed(2)}</div>
+            <div class="info-value" style="color: #3b82f6;">- ₱${packagePrice.toFixed(2)}</div>
           </div>
-          <div class="info-row" style="border-top: 2px solid #10b981; margin-top: 8px; padding-top: 8px;">
+          <div class="info-row" style="border-top: 2px solid #3b82f6; margin-top: 8px; padding-top: 8px;">
             <div class="info-label" style="font-size: 14px;">Total Amount:</div>
             <div class="info-value" style="font-size: 14px; font-weight: bold;">₱${totalPrice.toFixed(2)}</div>
           </div>
           <div class="info-row" style="background: #f0fdf4; margin: 10px -10px; padding: 8px 10px;">
             <div class="info-label">Downpayment Paid:</div>
-            <div class="info-value" style="color: #10b981; font-weight: bold;">₱${downpayment.toFixed(2)}</div>
+            <div class="info-value" style="color: #3b82f6; font-weight: bold;">₱${downpayment.toFixed(2)}</div>
           </div>
           <div class="info-row" style="background: #fef2f2; margin: 0 -10px 10px; padding: 8px 10px;">
             <div class="info-label">Remaining Balance:</div>
@@ -1174,9 +1174,9 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           </div>
           <div class="info-row">
             <div class="info-label">Discount (1st night):</div>
-            <div class="info-value" style="color: #10b981;">- ₱${packagePrice.toFixed(2)}</div>
+            <div class="info-value" style="color: #3b82f6;">- ₱${packagePrice.toFixed(2)}</div>
           </div>
-          <div class="info-row" style="border-top: 2px solid #10b981; margin-top: 8px; padding-top: 8px;">
+          <div class="info-row" style="border-top: 2px solid #3b82f6; margin-top: 8px; padding-top: 8px;">
             <div class="info-label" style="font-size: 14px;">Total Amount Due:</div>
             <div class="info-value" style="font-size: 14px; font-weight: bold; color: #ef4444;">₱${totalPrice.toFixed(2)}</div>
           </div>
@@ -1204,14 +1204,14 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             }
             .header {
               text-align: center;
-              border-bottom: 3px solid #10b981;
+              border-bottom: 3px solid #3b82f6;
               padding-bottom: 20px;
               margin-bottom: 30px;
             }
             .logo {
               font-size: 32px;
               font-weight: bold;
-              color: #10b981;
+              color: #3b82f6;
               margin-bottom: 10px;
             }
             .subtitle {
@@ -1220,14 +1220,14 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             }
             .confirmation-number {
               background: #f0fdf4;
-              border: 2px solid #10b981;
+              border: 2px solid #3b82f6;
               padding: 15px;
               text-align: center;
               margin: 20px 0;
               border-radius: 8px;
             }
             .confirmation-number strong {
-              color: #10b981;
+              color: #3b82f6;
               font-size: 18px;
             }
             .two-column-layout {
@@ -1245,7 +1245,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             .payment-section {
               grid-column: 1 / -1;
               background: #f9fafb;
-              border: 2px solid #10b981;
+              border: 2px solid #3b82f6;
               border-radius: 8px;
               padding: 20px;
               margin: 20px 0;
@@ -1253,7 +1253,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             .section-title {
               font-size: 16px;
               font-weight: bold;
-              color: #10b981;
+              color: #3b82f6;
               margin-bottom: 12px;
               border-bottom: 2px solid #e5e7eb;
               padding-bottom: 6px;
@@ -1330,7 +1330,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
               .no-print { display: none; }
             }
             .print-button {
-              background: #10b981;
+              background: #3b82f6;
               color: white;
               border: none;
               padding: 12px 30px;
@@ -1341,7 +1341,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
               display: block;
             }
             .print-button:hover {
-              background: #059669;
+              background: #2563eb;
             }
           </style>
         </head>
@@ -1681,7 +1681,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         html: `
           <p>Room ${result.roomId} has been reserved for ${reservation.customerName}.</p>
           ${reservation.paymentOption === 'downpayment' ? 
-            `<p class="text-green-600 font-semibold mt-2">Downpayment of ₱${parseFloat(reservation.downpaymentAmount).toFixed(2)} recorded.</p>` : 
+            `<p class="text-blue-600 font-semibold mt-2">Downpayment of ₱${parseFloat(reservation.downpaymentAmount).toFixed(2)} recorded.</p>` : 
             `<p class="text-blue-600 font-semibold mt-2">Payment due at checkout.</p>`
           }
           <p class="mt-3">Would you like to print the contract and bill?</p>
@@ -1690,7 +1690,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         showCancelButton: true,
         confirmButtonText: '🖨️ Print Contract & Bill',
         cancelButtonText: 'Skip',
-        confirmButtonColor: '#10b981',
+        confirmButtonColor: '#3b82f6',
         cancelButtonColor: '#6b7280',
       });
 
@@ -2077,7 +2077,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         overflow: hidden;
       }
       .header {
-        background: linear-gradient(135deg, #047857, #059669);
+        background: linear-gradient(135deg, #1e40af, #2563eb);
         color: #ffffff;
         padding: 28px 32px;
       }
@@ -2093,7 +2093,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       .section h2 {
         margin: 0 0 12px;
         font-size: 18px;
-        color: #047857;
+        color: #1e40af;
       }
       .details-grid {
         display: grid;
@@ -2139,7 +2139,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         align-items: center;
         font-size: 17px;
         font-weight: 700;
-        color: #047857;
+        color: #1e40af;
       }
       .notes {
         font-size: 14px;
@@ -2292,15 +2292,15 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           </div>
           <div class="info-row">
             <div class="info-label">Discount (1st night):</div>
-            <div class="info-value" style="color: #10b981;">- ₱${Number(packagePrice).toFixed(2)}</div>
+            <div class="info-value" style="color: #3b82f6;">- ₱${Number(packagePrice).toFixed(2)}</div>
           </div>
-          <div class="info-row" style="border-top: 2px solid #10b981; margin-top: 8px; padding-top: 8px;">
+          <div class="info-row" style="border-top: 2px solid #3b82f6; margin-top: 8px; padding-top: 8px;">
             <div class="info-label" style="font-size: 14px;">Total Amount:</div>
             <div class="info-value" style="font-size: 14px; font-weight: bold;">₱${Number(totalPrice).toFixed(2)}</div>
           </div>
           <div class="info-row" style="background: #f0fdf4; margin: 10px -10px; padding: 8px 10px;">
             <div class="info-label">Downpayment Paid:</div>
-            <div class="info-value" style="color: #10b981; font-weight: bold;">₱${Number(downpayment).toFixed(2)}</div>
+            <div class="info-value" style="color: #3b82f6; font-weight: bold;">₱${Number(downpayment).toFixed(2)}</div>
           </div>
           <div class="info-row" style="background: #fef2f2; margin: 0 -10px 10px; padding: 8px 10px;">
             <div class="info-label">Remaining Balance:</div>
@@ -2330,9 +2330,9 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           </div>
           <div class="info-row">
             <div class="info-label">Discount (1st night):</div>
-            <div class="info-value" style="color: #10b981;">- ₱${Number(packagePrice).toFixed(2)}</div>
+            <div class="info-value" style="color: #3b82f6;">- ₱${Number(packagePrice).toFixed(2)}</div>
           </div>
-          <div class="info-row" style="border-top: 2px solid #10b981; margin-top: 8px; padding-top: 8px;">
+          <div class="info-row" style="border-top: 2px solid #3b82f6; margin-top: 8px; padding-top: 8px;">
             <div class="info-label" style="font-size: 14px;">Total Amount Due:</div>
             <div class="info-value" style="font-size: 14px; font-weight: bold; color: #ef4444;">₱${Number(totalPrice).toFixed(2)}</div>
           </div>
@@ -2361,14 +2361,14 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       /* Contract Styles */
       .header {
         text-align: center;
-        border-bottom: 3px solid #10b981;
+        border-bottom: 3px solid #3b82f6;
         padding-bottom: 20px;
         margin-bottom: 30px;
       }
       .logo {
         font-size: 32px;
         font-weight: bold;
-        color: #10b981;
+        color: #3b82f6;
         margin-bottom: 10px;
       }
       .subtitle {
@@ -2377,14 +2377,14 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       }
       .confirmation-number {
         background: #f0fdf4;
-        border: 2px solid #10b981;
+        border: 2px solid #3b82f6;
         padding: 15px;
         text-align: center;
         margin: 20px 0;
         border-radius: 8px;
       }
       .confirmation-number strong {
-        color: #10b981;
+        color: #3b82f6;
         font-size: 18px;
       }
       .two-column-layout {
@@ -2399,7 +2399,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       .payment-section {
         grid-column: 1 / -1;
         background: #f9fafb;
-        border: 2px solid #10b981;
+        border: 2px solid #3b82f6;
         border-radius: 8px;
         padding: 20px;
         margin: 20px 0;
@@ -2407,7 +2407,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       .section-title {
         font-size: 16px;
         font-weight: bold;
-        color: #10b981;
+        color: #3b82f6;
         margin-bottom: 12px;
         border-bottom: 2px solid #e5e7eb;
         padding-bottom: 6px;
@@ -2465,13 +2465,13 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       .billing-container {
         max-width: 100%;
         background: #ffffff;
-        border: 2px solid #10b981;
+        border: 2px solid #3b82f6;
         border-radius: 12px;
         overflow: hidden;
         margin-top: 40px;
       }
       .billing-header {
-        background: linear-gradient(135deg, #047857, #059669);
+        background: linear-gradient(135deg, #1e40af, #2563eb);
         color: #ffffff;
         padding: 20px 32px;
       }
@@ -2486,7 +2486,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       .billing-section h2 {
         margin: 0 0 12px;
         font-size: 18px;
-        color: #047857;
+        color: #1e40af;
       }
       .details-grid {
         display: grid;
@@ -2532,7 +2532,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         align-items: center;
         font-size: 16px;
         font-weight: 700;
-        color: #047857;
+        color: #1e40af;
       }
       @media print {
         body { padding: 15px; }
@@ -2924,7 +2924,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       <div className="mb-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-emerald-700 flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-blue-700 flex items-center gap-3">
               Room Management Dashboard
               {(() => {
                 // Calculate rooms due for checkout today
@@ -2969,8 +2969,8 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           <div className="flex border-b">
             <button
               className={`px-4 py-2 font-medium ${activeTab === "reservations"
-                ? "border-b-2 border-emerald-600 text-emerald-600"
-                : "text-gray-500 hover:text-emerald-600"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500 hover:text-blue-600"
                 }`}
               onClick={() => setActiveTab("reservations")}
             >
@@ -2978,8 +2978,8 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             </button>
             <button
               className={`px-4 py-2 font-medium ${activeTab === "roomStatus"
-                ? "border-b-2 border-emerald-600 text-emerald-600"
-                : "text-gray-500 hover:text-emerald-600"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500 hover:text-blue-600"
                 }`}
               onClick={() => setActiveTab("roomStatus")}
             >
@@ -2987,8 +2987,8 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             </button>
             <button
               className={`px-4 py-2 font-medium ${activeTab === "housekeeping"
-                ? "border-b-2 border-emerald-600 text-emerald-600"
-                : "text-gray-500 hover:text-emerald-600"
+                ? "border-b-2 border-blue-600 text-blue-600"
+                : "text-gray-500 hover:text-blue-600"
                 }`}
               onClick={() => setActiveTab("housekeeping")}
             >
@@ -3003,7 +3003,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         <div className="fixed inset-0 bg-black/30 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg flex items-center">
             <svg
-              className="animate-spin h-8 w-8 mr-3 text-emerald-600"
+              className="animate-spin h-8 w-8 mr-3 text-blue-600"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -3049,9 +3049,9 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-500">Total Reservations</div>
-                <div className="text-2xl font-semibold text-emerald-600">{stats.totalReservations}</div>
+                <div className="text-2xl font-semibold text-blue-600">{stats.totalReservations}</div>
               </div>
-              <div className="text-emerald-500">
+              <div className="text-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M6 2a1 1 0 00-1 1v12h10V3a1 1 0 00-1-1H6z" />
                 </svg>
@@ -3130,7 +3130,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                 placeholder="Search reservations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border rounded-lg w-full focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="pl-10 pr-4 py-2 border rounded-lg w-full focus:ring-2 focus:ring-emerald-500 focus:border-blue-500"
               />
             </div>
             <button
@@ -3171,7 +3171,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           {/* Reservations Table - Full Width */}
           <div id="reservations-section">
             {/* Desktop table for larger screens */}
-            <h2 className="text-xl font-semibold mb-4 text-emerald-700">Room Reservations</h2>
+            <h2 className="text-xl font-semibold mb-4 text-blue-700">Room Reservations</h2>
               <div className="hidden md:block bg-white shadow-md rounded-lg overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
@@ -3194,7 +3194,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         <th
                           key={header.key}
                           onClick={() => handleSort(header.key)}
-                          className={`px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-emerald-600 ${header.width}`}
+                          className={`px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-blue-600 ${header.width}`}
                         >
                           <div className="flex items-center">
                             {header.label}
@@ -3257,7 +3257,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                                   : reservation.status === "Reserved" || reservation.status === "reserved"
                                   ? "bg-yellow-100 text-yellow-800"
                                   : reservation.status === "confirmed"
-                                  ? "bg-green-100 text-green-800"
+                                  ? "bg-blue-100 text-blue-800"
                                   : "bg-blue-100 text-blue-800"
                               }`}
                             >
@@ -3285,7 +3285,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                           <td className="px-3 py-4 whitespace-nowrap text-sm">
                             {billingData ? `₱${Number(billingData.cafePayment || 0).toLocaleString()}` : '—'}
                           </td>
-                          <td className="px-3 py-4 whitespace-nowrap text-sm font-semibold text-emerald-700">
+                          <td className="px-3 py-4 whitespace-nowrap text-sm font-semibold text-blue-700">
                             {billingData ? `₱${Number(billingData.totalAmountDue || 0).toLocaleString()}` : '—'}
                           </td>
                           <td className="px-3 py-4 whitespace-nowrap text-xs text-gray-600">
@@ -3384,7 +3384,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                                   };
                                   handleCheckoutRoom(roomObj);
                                 }}
-                                className={`text-green-600 hover:text-green-800 relative ${!allowManageRooms || (reservation.status !== 'Occupied' && reservation.status !== 'occupied') || checkoutProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                className={`text-blue-600 hover:text-blue-800 relative ${!allowManageRooms || (reservation.status !== 'Occupied' && reservation.status !== 'occupied') || checkoutProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 disabled={!allowManageRooms || (reservation.status !== 'Occupied' && reservation.status !== 'occupied') || checkoutProcessing}
                                 title={checkoutProcessing ? 'Processing checkout...' : 'Check-Out'}
                               >
@@ -3474,7 +3474,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                             <EyeIcon className="h-5 w-5" />
                             <span className="sr-only">View</span>
                           </button>
-                          <button onClick={() => handleEditRoom(room)} className={`flex items-center text-emerald-600 hover:text-emerald-800 ${!allowManageRooms ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={!allowManageRooms} title="Edit">
+                          <button onClick={() => handleEditRoom(room)} className={`flex items-center text-blue-600 hover:text-blue-800 ${!allowManageRooms ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={!allowManageRooms} title="Edit">
                             <PencilIcon className="h-5 w-5" />
                             <span className="sr-only">Edit</span>
                           </button>
@@ -3514,16 +3514,16 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left: Calendar */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-6 text-emerald-700">Booking Calendar</h3>
+              <h3 className="text-xl font-semibold mb-6 text-blue-700">Booking Calendar</h3>
               {/* Enlarged calendar styles to improve visibility */}
               <style>{`
                 /* Base calendar sizing */
                 .react-calendar { width: 100% !important; border: none !important; font-size: 1.05rem; }
                 .react-calendar__navigation { margin-bottom: 12px; }
-                .react-calendar__month-view__weekdays { text-transform: none; font-weight: 600; color: #065f46; }
+                .react-calendar__month-view__weekdays { text-transform: none; font-weight: 600; color: #1e3a8a; }
                 .react-calendar__tile { padding: 14px 6px !important; height: 64px !important; }
                 .react-calendar__tile--now { box-shadow: 0 0 0 2px rgba(16,185,129,0.12) inset; }
-                .react-calendar__tile--active { background: #10b981 !important; color: white !important; }
+                .react-calendar__tile--active { background: #3b82f6 !important; color: white !important; }
                 /* Larger tiles on wide screens */
                 @media (min-width: 1024px) {
                   .react-calendar { font-size: 1.125rem; }
@@ -3544,14 +3544,14 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
 
             {/* Right: Information of Reserved Days */}
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-6 text-emerald-700">Information of Reserved Days</h3>
-              <h4 className="text-base font-medium text-emerald-600 mb-4">
+              <h3 className="text-xl font-semibold mb-6 text-blue-700">Information of Reserved Days</h3>
+              <h4 className="text-base font-medium text-blue-600 mb-4">
                 Bookings for {format(selectedDate, "MMMM d, yyyy")}
               </h4>
               {selectedDateBookings.length > 0 ? (
                 <ul className="space-y-3">
                   {selectedDateBookings.map((room) => (
-                    <li key={room.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-emerald-300 transition-colors">
+                    <li key={room.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-blue-300 transition-colors">
                       <div className="font-medium text-gray-800">
                         Room {room.room_number} - {room.reservation.customerName}
                       </div>
@@ -3578,9 +3578,9 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             <div className="bg-white p-4 rounded-lg shadow flex items-center justify-between">
               <div>
                 <div className="text-sm text-gray-500">Available Rooms</div>
-                <div className="text-2xl font-semibold text-emerald-700">{stats.available}</div>
+                <div className="text-2xl font-semibold text-blue-700">{stats.available}</div>
               </div>
-              <div className="text-emerald-600">
+              <div className="text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10 2a2 2 0 00-2 2v2H6a2 2 0 00-2 2v6h12V8a2 2 0 00-2-2h-2V4a2 2 0 00-2-2z" />
                 </svg>
@@ -3628,7 +3628,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <th
                       key={header.key}
                       onClick={() => handleStatusSort(header.key)}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-emerald-600"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:text-blue-600"
                     >
                       <div className="flex items-center">
                         {header.label}
@@ -3655,7 +3655,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <td className="px-6 py-4 whitespace-normal">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${room.status === "Available"
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-blue-100 text-blue-800"
                           : room.status === "Occupied"
                             ? "bg-red-100 text-red-800"
                             : "bg-yellow-100 text-yellow-800"
@@ -3694,7 +3694,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         </button>
                         <button
                           onClick={() => handleEditRoom(room)}
-                          className={`flex items-center text-emerald-600 hover:text-emerald-800 ${!canManageRooms ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className={`flex items-center text-blue-600 hover:text-blue-800 ${!canManageRooms ? 'opacity-50 cursor-not-allowed' : ''}`}
                           disabled={!canManageRooms}
                           title="Edit"
                         >
@@ -3720,7 +3720,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <div className="text-sm text-gray-600">Price: {room.price ? (String(room.price).trim().startsWith('₱') ? room.price : `₱${room.price}`) : '—'}</div>
                   </div>
                   <div className="text-right">
-                    <div className={`px-2 py-1 rounded-full text-xs font-semibold ${room.status === "Available" ? 'bg-green-100 text-green-800' : room.status === 'Occupied' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    <div className={`px-2 py-1 rounded-full text-xs font-semibold ${room.status === "Available" ? 'bg-blue-100 text-blue-800' : room.status === 'Occupied' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
                       {room.status}
                     </div>
                   </div>
@@ -3748,7 +3748,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <EyeIcon className="h-5 w-5" />
                     <span className="sr-only">View</span>
                   </button>
-                  <button onClick={() => handleEditRoom(room)} className={`flex items-center text-emerald-600 hover:text-emerald-800 ${!canManageRooms ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={!canManageRooms} title="Edit">
+                  <button onClick={() => handleEditRoom(room)} className={`flex items-center text-blue-600 hover:text-blue-800 ${!canManageRooms ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={!canManageRooms} title="Edit">
                     <PencilIcon className="h-5 w-5" />
                     <span className="sr-only">Edit</span>
                   </button>
@@ -3806,7 +3806,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h2 className="text-2xl font-bold mb-6 text-emerald-700">
+            <h2 className="text-2xl font-bold mb-6 text-blue-700">
               {modalMode === "add" ? "Add Reservation" : modalMode === "edit" ? "Edit Reservation" : modalMode === "view" ? "Reservation Details" : "Add Room"}
             </h2>
             {modalMode === "add" || modalMode === "edit" ? (
@@ -3832,7 +3832,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         setReservation({ ...reservation, checkOutDate, additionalGuests: 0 });
                       }
                     }}
-                    className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                    className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                   >
                     <option value="">Select Package</option>
                     {packages.map((pkg) => {
@@ -3922,12 +3922,12 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
 
                 {/* Display loaded customer info */}
                 {modalMode === "add" && reservation.customerName && !showCustomerLookup && (
-                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between">
+                  <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="text-sm text-green-900 font-medium">Loaded: {reservation.customerName}</span>
+                      <span className="text-sm text-blue-900 font-medium">Loaded: {reservation.customerName}</span>
                     </div>
                     <button
                       onClick={() => {
@@ -3943,7 +3943,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         setFoundCustomers([]);
                         setCustomerLookup('');
                       }}
-                      className="text-sm text-green-600 hover:text-green-800 underline"
+                      className="text-sm text-blue-600 hover:text-blue-800 underline"
                     >
                       New customer
                     </button>
@@ -3981,7 +3981,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                             }
                           }
                         }}
-                        className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                        className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                       />
                       {lookupLoading && modalMode === "add" && (
                         <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
@@ -4000,7 +4000,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Email"
                       value={reservation.customerEmail}
                       onChange={(e) => setReservation({ ...reservation, customerEmail: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     />
                   </div>
                   <div>
@@ -4010,7 +4010,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Contact Number"
                       value={reservation.contactNumber}
                       onChange={(e) => setReservation({ ...reservation, contactNumber: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     />
                   </div>
                   <div>
@@ -4020,7 +4020,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Address"
                       value={reservation.address}
                       onChange={(e) => setReservation({ ...reservation, address: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                       required
                     />
                   </div>
@@ -4029,7 +4029,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <select
                       value={reservation.nationality}
                       onChange={(e) => setReservation({ ...reservation, nationality: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     >
                       <option value="">Select Nationality</option>
                       {countries.map((country) => (
@@ -4067,7 +4067,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         
                         setReservation({ ...reservation, additionalGuests: numValue });
                       }}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                       disabled={!selectedPackageId}
                     />
                     {!selectedPackageId && (
@@ -4097,7 +4097,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                           setReservation({ ...reservation, checkInDate: newCheckIn });
                         }
                       }}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     />
                   </div>
                   <div>
@@ -4118,7 +4118,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         const selectedPkg = packages.find(p => p.id === parseInt(selectedPackageId));
                         return selectedPkg && selectedPkg.name.toLowerCase().includes('single room');
                       })()}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
                     />
                   </div>
                   <div className="col-span-2">
@@ -4128,12 +4128,12 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                         type="file"
                         accept="image/png,image/jpeg,image/jpg"
                         onChange={handleIdUpload}
-                        className="flex-1 p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                        className="flex-1 p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                       />
                       <button
                         type="button"
                         onClick={startCamera}
-                        className="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
+                        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                       >
                         Capture ID
                       </button>
@@ -4154,7 +4154,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Additional Requests"
                       value={reservation.additionalRequests ?? ""}
                       onChange={(e) => setReservation({ ...reservation, additionalRequests: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                       rows="3"
                     />
                   </div>
@@ -4164,15 +4164,15 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Remarks"
                       value={reservation.remarks ?? ""}
                       onChange={(e) => setReservation({ ...reservation, remarks: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                       rows="3"
                     />
                   </div>
                   
                   {/* Payment Options Section */}
                   <div className="col-span-2">
-                    <div className="bg-gradient-to-r from-emerald-50 to-blue-50 border-2 border-emerald-200 rounded-lg p-6 mt-4">
-                      <h3 className="text-lg font-semibold text-emerald-700 mb-4 flex items-center">
+                    <div className="bg-gradient-to-r from-emerald-50 to-blue-50 border-2 border-blue-200 rounded-lg p-6 mt-4">
+                      <h3 className="text-lg font-semibold text-blue-700 mb-4 flex items-center">
                         <svg className="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
@@ -4205,15 +4205,15 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                           onClick={() => setReservation({ ...reservation, paymentOption: "downpayment" })}
                           className={`p-4 rounded-lg border-2 transition-all ${
                             reservation.paymentOption === "downpayment"
-                              ? "border-emerald-600 bg-emerald-50 shadow-md"
-                              : "border-gray-300 bg-white hover:border-emerald-300"
+                              ? "border-blue-600 bg-blue-50 shadow-md"
+                              : "border-gray-300 bg-white hover:border-blue-300"
                           }`}
                         >
                           <div className="flex flex-col items-center">
-                            <svg className={`w-8 h-8 mb-2 ${reservation.paymentOption === "downpayment" ? "text-emerald-600" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className={`w-8 h-8 mb-2 ${reservation.paymentOption === "downpayment" ? "text-blue-600" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span className={`font-semibold ${reservation.paymentOption === "downpayment" ? "text-emerald-700" : "text-gray-700"}`}>
+                            <span className={`font-semibold ${reservation.paymentOption === "downpayment" ? "text-blue-700" : "text-gray-700"}`}>
                               Downpayment Now
                             </span>
                             <span className="text-xs text-gray-500 mt-1">Pay partial amount now, rest at checkout</span>
@@ -4223,7 +4223,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
 
                       {/* Downpayment Amount Input */}
                       {reservation.paymentOption === "downpayment" && (
-                        <div className="mt-4 p-4 bg-white rounded-lg border border-emerald-300">
+                        <div className="mt-4 p-4 bg-white rounded-lg border border-blue-300">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Downpayment Amount (₱) *
                           </label>
@@ -4233,7 +4233,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                             step="0.01"
                             value={reservation.downpaymentAmount}
                             onChange={(e) => setReservation({ ...reservation, downpaymentAmount: e.target.value })}
-                            className="w-full p-3 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white text-lg font-semibold"
+                            className="w-full p-3 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white text-lg font-semibold"
                             placeholder="Enter downpayment amount"
                           />
                           <p className="text-xs text-gray-500 mt-2">
@@ -4270,11 +4270,11 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                                 </div>
                                 <div className="flex justify-between pt-2 border-t">
                                   <span className="font-semibold text-gray-800">Total Amount:</span>
-                                  <span className="font-bold text-lg text-emerald-600">₱{totalPrice.toFixed(2)}</span>
+                                  <span className="font-bold text-lg text-blue-600">₱{totalPrice.toFixed(2)}</span>
                                 </div>
                                 {reservation.paymentOption === "downpayment" && downAmount > 0 && (
                                   <>
-                                    <div className="flex justify-between text-emerald-700">
+                                    <div className="flex justify-between text-blue-700">
                                       <span className="font-medium">Downpayment:</span>
                                       <span className="font-semibold">₱{downAmount.toFixed(2)}</span>
                                     </div>
@@ -4356,7 +4356,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                   </button>
                   <button
                     onClick={modalMode === "add" ? handleSaveReservation : handleEditReservation}
-                    className="relative bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50"
+                    className="relative bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -4394,7 +4394,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                 {/* Left Column: Room Details & Billing */}
                 <div className="space-y-4">
                   <div className="p-4 bg-white rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-emerald-700">Room Details</h3>
+                    <h3 className="text-lg font-semibold text-blue-700">Room Details</h3>
                     <div className="mt-2 text-sm text-gray-700 grid grid-cols-2 gap-2">
                       <div>
                         <div className="text-xs text-gray-500">Room</div>
@@ -4423,7 +4423,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                   </div>
 
                   <div className="p-4 bg-white rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-emerald-700">Billing Summary</h3>
+                    <h3 className="text-lg font-semibold text-blue-700">Billing Summary</h3>
                     <div className="mt-2 text-sm text-gray-700 space-y-2">
                       {(() => {
                         // Find the corresponding billing row for this reservation
@@ -4445,7 +4445,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                               </div>
                               <div>
                                 <div className="text-xs text-gray-500">Total Paid</div>
-                                <div className="font-medium text-green-600">{formatCurrency(billingRow.totalPaid)}</div>
+                                <div className="font-medium text-blue-600">{formatCurrency(billingRow.totalPaid)}</div>
                               </div>
                             </div>
                           );
@@ -4467,7 +4467,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                               </div>
                               <div>
                                 <div className="text-xs text-gray-500">Total Paid</div>
-                                <div className="font-medium text-green-600">{formatCurrency(viewRoom.reservation?.totalPaid ?? 0)}</div>
+                                <div className="font-medium text-blue-600">{formatCurrency(viewRoom.reservation?.totalPaid ?? 0)}</div>
                               </div>
                             </div>
                           );
@@ -4480,7 +4480,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                 {/* Right Column: Guest & Payments */}
                 <div className="space-y-4">
                   <div className="p-4 bg-white rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-emerald-700">Guest Information</h3>
+                    <h3 className="text-lg font-semibold text-blue-700">Guest Information</h3>
                     {viewRoom.reservation ? (
                       <div className="mt-2 text-sm text-gray-700 space-y-2">
                         <div>
@@ -4524,7 +4524,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                   </div>
 
                   <div className="p-4 bg-white rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-emerald-700">Reference Number</h3>
+                    <h3 className="text-lg font-semibold text-blue-700">Reference Number</h3>
                     <div className="mt-2">
                       {(() => {
                         // Find the corresponding billing row for this reservation
@@ -4552,7 +4552,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                   </div>
 
                   <div className="p-4 bg-white rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-emerald-700">Payment Details</h3>
+                    <h3 className="text-lg font-semibold text-blue-700">Payment Details</h3>
                     {viewRoomPayments && viewRoomPayments.length > 0 ? (
                       <div className="space-y-2 text-sm mt-2">
                         {viewRoomPayments.map((p) => (
@@ -4604,7 +4604,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
               </div>
             ) : modalMode === "viewPackage" ? (
               <div className="max-h-[70vh] overflow-y-auto">
-                <h3 className="text-lg font-semibold text-emerald-700">Package Details</h3>
+                <h3 className="text-lg font-semibold text-blue-700">Package Details</h3>
                 {viewPackage ? (
                   <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -4614,7 +4614,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     </div>
                     <div>
                       <div className="text-xl font-bold text-gray-800">{viewPackage.name}</div>
-                      <div className="text-emerald-700 font-semibold mt-2">{viewPackage.price}</div>
+                      <div className="text-blue-700 font-semibold mt-2">{viewPackage.price}</div>
                       <div className="text-sm text-gray-600 mt-2">Guests: {viewPackage.guests}</div>
                       <p className="text-gray-700 mt-3">{viewPackage.description}</p>
                     </div>
@@ -4636,7 +4636,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Room Number"
                       value={newRoom.roomNumber}
                       onChange={(e) => setNewRoom({ ...newRoom, roomNumber: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     />
                   </div>
                   <div>
@@ -4646,7 +4646,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Room Type"
                       value={newRoom.type}
                       onChange={(e) => setNewRoom({ ...newRoom, type: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     />
                   </div>
                   <div>
@@ -4656,7 +4656,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                       placeholder="Price"
                       value={newRoom.price}
                       onChange={(e) => setNewRoom({ ...newRoom, price: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     />
                   </div>
                   <div>
@@ -4664,7 +4664,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <select
                       value={newRoom.status}
                       onChange={(e) => setNewRoom({ ...newRoom, status: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     >
                       <option value="Available">Available</option>
                       <option value="Occupied">Occupied</option>
@@ -4676,7 +4676,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                     <select
                       value={newRoom.packageId}
                       onChange={(e) => setNewRoom({ ...newRoom, packageId: e.target.value })}
-                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                      className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-blue-500 bg-white"
                     >
                       <option value="">Select Package</option>
                       {packages.map((pkg) => (
@@ -4697,7 +4697,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
                   </button>
                   <button
                     onClick={handleAddRoom}
-                    className="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50"
+                    className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -4740,7 +4740,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       {showCollectPaymentModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-md text-gray-700 shadow-lg">
-            <h2 className="text-xl font-bold mb-3 text-emerald-700">Collect Outstanding Payment</h2>
+            <h2 className="text-xl font-bold mb-3 text-blue-700">Collect Outstanding Payment</h2>
             <p className="text-sm text-gray-600 mb-4">The reservation has an outstanding balance. Record payment here and we will retry checkout automatically.</p>
 
             <div className="space-y-3">
@@ -4820,7 +4820,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
               </button>
               <button
                 onClick={submitCollectPayment}
-                className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
               >
                 Record Payment & Retry Checkout
               </button>
@@ -4831,7 +4831,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       {showCameraModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded-xl w-full max-w-lg text-gray-700 shadow-lg">
-            <h2 className="text-xl font-bold mb-4 text-emerald-700">Capture ID</h2>
+            <h2 className="text-xl font-bold mb-4 text-blue-700">Capture ID</h2>
             <video ref={videoRef} autoPlay className="w-full h-64 object-cover rounded-lg mb-4" />
             <canvas ref={captureCanvasRef} className="hidden" />
             <div className="flex justify-end gap-3">
@@ -4843,7 +4843,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
               </button>
               <button
                 onClick={capturePhoto}
-                className="bg-emerald-600 text-white px-5 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
+                className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Capture
               </button>

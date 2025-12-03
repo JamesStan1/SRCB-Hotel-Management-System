@@ -178,19 +178,19 @@ export default function BillsPage() {
             }
             .header {
               text-align: center;
-              border-bottom: 3px solid #10b981;
+              border-bottom: 3px solid #3b82f6;
               padding-bottom: 20px;
               margin-bottom: 30px;
             }
             .logo {
               font-size: 28px;
               font-weight: bold;
-              color: #10b981;
+              color: #3b82f6;
               margin-bottom: 10px;
             }
             .bill-number {
-              background: #f0fdf4;
-              border: 2px solid #10b981;
+              background: #f0f9ff;
+              border: 2px solid #3b82f6;
               padding: 15px;
               text-align: center;
               margin: 20px 0;
@@ -217,7 +217,7 @@ export default function BillsPage() {
             }
             .total-section {
               background: #f9fafb;
-              border: 2px solid #10b981;
+              border: 2px solid #3b82f6;
               padding: 20px;
               margin: 30px 0;
               border-radius: 8px;
@@ -228,7 +228,7 @@ export default function BillsPage() {
               padding: 10px 0;
               font-size: 20px;
               font-weight: bold;
-              color: #10b981;
+              color: #3b82f6;
             }
             .summary-row {
               display: flex;
@@ -241,7 +241,7 @@ export default function BillsPage() {
               font-weight: 600;
             }
             .summary-row.positive span:last-child {
-              color: #059669;
+              color: #2563eb;
             }
             .summary-row.negative span:last-child {
               color: #dc2626;
@@ -371,7 +371,7 @@ export default function BillsPage() {
           </div>
 
           <div class="no-print" style="text-align: center; margin-top: 30px;">
-            <button onclick="window.print()" style="background: #10b981; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 6px; cursor: pointer;">
+            <button onclick="window.print()" style="background: #3b82f6; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 6px; cursor: pointer;">
               Print Bill
             </button>
           </div>
@@ -416,8 +416,8 @@ export default function BillsPage() {
 
     let htmlContent = `
       <div style="text-align: left; padding: 20px;">
-        <div style="border-bottom: 2px solid #10b981; padding-bottom: 10px; margin-bottom: 20px;">
-          <h3 style="color: #10b981; margin: 0; font-size: 20px;">Bill Details</h3>
+        <div style="border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-bottom: 20px;">
+          <h3 style="color: #3b82f6; margin: 0; font-size: 20px;">Bill Details</h3>
         </div>
         
         <div style="margin-bottom: 15px;">
@@ -455,8 +455,8 @@ export default function BillsPage() {
     htmlContent += `
         </div>
         
-        <div style="background-color: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px;">
-          <p style="margin: 0 0 10px 0; font-size: 18px;"><strong>Total Amount:</strong> <span style="color: #10b981; font-size: 24px;">₱${formatCurrency(totalAmountValue)}</span></p>
+        <div style="background-color: #f0f9ff; padding: 15px; border-radius: 8px; margin-top: 20px;">
+          <p style="margin: 0 0 10px 0; font-size: 18px;"><strong>Total Amount:</strong> <span style="color: #3b82f6; font-size: 24px;">₱${formatCurrency(totalAmountValue)}</span></p>
     `;
 
     if (hasDownpaymentRequired) {
@@ -467,13 +467,13 @@ export default function BillsPage() {
 
     if (hasDownpaymentPaid) {
       htmlContent += `
-          <p style="margin: 6px 0; color: #059669;"><strong>Downpayment Received:</strong> ₱${formatCurrency(downpaymentPaidValue)}</p>
+          <p style="margin: 6px 0; color: #2563eb;"><strong>Downpayment Received:</strong> ₱${formatCurrency(downpaymentPaidValue)}</p>
       `;
     }
 
     if (hasOtherPayments) {
       htmlContent += `
-          <p style="margin: 6px 0; color: #059669;"><strong>Additional Payments:</strong> ₱${formatCurrency(otherPaymentsValue)}</p>
+          <p style="margin: 6px 0; color: #2563eb;"><strong>Additional Payments:</strong> ₱${formatCurrency(otherPaymentsValue)}</p>
       `;
     }
 
@@ -485,7 +485,7 @@ export default function BillsPage() {
 
     htmlContent += `
           <p style="margin: 8px 0; color: #111827;"><strong>Total Paid:</strong> ₱${formatCurrency(totalPaidValue)}</p>
-          <p style="margin: 5px 0; font-size: 16px;"><strong>Remaining Balance:</strong> <span style="color: ${remainingBalanceValue > 0.009 ? '#dc2626' : '#059669'}; font-size: 20px;">₱${formatCurrency(remainingBalanceValue)}</span></p>
+          <p style="margin: 5px 0; font-size: 16px;"><strong>Remaining Balance:</strong> <span style="color: ${remainingBalanceValue > 0.009 ? '#dc2626' : '#2563eb'}; font-size: 20px;">₱${formatCurrency(remainingBalanceValue)}</span></p>
         </div>
       </div>
     `;
@@ -494,7 +494,7 @@ export default function BillsPage() {
       html: htmlContent,
       icon: "info",
       confirmButtonText: "Close",
-      confirmButtonColor: "#10b981",
+      confirmButtonColor: "#3b82f6",
       width: "500px",
       customClass: {
         popup: "bill-details-popup"
@@ -510,7 +510,7 @@ export default function BillsPage() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-          <DocumentTextIcon className="h-8 w-8 text-emerald-600" />
+          <DocumentTextIcon className="h-8 w-8 text-blue-600" />
           Bills & Invoices
         </h1>
         <p className="text-gray-600 mt-2">
@@ -524,7 +524,7 @@ export default function BillsPage() {
           onClick={() => setActiveTab("room")}
           className={`px-6 py-3 font-medium flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === "room"
-              ? "border-emerald-600 text-emerald-600"
+              ? "border-blue-600 text-blue-600"
               : "border-transparent text-gray-600 hover:text-gray-900"
           }`}
         >
@@ -535,7 +535,7 @@ export default function BillsPage() {
           onClick={() => setActiveTab("event")}
           className={`px-6 py-3 font-medium flex items-center gap-2 border-b-2 transition-colors ${
             activeTab === "event"
-              ? "border-emerald-600 text-emerald-600"
+              ? "border-blue-600 text-blue-600"
               : "border-transparent text-gray-600 hover:text-gray-900"
           }`}
         >
@@ -555,7 +555,7 @@ export default function BillsPage() {
               placeholder="Search by customer name, bill #, room, or event..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-black"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
             />
           </div>
         </div>
@@ -564,7 +564,7 @@ export default function BillsPage() {
         <select
           value={dateFilter}
           onChange={(e) => setDateFilter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-black"
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
         >
           <option value="all">All Time</option>
           <option value="today">Today</option>
@@ -576,7 +576,7 @@ export default function BillsPage() {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">Loading bills...</p>
         </div>
       )}
@@ -647,7 +647,7 @@ export default function BillsPage() {
                           ? new Date(bill.check_out_date).toLocaleDateString()
                           : "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-emerald-600">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
                         ₱
                         {formatCurrency(
                           bill.total_price ??
@@ -669,7 +669,7 @@ export default function BillsPage() {
                           </button>
                           <button
                             onClick={() => handlePrintBill(bill, "room")}
-                            className="text-emerald-600 hover:text-emerald-800"
+                            className="text-blue-600 hover:text-blue-800"
                             title="Print Bill"
                           >
                             <PrinterIcon className="h-5 w-5" />
@@ -743,7 +743,7 @@ export default function BillsPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {bill.guests || "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-emerald-600">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
                         ₱
                         {formatCurrency(
                           bill.total_cost ??
@@ -765,7 +765,7 @@ export default function BillsPage() {
                           </button>
                           <button
                             onClick={() => handlePrintBill(bill, "event")}
-                            className="text-emerald-600 hover:text-emerald-800"
+                            className="text-blue-600 hover:text-blue-800"
                             title="Print Bill"
                           >
                             <PrinterIcon className="h-5 w-5" />
@@ -806,15 +806,15 @@ export default function BillsPage() {
               <SparklesIcon className="h-10 w-10 text-purple-400" />
             </div>
           </div>
-          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-emerald-600 font-medium">Total Bills</p>
-                <p className="text-2xl font-bold text-emerald-900">
+                <p className="text-sm text-blue-600 font-medium">Total Bills</p>
+                <p className="text-2xl font-bold text-blue-900">
                   {filteredRoomBills.length + filteredEventBills.length}
                 </p>
               </div>
-              <DocumentTextIcon className="h-10 w-10 text-emerald-400" />
+              <DocumentTextIcon className="h-10 w-10 text-blue-400" />
             </div>
           </div>
         </div>

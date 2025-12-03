@@ -19,7 +19,7 @@ export default function StatCard({ title, value, change, icon, onClick, classNam
           <p className="text-2xl font-semibold text-gray-900 mt-1 truncate">{value}</p>
         </div>
       </div>
-      <div className={`mt-4 text-sm ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+      <div className={`mt-4 text-sm ${isPositive ? 'text-blue-600' : 'text-red-600'}`}>
         {change ? <span className="truncate block">{change} from last week</span> : <span className="text-gray-400">&nbsp;</span>}
       </div>
     </button>

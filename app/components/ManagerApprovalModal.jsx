@@ -163,7 +163,7 @@ export default function ManagerApprovalModal({ open, onClose, onApprove, initial
             <label className="block text-sm font-medium text-gray-700">Or paste Manager QR / Token</label>
             <textarea value={qrText} onChange={(e) => setQrText(e.target.value)} rows={3} className="mt-1 block w-full border rounded px-3 py-2 text-black" placeholder="Paste JWT or QR payload here" />
             <div className="mt-2 flex items-center gap-2">
-              <button type="button" onClick={() => (cameraActive ? stopCamera() : startCamera())} className="px-3 py-1 bg-green-600 text-white rounded">
+              <button type="button" onClick={() => (cameraActive ? stopCamera() : startCamera())} className="px-3 py-1 bg-blue-600 text-white rounded">
                 {cameraActive ? 'Stop Camera' : 'Scan QR with camera'}
               </button>
               <small className="text-xs text-gray-500">or paste the token manually</small>
@@ -215,14 +215,14 @@ export default function ManagerApprovalModal({ open, onClose, onApprove, initial
           )}
 
           {approverEmail && (
-            <div className="py-2 px-3 bg-green-50 border border-green-100 rounded">
-              <p className="text-sm text-green-800">Approved by <strong>{approverEmail}</strong></p>
+            <div className="py-2 px-3 bg-blue-50 border border-blue-100 rounded">
+              <p className="text-sm text-blue-800">Approved by <strong>{approverEmail}</strong></p>
             </div>
           )}
 
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={() => { stopCamera(); onClose(); }} className="px-4 py-2 bg-red-600 text-white rounded">Cancel</button>
-            <button type="submit" disabled={loading || !canAttempt} className="px-4 py-2 bg-green-600 text-white rounded">{loading ? 'Approving...' : 'Approve'}</button>
+            <button type="submit" disabled={loading || !canAttempt} className="px-4 py-2 bg-blue-600 text-white rounded">{loading ? 'Approving...' : 'Approve'}</button>
           </div>
         </form>
       </div>

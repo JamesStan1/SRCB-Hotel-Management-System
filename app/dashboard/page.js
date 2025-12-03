@@ -51,6 +51,7 @@ import FrontDeskNotifications from "./front-desk-notifications/page";
 import HousekeepingPage from "./housekeeping/page";
 import BillsPage from "./bills/page";
 import Image from "next/image";
+import Loading from "../components/Loading";
 
 // Small coffee-cup icon (inline SVG) used for Cafe/Cafe Management entries.
 function CoffeeIcon(props) {
@@ -669,24 +670,7 @@ export default function Dashboard() {
     }
   };
 
-  function LoadingOverlay() {
-    return (
-      <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-40 md:z-50">
-        <div className="text-center animate-fade-in">
-          <div className="mb-4">
-            <img
-              src="/SRCB.png"
-              alt="SRCB Logo"
-              className="mx-auto w-24 h-16 sm:w-36 sm:h-24 rounded-lg animate-pulse"
-            />
-          </div>
-          <p className="text-base sm:text-lg font-semibold text-gray-700 tracking-wide">
-            Loading...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const LoadingOverlay = () => <Loading overlay message="Loading..." />;
 
   return (
     <div className={`flex h-screen bg-gray-100 overflow-hidden ${isNarrow ? 'dashboard-vertical' : ''}`}>
@@ -723,7 +707,7 @@ export default function Dashboard() {
       </div>
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
-          <div className="w-64 sm:w-72 bg-green-800 h-full shadow-lg relative z-50">
+          <div className="w-64 sm:w-72 bg-blue-800 h-full shadow-lg relative z-50">
             {/* mobile menu should not be collapsed */}
             <SidebarCollapseContext.Provider value={false}>
             <Sidebar
@@ -942,7 +926,7 @@ export default function Dashboard() {
                   <div className="p-3 border-t flex gap-2 sticky bottom-0 bg-white">
                     <button
                       onClick={handleMarkAllAsRead}
-                      className={`px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm ${notifications.filter(n => n.type !== 'pending_reservation').length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm ${notifications.filter(n => n.type !== 'pending_reservation').length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                       disabled={notifications.filter(n => n.type !== 'pending_reservation').length === 0}
                       title="Mark system notifications as read"
                     >
@@ -1163,7 +1147,7 @@ export default function Dashboard() {
           {/* spacer so the main content isn't hidden by the anchored bar (dynamic: bar height + 8px) */}
           <div aria-hidden style={{ height: spacerHeight }} />
 
-          <div ref={anchoredBarRef} className="fixed bottom-0 left-0 w-full bg-green-800 text-white z-50 border-t anchored-bar">
+          <div ref={anchoredBarRef} className="fixed bottom-0 left-0 w-full bg-blue-800 text-white z-50 border-t anchored-bar">
             <div className="max-w-7xl mx-auto px-4 py-2">
               {/* compute columns based on how many visible categories we have */}
               <div
@@ -1241,7 +1225,7 @@ export default function Dashboard() {
                               aria-pressed={activePage === p}
                               role="button"
                             >
-                              <Icon className={`h-6 w-6 ${activePage === p ? 'text-white' : 'text-green-100'}`} />
+                              <Icon className={`h-6 w-6 ${activePage === p ? 'text-white' : 'text-blue-100'}`} />
                               <span className="sr-only">{labelText}</span>
                               {/* visible caption on hover/focus and when active */}
                               <span className="anchored-caption" aria-hidden>{activePage === p ? labelText : ''}</span>
@@ -1314,21 +1298,21 @@ function Sidebar({
 
   return (
     
-  <div className={`flex flex-col ${isCollapsed ? 'w-16 sm:w-20' : 'w-64 sm:w-72'} bg-green-800 h-full dashboard-sidebar justify-between`}>
+  <div className={`flex flex-col ${isCollapsed ? 'w-16 sm:w-20' : 'w-64 sm:w-72'} bg-blue-800 h-full dashboard-sidebar justify-between`}>
     {/* Navigation Bar */}
-    <div className="flex items-center justify-center h-16 sm:h-20 bg-green-800">
+    <div className="flex items-center justify-center h-32 sm:h-40 bg-blue-800 py-4">
         <h1 className="flex items-center text-white text-lg sm:text-xl font-bold">
           <Image
             src="/SRCB.png"
             alt="SRCB Logo"
-            width={isCollapsed ? 48 : 150}
-            height={isCollapsed ? 48 : 150}
-            className={`mr-2 rounded transition-all ${isCollapsed ? 'mx-auto' : ''}`}
+            width={isCollapsed ? 40 : 120}
+            height={isCollapsed ? 32 : 48}
+            className={`rounded transition-all ${isCollapsed ? 'mx-auto' : 'mr-2'}`}
           />
         </h1>
       </div>
       
-      <div className="flex flex-col flex-grow px-3 sm:px-2 py-2 overflow-y-auto pr-2">
+      <div className="flex flex-col flex-grow px-3 sm:px-2 py-6 overflow-y-auto pr-2">
         <nav className="flex-1 space-y-1 sm:space-y-2">
           {showOverview && (
             <DashboardNavItem
@@ -1377,8 +1361,8 @@ function Sidebar({
                   onClick={() => setActivePage("housekeeping")}
                   className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                     activePage === "housekeeping"
-                      ? "bg-green-600 text-white"
-                      : "text-green-100 hover:bg-green-600 hover:text-white"
+                      ? "bg-blue-600 text-white"
+                      : "text-blue-100 hover:bg-blue-600 hover:text-white"
                   } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   disabled={isLoading}
                 >
@@ -1405,8 +1389,8 @@ function Sidebar({
                       onClick={() => setActivePage("rooms")}
                       className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                         activePage === "rooms"
-                          ? "bg-green-600 text-white"
-                          : "text-green-100 hover:bg-green-600 hover:text-white"
+                          ? "bg-blue-600 text-white"
+                          : "text-blue-100 hover:bg-blue-600 hover:text-white"
                       } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                       disabled={isLoading}
                     >
@@ -1420,8 +1404,8 @@ function Sidebar({
                         onClick={() => setActivePage("edit-room")}
                         className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                           activePage === "edit-room"
-                            ? "bg-green-600 text-white"
-                            : "text-green-100 hover:bg-green-600 hover:text-white"
+                            ? "bg-blue-600 text-white"
+                            : "text-blue-100 hover:bg-blue-600 hover:text-white"
                         } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                         disabled={isLoading}
                       >
@@ -1436,8 +1420,8 @@ function Sidebar({
                         onClick={() => setActivePage("archived_rooms")}
                         className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                           activePage === "archived_rooms"
-                            ? "bg-green-600 text-white"
-                            : "text-green-100 hover:bg-green-600 hover:text-white"
+                            ? "bg-blue-600 text-white"
+                            : "text-blue-100 hover:bg-blue-600 hover:text-white"
                         } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                         disabled={isLoading}
                       >
@@ -1467,8 +1451,8 @@ function Sidebar({
                       onClick={() => setActivePage("event-catering")}
                       className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                         activePage === "event-catering"
-                          ? "bg-green-600 text-white"
-                          : "text-green-100 hover:bg-green-600 hover:text-white"
+                          ? "bg-blue-600 text-white"
+                          : "text-blue-100 hover:bg-blue-600 hover:text-white"
                       } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                       disabled={isLoading}
                     >
@@ -1482,8 +1466,8 @@ function Sidebar({
                         onClick={() => setActivePage("edit-package")}
                         className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                           activePage === "edit-package"
-                            ? "bg-green-600 text-white"
-                            : "text-green-100 hover:bg-green-600 hover:text-white"
+                            ? "bg-blue-600 text-white"
+                            : "text-blue-100 hover:bg-blue-600 hover:text-white"
                         } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                         disabled={isLoading}
                       >
@@ -1498,8 +1482,8 @@ function Sidebar({
                         onClick={() => setActivePage("archived_events")}
                         className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                           activePage === "archived_events"
-                            ? "bg-green-600 text-white"
-                            : "text-green-100 hover:bg-green-600 hover:text-white"
+                            ? "bg-blue-600 text-white"
+                            : "text-blue-100 hover:bg-blue-600 hover:text-white"
                         } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                         disabled={isLoading}
                       >
@@ -1515,8 +1499,8 @@ function Sidebar({
                   onClick={() => setActivePage("reservation-history")}
                   className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                     activePage === "reservation-history"
-                      ? "bg-green-600 text-white"
-                      : "text-green-100 hover:bg-green-600 hover:text-white"
+                      ? "bg-blue-600 text-white"
+                      : "text-blue-100 hover:bg-blue-600 hover:text-white"
                   } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   disabled={isLoading}
                 >
@@ -1529,8 +1513,8 @@ function Sidebar({
                   onClick={() => setActivePage("reservation-approval")}
                   className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                     activePage === "reservation-approval"
-                      ? "bg-green-600 text-white"
-                      : "text-green-100 hover:bg-green-600 hover:text-white"
+                      ? "bg-blue-600 text-white"
+                      : "text-blue-100 hover:bg-blue-600 hover:text-white"
                   } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                   disabled={isLoading}
                 >
@@ -1681,8 +1665,8 @@ function DashboardNavItem({
         onClick={shouldShowDropdown ? onToggleDropdown : () => onClick()}
         className={`flex items-center justify-between px-4 py-3 sm:py-4 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
           active
-            ? "bg-green-700 text-white"
-            : "text-green-200 hover:bg-green-700 hover:text-white focus:bg-green-700 focus:text-white"
+            ? "bg-blue-700 text-white"
+            : "text-blue-200 hover:bg-blue-700 hover:text-white focus:bg-blue-700 focus:text-white"
         } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         aria-expanded={shouldShowDropdown ? isDropdownOpen : undefined}
         aria-controls={shouldShowDropdown ? `dropdown-${title.replace(/\s+/g, "-")}` : undefined}
@@ -1708,8 +1692,8 @@ function DashboardNavItem({
                 onClick={() => onClick(sub)}
                 className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
                   active === sub
-                    ? "bg-green-600 text-white"
-                    : "text-green-100 hover:bg-green-600 hover:text-white focus:bg-green-600 focus:text-white"
+                    ? "bg-blue-600 text-white"
+                    : "text-blue-100 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white"
                 } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                 disabled={isLoading}
               >

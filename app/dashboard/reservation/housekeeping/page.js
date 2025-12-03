@@ -44,7 +44,7 @@ const HousekeepingTable = ({
     return () => clearTimeout(errorTimeout);
       <div className="flex items-center gap-2">
         {!alertsEnabled ? (
-          <button onClick={enableAlerts} className="px-3 py-1 bg-green-600 text-white rounded text-sm">Enable Alerts</button>
+          <button onClick={enableAlerts} className="px-3 py-1 bg-blue-600 text-white rounded text-sm">Enable Alerts</button>
         ) : (
           <button onClick={disableAlerts} className="px-3 py-1 bg-red-600 text-white rounded text-sm">Disable Alerts</button>
         )}
@@ -464,7 +464,7 @@ const HousekeepingTable = ({
   const getStatusColor = (status) => {
     switch (status) {
       case 'Available':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'Occupied':
         return 'bg-red-100 text-red-800';
       case 'Maintenance':
@@ -476,7 +476,7 @@ const HousekeepingTable = ({
       case 'in_progress':
         return 'bg-orange-100 text-orange-800';
       case 'completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-800';
       case 'inspected':
         return 'bg-blue-100 text-blue-800';
       default:
@@ -540,7 +540,7 @@ const HousekeepingTable = ({
             {/* Desktop / larger screens: keep existing table */}
             <div className="hidden md:block">
               <table className="w-full border-collapse">
-                <thead className="sticky top-0 bg-green-100 text-left text-white dark:bg-green-700 dark:text-white">
+                <thead className="sticky top-0 bg-blue-100 text-left text-white dark:bg-blue-700 dark:text-white">
                   <tr>
                     <th className="p-3 font-semibold">Room Number</th>
                     <th className="p-3 font-semibold">Room Status</th>
@@ -603,7 +603,7 @@ const HousekeepingTable = ({
                         <td className="p-3">
                           <button
                             onClick={() => handleSave(room.id)}
-                            className={`bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 ${
+                            className={`bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 ${
                               isLoading ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
                             disabled={isLoading}
@@ -674,7 +674,7 @@ const HousekeepingTable = ({
                       <div className="flex items-center justify-end">
                         <button
                           onClick={() => handleSave(room.id)}
-                          className={`mt-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 ${
+                          className={`mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 ${
                             isLoading ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           disabled={isLoading}

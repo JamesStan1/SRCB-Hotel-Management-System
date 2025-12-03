@@ -149,7 +149,7 @@ export default function ArchivedCafe() {
         customClass: {
           confirmButton:
             actionType === "restore"
-              ? "bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2"
+              ? "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
               : "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2",
           cancelButton:
             "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2",
@@ -233,7 +233,7 @@ export default function ArchivedCafe() {
             </div>
           ) : (
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-green-300">
+              <thead className="bg-blue-300">
                 <tr>
                   {[
                     { key: "id", label: "ID" },
@@ -300,7 +300,7 @@ export default function ArchivedCafe() {
                       </button>
                       <button
                         onClick={() => handleRestore(item.id)}
-                        className="text-green-600 hover:text-green-900 mr-4 disabled:opacity-50"
+                        className="text-blue-600 hover:text-blue-900 mr-4 disabled:opacity-50"
                         disabled={actionLoading === item.id}
                       >
                         Restore
@@ -324,7 +324,7 @@ export default function ArchivedCafe() {
       {viewItem && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-[500px] text-gray-700">
-            <h2 className="text-xl font-bold mb-3 text-green-700">
+            <h2 className="text-xl font-bold mb-3 text-blue-700">
               Item Details: {viewItem.name || "N/A"}
             </h2>
             <p><strong>ID:</strong> {viewItem.id}</p>
@@ -355,7 +355,7 @@ export default function ArchivedCafe() {
               </button>
               <button
                 onClick={() => handleRestore(viewItem.id)}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
                 disabled={actionLoading === viewItem.id}
               >
                 Restore
