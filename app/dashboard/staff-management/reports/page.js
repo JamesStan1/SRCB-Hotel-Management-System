@@ -130,7 +130,7 @@ export default function ReportsPage() {
     <div className="p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          <DocumentTextIcon className="h-6 w-6 text-green-600" />
+          <DocumentTextIcon className="h-6 w-6 text-blue-600" />
           Weekly Wages Report
         </h1>
         <p className="mt-1 text-sm text-gray-600">Attendance-based weekly wage summary (hours × rate). Use the controls below to generate, download or print the report for a selected period.</p>
@@ -140,7 +140,7 @@ export default function ReportsPage() {
           key={notification.id}
           className={`mb-4 p-4 rounded-lg flex justify-between items-center text-sm transition-opacity duration-300 ${
             notification.type === "success"
-              ? "bg-green-100 text-green-800"
+              ? "bg-blue-100 text-blue-800"
               : "bg-red-100 text-red-800"
           }`}
           role="alert"
@@ -151,7 +151,7 @@ export default function ReportsPage() {
               setNotifications((prev) => prev.filter((n) => n.id !== notification.id))
             }
             className={`font-bold ${
-              notification.type === "success" ? "text-green-800" : "text-red-800"
+              notification.type === "success" ? "text-blue-800" : "text-red-800"
             }`}
             aria-label="Close notification"
           >
@@ -168,7 +168,7 @@ export default function ReportsPage() {
               type="date"
               value={periodStart}
               onChange={(e) => setPeriodStart(e.target.value)}
-              className="text-black w-full border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="text-black w-full border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               max={today}
             />
           </div>
@@ -178,7 +178,7 @@ export default function ReportsPage() {
               type="date"
               value={periodEnd}
               onChange={(e) => setPeriodEnd(e.target.value)}
-              className="text-black w-full border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="text-black w-full border px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               max={today}
             />
           </div>
@@ -189,8 +189,8 @@ export default function ReportsPage() {
               disabled={loading}
               className={`px-4 py-2 rounded text-sm ${
                 loading
-                  ? "bg-green-400 text-white cursor-not-allowed"
-                  : "bg-green-600 text-white hover:bg-green-700"
+                  ? "bg-blue-400 text-white cursor-not-allowed"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
               }`}
             >
               {loading ? "Loading..." : "Load Report"}
@@ -236,7 +236,7 @@ export default function ReportsPage() {
           </div>
         ) : (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
-            <h2 className="text-lg font-semibold mb-4 text-green-700">
+            <h2 className="text-lg font-semibold mb-4 text-blue-700">
               Weekly Wages: {report.periodStart} → {report.periodEnd}
             </h2>
 
@@ -353,7 +353,7 @@ export default function ReportsPage() {
                         <td colSpan={6} className="px-4 py-2 text-sm text-gray-900 text-right">
                           Net Pay (Before Deductions):
                         </td>
-                        <td className="px-4 py-2 text-sm text-right text-green-700">
+                        <td className="px-4 py-2 text-sm text-right text-blue-700">
                           ₱{totals.grossPay.toFixed(2)}
                         </td>
                         <td className="px-4 py-2 text-sm text-right text-red-500">
@@ -365,7 +365,7 @@ export default function ReportsPage() {
                         <td className="px-4 py-2 text-sm text-right text-black">
                           ₱{totals.employerSSS.toFixed(2)}
                         </td>
-                        <td className="px-4 py-2 text-sm text-right text-green-700">
+                        <td className="px-4 py-2 text-sm text-right text-blue-700">
                           ₱{finalNetPay.toFixed(2)}
                         </td>
                         <td></td>
@@ -374,7 +374,7 @@ export default function ReportsPage() {
                         <td colSpan={10} className="px-4 py-2 text-sm text-right text-gray-800">
                           Grand Total (Net Pay + Employer SSS):
                         </td>
-                        <td className="px-4 py-2 text-sm text-right text-green-800">
+                        <td className="px-4 py-2 text-sm text-right text-blue-800">
                           ₱{grandTotal.toFixed(2)}
                         </td>
                         <td></td>

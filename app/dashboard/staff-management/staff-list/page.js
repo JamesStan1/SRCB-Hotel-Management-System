@@ -119,7 +119,7 @@ export default function UserList({ isLoading }) {
         role: userData.role,
         email: userData.email,
         timestamp: new Date().toISOString(),
-        system: "JoannaHotelAttendance",
+        system: "SRCBAttendance",
       };
 
       setGeneratedQRData(JSON.stringify(qrData));
@@ -142,11 +142,11 @@ export default function UserList({ isLoading }) {
         // Serialize the SVG
         let svgData = new XMLSerializer().serializeToString(svg);
 
-        // Attempt to embed the Joanna's logo as a data URL inside the SVG so
+        // Attempt to embed the SRCB logo as a data URL inside the SVG so
         // the downloaded PNG contains the logo even if the browser blocks
         // external image loading due to CORS when drawing SVG to canvas.
         try {
-          const logoResp = await fetch('/Joannaslogo.png');
+          const logoResp = await fetch('/SRCB.png');
           if (logoResp.ok) {
             const blob = await logoResp.blob();
             const reader = new FileReader();
@@ -483,7 +483,7 @@ export default function UserList({ isLoading }) {
   const getStatusIcon = (status) => {
     switch (status) {
       case "Active":
-        return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
+        return <CheckCircleIcon className="h-5 w-5 text-blue-500" />;
       case "On Leave":
         return <ClockIcon className="h-5 w-5 text-yellow-500" />;
       case "Inactive":
@@ -507,7 +507,7 @@ export default function UserList({ isLoading }) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowAddModal(true)}
-              className="flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm sm:text-base"
+              className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm sm:text-base"
               disabled={isSubmitting}
             >
               <UserPlusIcon className="h-5 w-5 mr-2" />
@@ -764,7 +764,7 @@ export default function UserList({ isLoading }) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+                  className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isSubmitting ? "opacity-75 cursor-not-allowed" : ""
                     }`}
                 >
                   {isSubmitting ? "Creating..." : "Create Staff"}
@@ -894,7 +894,7 @@ export default function UserList({ isLoading }) {
                 <button
                   type="submit"
                   disabled={isApprovalSubmitting}
-                  className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${isApprovalSubmitting ? "opacity-75 cursor-not-allowed" : ""}`}
+                  className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isApprovalSubmitting ? "opacity-75 cursor-not-allowed" : ""}`}
                 >
                   {isApprovalSubmitting ? 'Approving...' : 'Approve'}
                 </button>
@@ -1005,7 +1005,7 @@ export default function UserList({ isLoading }) {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Saving..." : "Save Changes"}
@@ -1055,7 +1055,7 @@ export default function UserList({ isLoading }) {
                   level="H"
                   includeMargin={true}
                   imageSettings={{
-                    src: "/Joannaslogo.png",
+                    src: "/SRCB.png",
                     x: undefined,
                     y: undefined,
                     height: 30,

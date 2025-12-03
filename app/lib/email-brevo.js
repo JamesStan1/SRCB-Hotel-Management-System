@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 export async function sendVerificationCode(email, code) {
   const mailOptions = {
-    from: '"Joanna\'s Hotel Management" <no-reply@joannashotel.com>',
+    from: '"SRCB Management" <no-reply@srcb.com>',
     to: email,
     subject: 'Password Reset Verification Code',
     html: `...same HTML as before...`,

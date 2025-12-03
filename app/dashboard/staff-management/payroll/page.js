@@ -242,18 +242,18 @@ export default function PayrollPage() {
       const currency = (n) => `PHP ${(Number(n) || 0).toFixed(2)}`;
 
       // Colors
-      const green = [5, 150, 105]; // Tailwind emerald-600
+      const blue = [5, 150, 105]; // Tailwind blue-600 equivalent
       const dark = [31, 41, 55];
 
       // Header band
-      doc.setFillColor(green[0], green[1], green[2]);
+      doc.setFillColor(blue[0], blue[1], blue[2]);
       doc.rect(0, 0, doc.internal.pageSize.getWidth(), 90, 'F');
 
       // Brand title
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(22);
-      doc.text("Joanna's Hotel - Payslip", 40, 55);
+      doc.text("SRCB - Payslip", 40, 55);
 
       // Card container
       const cardX = 40;
@@ -308,7 +308,7 @@ export default function PayrollPage() {
       // Section: Net Pay Highlight
       doc.setFillColor(236, 253, 245); // green-50 background band
       doc.roundedRect(cardX + 20, cardY + 350, cardW - 40, 80, 6, 6, 'F');
-      doc.setTextColor(green[0], green[1], green[2]);
+      doc.setTextColor(blue[0], blue[1], blue[2]);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(18);
       doc.text('Net Pay', cardX + 40, cardY + 400);
@@ -458,7 +458,7 @@ export default function PayrollPage() {
               value={selectedPeriod}
               onChange={handlePeriodChange}
               disabled={isLoading}
-              className="text-gray-700 block w-full pl-3 pr-10 py-2 text-base border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-300 focus:border-green-500 sm:text-sm rounded-md"
+              className="text-gray-700 block w-full pl-3 pr-10 py-2 text-base border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="">Select a period</option>
               {generateWeekOptions()}
@@ -471,7 +471,7 @@ export default function PayrollPage() {
               disabled={!["admin", "manager"].includes(userRole) || isLoading || users.length === 0}
               className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                 ["admin", "manager"].includes(userRole) && !isLoading && users.length > 0
-                  ? "bg-green-600 text-white hover:bg-green-700"
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
                   : "bg-gray-400 text-gray-200 cursor-not-allowed"
               }`}
             >

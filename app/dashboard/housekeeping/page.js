@@ -79,14 +79,14 @@ export default function HousekeepingPage() {
             .header {
               text-align: center;
               margin-bottom: 30px;
-              border-bottom: 3px solid #059669;
+              border-bottom: 3px solid #2563eb;
               padding-bottom: 15px;
             }
             
             .header h1 {
               margin: 0;
               font-size: 28px;
-              color: #059669;
+              color: #2563eb;
             }
             
             .header .subtitle {
@@ -123,7 +123,7 @@ export default function HousekeepingPage() {
             .summary-item .value {
               font-size: 24px;
               font-weight: bold;
-              color: #059669;
+              color: #2563eb;
             }
             
             table {
@@ -133,13 +133,13 @@ export default function HousekeepingPage() {
             }
             
             th {
-              background-color: #059669;
+              background-color: #2563eb;
               color: white;
               padding: 12px;
               text-align: left;
               font-weight: 600;
               font-size: 13px;
-              border: 1px solid #047857;
+              border: 1px solid #1e40af;
             }
             
             td {
@@ -177,7 +177,7 @@ export default function HousekeepingPage() {
             
             .status-completed {
               background-color: #d1fae5;
-              color: #065f46;
+              color: #1e3a8a;
             }
             
             .room-status {
@@ -195,7 +195,7 @@ export default function HousekeepingPage() {
             
             .room-status.available {
               background-color: #d1fae5;
-              color: #065f46;
+              color: #1e3a8a;
             }
             
             .footer {
@@ -659,11 +659,11 @@ export default function HousekeepingPage() {
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-green-500">
+        <div className="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-500">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Completed</p>
-              <p className="text-3xl font-bold text-green-600">{stats.completed}</p>
+              <p className="text-3xl font-bold text-blue-600">{stats.completed}</p>
             </div>
             <div className="text-4xl">✅</div>
           </div>
@@ -686,7 +686,7 @@ export default function HousekeepingPage() {
           <button
             onClick={handlePrint}
             disabled={isLoading}
-            className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -709,7 +709,7 @@ export default function HousekeepingPage() {
                 onClick={() => setStatusFilter('all')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   statusFilter === 'all'
-                    ? 'bg-emerald-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -739,7 +739,7 @@ export default function HousekeepingPage() {
                 onClick={() => setStatusFilter('completed')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   statusFilter === 'completed'
-                    ? 'bg-green-500 text-white'
+                    ? 'bg-blue-500 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -755,7 +755,7 @@ export default function HousekeepingPage() {
               placeholder="Search by room number, type, or status..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-black"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
             />
           </div>
         </div>
@@ -765,7 +765,7 @@ export default function HousekeepingPage() {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         {isLoading ? (
           <div className="p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading rooms...</p>
           </div>
         ) : rooms.length === 0 ? (
@@ -826,7 +826,7 @@ export default function HousekeepingPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         room.room_status === 'Available'
-                          ? 'bg-green-100 text-green-800'
+                          ? 'bg-blue-100 text-blue-800'
                           : room.room_status === 'Occupied'
                           ? 'bg-red-100 text-red-800'
                           : 'bg-yellow-100 text-yellow-800'
@@ -851,7 +851,7 @@ export default function HousekeepingPage() {
                           <button
                             onClick={() => handleQuickUpdate(room, 'completed')}
                             disabled={!canManageHousekeeping || isLoading}
-                            className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                             title="Mark as Complete"
                           >
                             ✅ Complete
@@ -917,7 +917,7 @@ export default function HousekeepingPage() {
                   <select
                     value={editStatus}
                     onChange={(e) => setEditStatus(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="pending">🔔 Pending - Needs Cleaning</option>
                     <option value="in_progress">🧹 In Progress - Currently Cleaning</option>
@@ -935,7 +935,7 @@ export default function HousekeepingPage() {
                     onChange={(e) => setEditNotes(e.target.value)}
                     rows="4"
                     placeholder="Add notes about cleaning status, issues found, etc."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -954,7 +954,7 @@ export default function HousekeepingPage() {
                 <button
                   onClick={handleUpdateStatus}
                   disabled={isLoading}
-                  className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Updating...' : 'Update Status'}
                 </button>

@@ -169,7 +169,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-emerald-600 text-white py-16">
+      <div className="bg-blue-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-6">
           <h1 className="text-4xl font-bold mb-4">Our Services</h1>
           <p className="text-xl">Discover our room accommodations and event hosting services</p>
@@ -248,9 +248,9 @@ export default function ServicesPage() {
                       {roomPackages[currentRoomIndex].name}
                     </h3>
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="text-3xl font-bold text-emerald-600 animate-slideInRight">
-                        {roomPackages[currentRoomIndex].price}
-                      </span>
+                    <span className="text-3xl font-bold text-blue-600 animate-slideInRight">
+                      {roomPackages[currentRoomIndex].price}
+                    </span>
                       <span className="text-gray-600 flex items-center animate-slideInRight">
                         <svg className="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -269,7 +269,7 @@ export default function ServicesPage() {
                     <ul className="grid grid-cols-2 gap-2">
                       {roomPackages[currentRoomIndex].features.map((feature, idx) => (
                         <li key={idx} className="flex items-center text-gray-600 text-sm animate-slideInRight" style={{animationDelay: `${idx * 100}ms`}}>
-                          <span className="text-emerald-600 mr-2">✓</span>
+                          <span className="text-blue-600 mr-2">✓</span>
                           {feature}
                         </li>
                       ))}
@@ -279,7 +279,7 @@ export default function ServicesPage() {
 
                 <button
                   onClick={() => openReservationModal('room', roomPackages[currentRoomIndex])}
-                  className="block w-full text-center bg-emerald-600 text-white py-3 rounded-lg hover:bg-emerald-700 hover:shadow-lg transition-all font-semibold transform hover:scale-105"
+                  className="block w-full text-center bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 hover:shadow-lg transition-all font-semibold transform hover:scale-105"
                 >
                   Reserve This Room
                 </button>
@@ -446,24 +446,24 @@ export default function ServicesPage() {
 
         {/* Additional Information */}
         <div className="mt-12 bg-white rounded-lg shadow-lg p-8">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Why Choose Joanna&apos;s Hotel?</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Why Choose SRCB?</h3>
           <div className="grid md:grid-cols-3 gap-6">
             <div>
-              <div className="text-emerald-600 text-3xl mb-2">🏨</div>
+              <div className="text-blue-600 text-3xl mb-2">🏨</div>
               <h4 className="font-semibold text-gray-800 mb-2">Quality Accommodations</h4>
               <p className="text-gray-600">
                 Clean, comfortable rooms with modern amenities to ensure a pleasant stay.
               </p>
             </div>
             <div>
-              <div className="text-emerald-600 text-3xl mb-2">💰</div>
+              <div className="text-blue-600 text-3xl mb-2">💰</div>
               <h4 className="font-semibold text-gray-800 mb-2">Affordable Rates</h4>
               <p className="text-gray-600">
                 Competitive pricing with flexible payment options to suit your budget.
               </p>
             </div>
             <div>
-              <div className="text-emerald-600 text-3xl mb-2">⭐</div>
+              <div className="text-blue-600 text-3xl mb-2">⭐</div>
               <h4 className="font-semibold text-gray-800 mb-2">Excellent Service</h4>
               <p className="text-gray-600">
                 Dedicated staff ready to assist you with all your needs during your stay.

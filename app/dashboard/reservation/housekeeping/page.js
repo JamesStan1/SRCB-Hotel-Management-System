@@ -220,7 +220,7 @@ const HousekeepingTable = ({
           if (window.Notification && Notification.permission === 'granted' && navigator.serviceWorker && navigator.serviceWorker.controller) {
             navigator.serviceWorker.getRegistration().then(reg => {
               if (reg) {
-                reg.showNotification('Joanna\'s Hotel', { body: `You have ${total} housekeeping alert(s)`, vibrate: [200,100,200], tag: 'housekeeping' });
+                reg.showNotification('SRCB', { body: `You have ${total} housekeeping alert(s)`, vibrate: [200,100,200], tag: 'housekeeping' });
               }
             }).catch(() => {});
           }

@@ -13,7 +13,7 @@ function SegmentedControl({ value, onChange, options }) {
           onClick={() => onChange(opt.value)}
           className={`flex-1 text-sm py-2 rounded-full font-medium transition ${
             value === opt.value
-              ? "bg-emerald-600 text-white"
+              ? "bg-blue-600 text-white"
               : "text-gray-700 bg-transparent"
           }`}
         >
@@ -27,7 +27,7 @@ function SegmentedControl({ value, onChange, options }) {
 function Loading() {
   return (
     <div className="py-12 flex justify-center">
-      <div className="animate-spin h-8 w-8 border-4 border-emerald-600 border-t-transparent rounded-full" />
+      <div className="animate-spin h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full" />
     </div>
   );
 }
@@ -90,7 +90,7 @@ export default function ResponsiveManagement() {
                 <div className="text-xs text-gray-500">Category: {item.category || '—'}</div>
               </div>
               <div className="text-right">
-                <div className={`text-sm font-bold ${item.quantity > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                <div className={`text-sm font-bold ${item.quantity > 0 ? 'text-blue-600' : 'text-red-600'}`}>
                   {item.quantity ?? 0}
                 </div>
                 <div className="text-xs text-gray-500">qty</div>
@@ -160,7 +160,7 @@ export default function ResponsiveManagement() {
             <h1 className="text-2xl font-bold">Dashboard</h1>
             <p className="text-xs text-gray-500">Overview</p>
           </div>
-          <div className="w-10 h-10 rounded-full bg-emerald-200 flex items-center justify-center text-white font-semibold text-sm">J</div>
+          <div className="w-10 h-10 rounded-full bg-blue-200 flex items-center justify-center text-white font-semibold text-sm">J</div>
         </div>
 
         {/* Tabbed content area */}
@@ -171,7 +171,7 @@ export default function ResponsiveManagement() {
                 <div className="text-sm text-gray-500">Total Products</div>
                 <div className="text-xl font-bold text-black">{inventory?.length ?? 0}</div>
                 <div className="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-2 bg-emerald-600" style={{ width: `${Math.min(100, (inventory?.length ?? 0) * 2)}%` }} />
+                  <div className="h-2 bg-blue-600" style={{ width: `${Math.min(100, (inventory?.length ?? 0) * 2)}%` }} />
                 </div>
               </div>
               <div className="bg-white p-3 rounded-lg shadow">
@@ -264,19 +264,19 @@ export default function ResponsiveManagement() {
         {/* Bottom navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t">
         <div className="max-w-lg mx-auto flex justify-between px-2 py-2">
-          <button onClick={() => setTab('inventory')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'inventory' ? 'text-emerald-600' : 'text-gray-600'}`}>
+          <button onClick={() => setTab('inventory')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'inventory' ? 'text-blue-600' : 'text-gray-600'}`}>
             <HomeIcon className="h-6 w-6 mb-1" />
             Inventory
           </button>
-          <button onClick={() => setTab('cafe')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'cafe' ? 'text-emerald-600' : 'text-gray-600'}`}>
+          <button onClick={() => setTab('cafe')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'cafe' ? 'text-blue-600' : 'text-gray-600'}`}>
             <ChartBarIcon className="h-6 w-6 mb-1" />
             Cafe
           </button>
-          <button onClick={() => setTab('rooms')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'rooms' ? 'text-emerald-600' : 'text-gray-600'}`}>
+          <button onClick={() => setTab('rooms')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'rooms' ? 'text-blue-600' : 'text-gray-600'}`}>
             <ShoppingCartIcon className="h-6 w-6 mb-1" />
             Rooms
           </button>
-          <button onClick={() => setTab('settings')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'settings' ? 'text-emerald-600' : 'text-gray-600'}`}>
+          <button onClick={() => setTab('settings')} className={`flex-1 flex flex-col items-center text-xs ${tab === 'settings' ? 'text-blue-600' : 'text-gray-600'}`}>
             <Cog6ToothIcon className="h-6 w-6 mb-1" />
             Settings
           </button>

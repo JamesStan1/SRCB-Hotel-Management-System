@@ -52,9 +52,9 @@ export default function Overview({ setActivePage }) {
         label: 'Package Revenue (₱)',
         data: [],
         backgroundColor: [
-          '#2ECC71', '#A9DFBF', '#27AE60', '#6EE7B7', '#34D399',
-          '#10B981', '#059669', '#047857', '#065F46', '#064E3B',
-          '#14B8A6', '#22D3EE', '#0EA5E9', '#0284C7', '#1E40AF'
+          '#3b82f6', '#93c5fd', '#2563eb', '#60a5fa', '#bfdbfe',
+          '#1e40af', '#1e3a8a', '#172554', '#0f172a', '#0c1227',
+          '#0284c7', '#0ea5e9', '#06b6d4', '#0891b2', '#0d9488'
         ],
         borderColor: ['#FFFFFF'],
         borderWidth: 1,
@@ -86,10 +86,10 @@ export default function Overview({ setActivePage }) {
       {
         label: 'Events Revenue (₱)',
         data: [],
-        borderColor: '#2ECC71',
-        backgroundColor: 'rgba(46, 204, 113, 0.3)',
-        pointBackgroundColor: '#27AE60',
-        pointBorderColor: '#145A32',
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.3)',
+        pointBackgroundColor: '#2563eb',
+        pointBorderColor: '#1e40af',
         pointRadius: 4,
         fill: true,
         tension: 0.3,
@@ -124,10 +124,10 @@ export default function Overview({ setActivePage }) {
       {
         label: 'Predicted Events Revenue (₱)',
         data: [],
-        borderColor: '#2ECC71',
-        backgroundColor: 'rgba(46, 204, 113, 0.2)',
-        pointBackgroundColor: '#27AE60',
-        pointBorderColor: '#145A32',
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        pointBackgroundColor: '#2563eb',
+        pointBorderColor: '#1e40af',
         pointRadius: 4,
         fill: true,
         tension: 0.3,
@@ -438,9 +438,9 @@ export default function Overview({ setActivePage }) {
               label: 'Package Revenue (₱)',
               data: packageRevenueDataArr.length > 0 ? packageRevenueDataArr : [1],
               backgroundColor: [
-                '#2ECC71', '#A9DFBF', '#27AE60', '#6EE7B7', '#34D399',
-                '#10B981', '#059669', '#047857', '#065F46', '#064E3B',
-                '#14B8A6', '#22D3EE', '#0EA5E9', '#0284C7', '#1E40AF'
+                '#3b82f6', '#93c5fd', '#2563eb', '#60a5fa', '#bfdbfe',
+                '#1e40af', '#1e3a8a', '#172554', '#0f172a', '#0c1227',
+                '#0284c7', '#0ea5e9', '#06b6d4', '#0891b2', '#0d9488'
               ].slice(0, packageLabels.length || 1),
               borderColor: ['#FFFFFF'],
               borderWidth: 1,
@@ -561,10 +561,10 @@ export default function Overview({ setActivePage }) {
             {
               label: 'Events Revenue (₱)',
               data: eventRevenuesMonthly,
-              borderColor: '#2ECC71',
-              backgroundColor: 'rgba(46, 204, 113, 0.3)',
-              pointBackgroundColor: '#27AE60',
-              pointBorderColor: '#145A32',
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.3)',
+              pointBackgroundColor: '#2563eb',
+              pointBorderColor: '#1e40af',
               pointRadius: 4,
               fill: true,
               tension: 0.3,
@@ -650,10 +650,10 @@ export default function Overview({ setActivePage }) {
             {
               label: 'Predicted Events Revenue (₱)',
               data: predictiveEventRevenues,
-              borderColor: '#2ECC71',
-              backgroundColor: 'rgba(46, 204, 113, 0.2)',
-              pointBackgroundColor: '#27AE60',
-              pointBorderColor: '#145A32',
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.2)',
+              pointBackgroundColor: '#2563eb',
+              pointBorderColor: '#1e40af',
               pointRadius: 4,
               fill: true,
               tension: 0.3,
@@ -829,10 +829,10 @@ export default function Overview({ setActivePage }) {
             title="Upcoming Events"
             value="5"
             change="+1"
-            icon={<CalendarIcon className="h-4 sm:h-5 w-4 sm:w-5 text-green-600" />}
-            iconBgClass="bg-green-50"
+            icon={<CalendarIcon className="h-4 sm:h-5 w-4 sm:w-5 text-blue-600" />}
+            iconBgClass="bg-blue-50"
             onClick={() => setActivePage('event-management')}
-            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-2 sm:p-4 hover:bg-green-50 text-xs sm:text-sm"
+            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-2 sm:p-4 hover:bg-blue-50 text-xs sm:text-sm"
           />
           <StatCard
             title="Low Inventory"
@@ -847,13 +847,13 @@ export default function Overview({ setActivePage }) {
             title="Event Revenue"
             value={error ? 'Error' : `₱${Number(eventMonthly).toFixed(2)}`}
             change=""
-            icon={<CalendarIcon className="h-4 sm:h-5 w-4 sm:w-5 text-green-600" />}
-            iconBgClass="bg-green-50"
+            icon={<CalendarIcon className="h-4 sm:h-5 w-4 sm:w-5 text-blue-600" />}
+            iconBgClass="bg-blue-50"
             onClick={() => {
               try { localStorage.setItem('reservationHistoryActiveTab', 'event'); } catch (e) {}
               setActivePage('reservation-history');
             }}
-            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-2 sm:p-4 hover:bg-green-50 text-xs sm:text-sm"
+            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-2 sm:p-4 hover:bg-blue-50 text-xs sm:text-sm"
           />
           <StatCard
             title="Room Revenue"

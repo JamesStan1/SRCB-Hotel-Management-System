@@ -448,15 +448,15 @@ export default function General() {
                 <BellIcon className="h-5 w-5 text-gray-500" />
                 {/* small unread dot (purely visual) */}
                 {notification.isVisible && notification.type === 'success' ? (
-                  <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-green-500 rounded-full ring-1 ring-white" />
+                  <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-blue-500 rounded-full ring-1 ring-white" />
                 ) : null}
               </div>
             ) : null}
 
             {notification.isVisible ? (
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${notification.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${notification.type === 'success' ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'}`}>
                 {notification.type === "success" ? (
-                  <CheckCircleIcon className="h-4 w-4 text-green-600" />
+                  <CheckCircleIcon className="h-4 w-4 text-blue-600" />
                 ) : (
                   <ExclamationCircleIcon className="h-4 w-4 text-red-600" />
                 )}
@@ -501,7 +501,7 @@ export default function General() {
                     id="defaultDiscount"
                     value={defaultDiscount}
                     onChange={(e) => setDefaultDiscount(e.target.value)}
-                    className="block w-full border border-gray-200 rounded-lg px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-200 text-base"
+                    className="block w-full border border-gray-200 rounded-lg px-4 py-3 shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200 text-base"
                   >
                     <option value="none">No Discount</option>
                     {discounts.map((d, idx) => (
@@ -573,7 +573,7 @@ export default function General() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                   <div className="absolute inset-0 bg-black/40" onClick={() => setDiscountModalOpen(false)} />
                   <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md p-4 z-10">
-                    <h4 className="text-lg text-green-700 font-medium">{editingDiscountIndex === null ? 'Add Discount' : 'Edit Discount'}</h4>
+                    <h4 className="text-lg text-blue-700 font-medium">{editingDiscountIndex === null ? 'Add Discount' : 'Edit Discount'}</h4>
                     <div className="mt-3 space-y-3">
                       <div>
                         <label className="block text-sm text-gray-700">Label</label>
@@ -609,7 +609,7 @@ export default function General() {
                             });
                           }
                           setDiscountModalOpen(false);
-                      }} className="px-3 py-2 rounded bg-green-600 text-white">Save</button>
+                      }} className="px-3 py-2 rounded bg-blue-600 text-white">Save</button>
                     </div>
                   </div>
                 </div>
@@ -663,7 +663,7 @@ export default function General() {
               <div className="mt-4">
                 {loadingRecords ? (
                   <div className="flex items-center gap-3 text-gray-600 py-8 justify-center">
-                    <ArrowPathIcon className="h-5 w-5 animate-spin text-green-600" />
+                    <ArrowPathIcon className="h-5 w-5 animate-spin text-blue-600" />
                     <span>Loading audit logs...</span>
                   </div>
                 ) : recordsErrors.length > 0 ? (

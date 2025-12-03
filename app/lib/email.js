@@ -41,12 +41,12 @@ export async function sendVerificationCode(email, code) {
   }
   
   const mailOptions = {
-    from: '"Joanna\'s Hotel Management" <no-reply@joannashotel.com>',
+    from: '"SRCB Management" <no-reply@srcb.com>',
     to: email,
     subject: 'Password Reset Verification Code',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #16a34a;">Joanna's Hotel Management</h2>
+        <h2 style="color: #16a34a;">SRCB Management</h2>
         <p>You requested a password reset. Your verification code is:</p>
         <div style="background-color: #f3f4f6; padding: 15px; text-align: center; margin: 20px 0; border-radius: 8px;">
           <h1 style="margin: 0; color: #16a34a; letter-spacing: 8px; font-size: 28px;">${code}</h1>
@@ -57,7 +57,7 @@ export async function sendVerificationCode(email, code) {
         <p style="font-size: 12px; color: #6b7280;">This is an automated message, please do not reply to this email.</p>
       </div>
     `,
-    text: `Joanna's Hotel Management - Password Reset\n\nYour verification code is: ${code}\n\nThis code will expire in 10 minutes.\n\nIf you didn't request this reset, please ignore this email.`
+    text: `SRCB Management - Password Reset\n\nYour verification code is: ${code}\n\nThis code will expire in 10 minutes.\n\nIf you didn't request this reset, please ignore this email.`
   };
 
   try {
@@ -78,13 +78,13 @@ export async function sendReservationRejection(email, customerName, reservationT
   }
   
   const mailOptions = {
-    from: '"Joanna\'s Hotel Management" <no-reply@joannashotel.com>',
+    from: '"SRCB Management" <no-reply@srcb.com>',
     to: email,
-    subject: 'Reservation Update - Joanna\'s Hotel',
+    subject: 'Reservation Update - SRCB',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb; border-radius: 10px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h2 style="color: #16a34a; margin: 0;">Joanna's Hotel Management</h2>
+          <h2 style="color: #16a34a; margin: 0;">SRCB Management</h2>
           <p style="color: #6b7280; margin: 5px 0;">Excellence in Hospitality</p>
         </div>
         
@@ -110,18 +110,18 @@ export async function sendReservationRejection(email, customerName, reservationT
             <p style="margin: 0; color: #166534; font-weight: 600;">Contact Information:</p>
             <p style="margin: 10px 0 0 0; color: #15803d;">
               📞 Phone: [Your Phone Number]<br>
-              📧 Email: reservations@joannashotel.com<br>
+              📧 Email: reservations@srcb.com<br>
               📍 Address: Madroño St., Brgy 4, Balingasag, Misamis Oriental
             </p>
           </div>
           
           <p style="color: #374151;">
-            Thank you for considering Joanna's Hotel. We hope to serve you in the future.
+            Thank you for considering SRCB. We hope to serve you in the future.
           </p>
           
           <p style="color: #374151; margin-top: 30px;">
             Best regards,<br>
-            <strong style="color: #16a34a;">Joanna's Hotel Management Team</strong>
+            <strong style="color: #16a34a;">SRCB Management Team</strong>
           </p>
         </div>
         
@@ -133,7 +133,7 @@ export async function sendReservationRejection(email, customerName, reservationT
         </div>
       </div>
     `,
-    text: `Joanna's Hotel Management - Reservation Status Update
+    text: `SRCB Management - Reservation Status Update
 
 Dear ${customerName || 'Valued Guest'},
 
@@ -145,13 +145,13 @@ We apologize for any inconvenience this may cause. If you have any questions or 
 
 Contact Information:
 Phone: [Your Phone Number]
-Email: reservations@joannashotel.com
+Email: reservations@srcb.com
 Address: Madroño St., Brgy 4, Balingasag, Misamis Oriental
 
-Thank you for considering Joanna's Hotel. We hope to serve you in the future.
+Thank you for considering SRCB. We hope to serve you in the future.
 
 Best regards,
-Joanna's Hotel Management Team
+SRCB Management Team
 
 ---
 This is an automated message, please do not reply to this email.
@@ -187,19 +187,19 @@ export async function sendReservationApproval(email, customerName, reservationDe
   } = reservationDetails;
   
   const mailOptions = {
-    from: '"Joanna\'s Hotel Management" <no-reply@joannashotel.com>',
+    from: '"SRCB Management" <no-reply@srcb.com>',
     to: email,
-    subject: 'Reservation Approved - Joanna\'s Hotel',
+    subject: 'Reservation Approved - SRCB',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb; border-radius: 10px;">
         <div style="text-align: center; margin-bottom: 30px;">
-          <h2 style="color: #16a34a; margin: 0;">Joanna's Hotel Management</h2>
+          <h2 style="color: #16a34a; margin: 0;">SRCB Management</h2>
           <p style="color: #6b7280; margin: 5px 0;">Excellence in Hospitality</p>
         </div>
         
         <div style="background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           <div style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-block; background-color: #10b981; color: white; padding: 10px 30px; border-radius: 50px; font-weight: bold;">
+            <div style="display: inline-block; background-color: #3b82f6; color: white; padding: 10px 30px; border-radius: 50px; font-weight: bold;">
               ✓ RESERVATION APPROVED
             </div>
           </div>
@@ -207,7 +207,7 @@ export async function sendReservationApproval(email, customerName, reservationDe
           <p style="color: #374151;">Dear ${customerName || 'Valued Guest'},</p>
           
           <p style="color: #374151; line-height: 1.6;">
-            Great news! Your <strong>${reservationType || 'reservation'}</strong> has been approved. We look forward to welcoming you to Joanna's Hotel!
+            Great news! Your <strong>${reservationType || 'reservation'}</strong> has been approved. We look forward to welcoming you to SRCB!
           </p>
           
           <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #86efac;">
@@ -234,7 +234,7 @@ export async function sendReservationApproval(email, customerName, reservationDe
               ${paymentOption === 'downpayment' ? `
               <tr>
                 <td style="padding: 8px 0; font-weight: 600;">Downpayment Paid:</td>
-                <td style="padding: 8px 0; color: #059669;">₱${parseFloat(downpaymentAmount || 0).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                <td style="padding: 8px 0; color: #2563eb;">₱${parseFloat(downpaymentAmount || 0).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: 600;">Remaining Balance:</td>
@@ -248,9 +248,9 @@ export async function sendReservationApproval(email, customerName, reservationDe
             <p style="margin: 0; color: #92400e; font-weight: 600;">⚠️ Payment Reminder:</p>
             <p style="margin: 10px 0 0 0; color: #78350f;">Please settle the remaining balance of <strong>₱${parseFloat(remainingBalance || 0).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong> upon arrival or as agreed with the hotel management.</p>
           </div>` : `
-          <div style="background-color: #f0fdf4; padding: 15px; border-left: 4px solid #10b981; margin: 20px 0; border-radius: 4px;">
-            <p style="margin: 0; color: #065f46; font-weight: 600;">✓ Payment Status:</p>
-            <p style="margin: 10px 0 0 0; color: #064e3b;">Full payment of <strong>₱${parseFloat(totalAmount || 0).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong> has been confirmed. Thank you!</p>
+          <div style="background-color: #eff6ff; padding: 15px; border-left: 4px solid #3b82f6; margin: 20px 0; border-radius: 4px;">
+            <p style="margin: 0; color: #2563eb; font-weight: 600;">✓ Payment Status:</p>
+            <p style="margin: 10px 0 0 0; color: #1e40af;">Full payment of <strong>₱${parseFloat(totalAmount || 0).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong> has been confirmed. Thank you!</p>
           </div>`}
           
           <div style="margin: 30px 0; padding: 20px; background-color: #eff6ff; border-radius: 8px; border: 1px solid #93c5fd;">
@@ -267,7 +267,7 @@ export async function sendReservationApproval(email, customerName, reservationDe
             <p style="margin: 0; color: #166534; font-weight: 600;">Contact Information:</p>
             <p style="margin: 10px 0 0 0; color: #15803d;">
               📞 Phone: [Your Phone Number]<br>
-              📧 Email: reservations@joannashotel.com<br>
+              📧 Email: reservations@srcb.com<br>
               📍 Address: Madroño St., Brgy 4, Balingasag, Misamis Oriental
             </p>
           </div>
@@ -278,7 +278,7 @@ export async function sendReservationApproval(email, customerName, reservationDe
           
           <p style="color: #374151; margin-top: 30px;">
             We can't wait to host you!<br>
-            <strong style="color: #16a34a;">Joanna's Hotel Management Team</strong>
+            <strong style="color: #16a34a;">SRCB Management Team</strong>
           </p>
         </div>
         
@@ -290,11 +290,11 @@ export async function sendReservationApproval(email, customerName, reservationDe
         </div>
       </div>
     `,
-    text: `Joanna's Hotel Management - Reservation Approved
+    text: `SRCB Management - Reservation Approved
 
 Dear ${customerName || 'Valued Guest'},
 
-Great news! Your ${reservationType || 'reservation'} has been approved. We look forward to welcoming you to Joanna's Hotel!
+Great news! Your ${reservationType || 'reservation'} has been approved. We look forward to welcoming you to SRCB!
 
 Reservation Details:
 ${reservationType === 'room' ? 'Package:' : 'Event:'} ${reservationName || 'N/A'}
@@ -316,13 +316,13 @@ ${paymentOption === 'downpayment' ? '- Prepare the remaining balance for payment
 
 Contact Information:
 Phone: [Your Phone Number]
-Email: reservations@joannashotel.com
+Email: reservations@srcb.com
 Address: Madroño St., Brgy 4, Balingasag, Misamis Oriental
 
 If you have any questions or need to modify your reservation, please contact us immediately.
 
 We can't wait to host you!
-Joanna's Hotel Management Team
+SRCB Management Team
 
 ---
 This is an automated message, please do not reply to this email.

@@ -152,14 +152,14 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
       }
       .header {
         text-align: center;
-        border-bottom: 3px solid #10b981;
+        border-bottom: 3px solid #3b82f6;
         padding-bottom: 20px;
         margin-bottom: 30px;
       }
       .logo {
         font-size: 32px;
         font-weight: bold;
-        color: #10b981;
+        color: #3b82f6;
         margin-bottom: 5px;
       }
       .subtitle { color: #6b7280; font-size: 14px; }
@@ -167,7 +167,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
         margin-top: 16px;
         font-size: 22px;
         font-weight: bold;
-        color: #10b981;
+        color: #3b82f6;
       }
       .info-grid {
         display: grid;
@@ -194,7 +194,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
         margin-bottom: 24px;
       }
       thead tr {
-        background: #10b981;
+        background: #3b82f6;
         color: #fff;
       }
       th, td {
@@ -220,8 +220,8 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
       .summary-row.total {
         font-size: 18px;
         font-weight: 700;
-        color: #10b981;
-        border-top: 2px solid #10b981;
+        color: #3b82f6;
+        border-top: 2px solid #3b82f6;
         border-bottom: none;
         margin-top: 12px;
         padding-top: 12px;
@@ -242,7 +242,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
   </head>
   <body>
     <div class="header">
-      <div class="logo">Joanna's Nook</div>
+      <div class="logo">SRCB</div>
       <div class="subtitle">Madroño St., Brgy 4, Balingasag, Misamis Oriental</div>
       <div class="bill-title">Official Order Bill</div>
     </div>
@@ -469,7 +469,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
   <body>
     <div class="receipt">
       <div class="header">
-        <h1>Joanna's Nook</h1>
+        <h1>SRCB</h1>
         <p>Madroño St., Brgy 4, Balingasag, Misamis Oriental</p>
       </div>
       <div class="meta">
@@ -1341,7 +1341,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                         }}
                         className={`px-3 py-1 rounded-lg text-sm font-medium transition-all duration-200 ${
                           activeCategory === category
-                            ? "bg-green-600 text-white"
+                            ? "bg-blue-600 text-white"
                             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                         }`}
                       >
@@ -1353,7 +1353,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                 <input
                   type="text"
                   placeholder="Search dishes..."
-                  className="w-full sm:w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                  className="w-full sm:w-64 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                   value={searchTerm}
                   onChange={(event) => {
                     setSearchTerm(event.target.value);
@@ -1372,7 +1372,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                   >
                     <h3 className="font-semibold text-lg text-gray-800">{dish.name}</h3>
                     <p className="text-sm text-gray-500 line-clamp-2">{dish.description}</p>
-                    <p className="font-bold text-green-600 mt-2">
+                    <p className="font-bold text-blue-600 mt-2">
                       ₱{typeof dish.price === "number" ? dish.price.toFixed(2) : "0.00"}
                     </p>
                   </button>
@@ -1404,7 +1404,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                       onClick={() => setCurrentPage(page)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                         currentPage === page
-                          ? "bg-green-600 text-white"
+                          ? "bg-blue-600 text-white"
                           : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                       }`}
                     >
@@ -1446,7 +1446,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Customer Name</label>
                   {chargeToRoom ? (
                     <select
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                       value={selectedReservation ? selectedReservation.id : ""}
                       onChange={(e) => {
                         const selected = roomCustomers.find(r => r.id === parseInt(e.target.value));
@@ -1469,7 +1469,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                   ) : (
                     <input
                       type="text"
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                       placeholder="Enter customer name"
                       value={customerName}
                       onChange={(e) => {
@@ -1508,7 +1508,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                 </div>
 
                 <div className="w-full text-center mb-3">
-                  <h4 className="text-sm font-bold text-green-600 mb-2">Ordered Dishes</h4>
+                  <h4 className="text-sm font-bold text-blue-600 mb-2">Ordered Dishes</h4>
                 </div>
 
                 <div className="mb-6 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
@@ -1568,7 +1568,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">Discount Type</label>
                   <select
-                    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                     value={discountType}
                     onChange={(event) => setDiscountType(event.target.value)}
                   >
@@ -1610,7 +1610,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                       title={chargeToRoom ? "Payment method disabled when 'Charge to room' is checked" : "Select Cash payment"}
                       className={`flex-1 p-3 rounded-lg flex items-center justify-center transition-all duration-200 ${
                         paymentMethod === "Cash"
-                          ? "bg-green-600 text-white"
+                          ? "bg-blue-600 text-white"
                           : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                       } ${chargeToRoom ? "opacity-60 cursor-not-allowed pointer-events-none" : ""}`}
                     >
@@ -1631,7 +1631,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                       title={chargeToRoom ? "Payment method disabled when 'Charge to room' is checked" : "Select GCash payment"}
                       className={`flex-1 p-3 rounded-lg flex items-center justify-center transition-all duration-200 ${
                         paymentMethod === "Gcash"
-                          ? "bg-green-600 text-white"
+                          ? "bg-blue-600 text-white"
                           : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                       } ${chargeToRoom ? "opacity-60 cursor-not-allowed pointer-events-none" : ""}`}
                     >
@@ -1652,7 +1652,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                       value={cashGiven}
                       onChange={(e) => setCashGiven(e.target.value)}
                       placeholder="Enter cash amount received"
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                     />
                   </div>
                 )}
@@ -1709,7 +1709,7 @@ const buildBillHtml = (receipt, roomBillingData = null) => {
                   <button
                     type="button"
                     onClick={processPayment}
-                    className={`w-full p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center transition-all duration-200 shadow-md ${
+                    className={`w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center transition-all duration-200 shadow-md ${
                       cartItems.length === 0 || !paymentMethod || processingPayment || chargeToRoom
                         ? "opacity-60 cursor-not-allowed"
                         : ""

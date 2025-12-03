@@ -17,7 +17,7 @@ import {
 const getStatusColor = (status) => {
   switch (status) {
     case "Available":
-      return "bg-green-100 text-green-800";
+      return "bg-blue-100 text-blue-800";
     case "Occupied":
       return "bg-red-100 text-red-800";
     case "Maintenance":
@@ -317,9 +317,9 @@ export default function RoomManagement() {
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       {/* Notifications */}
       {successMessage && (
-        <div className="mb-6 flex items-center gap-3 p-4 bg-green-100 rounded-lg shadow-sm border border-green-200 animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="mb-6 flex items-center gap-3 p-4 bg-blue-100 rounded-lg shadow-sm border border-blue-200 animate-in fade-in slide-in-from-top-2 duration-300">
           <svg
-            className="h-6 w-6 text-green-600"
+            className="h-6 w-6 text-blue-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -331,7 +331,7 @@ export default function RoomManagement() {
               d="M5 13l4 4L19 7"
             />
           </svg>
-          <p className="text-green-800 font-medium">{successMessage}</p>
+          <p className="text-blue-800 font-medium">{successMessage}</p>
         </div>
       )}
       {error && (
@@ -375,13 +375,13 @@ export default function RoomManagement() {
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <HomeIcon className="h-7 w-7 text-green-600" />
-            <h2 className="text-2xl font-semibold text-green-700">Manage Rooms</h2>
+            <HomeIcon className="h-7 w-7 text-blue-600" />
+            <h2 className="text-2xl font-semibold text-blue-700">Manage Rooms</h2>
           </div>
           <button
             onClick={startAddingRoom}
             disabled={isLoading}
-            className={`px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors ${
+            className={`px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -398,7 +398,7 @@ export default function RoomManagement() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-green-700 mb-1.5">
+                <label className="block text-sm font-medium text-blue-700 mb-1.5">
                   Room Number
                 </label>
                 <input
@@ -406,13 +406,13 @@ export default function RoomManagement() {
                   name="room_number"
                   value={roomForm.room_number}
                   onChange={handleRoomFormChange}
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   required
                   disabled={isLoading}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-green-700 mb-1.5">
+                <label className="block text-sm font-medium text-blue-700 mb-1.5">
                   Type
                 </label>
                 <input
@@ -420,13 +420,13 @@ export default function RoomManagement() {
                   name="type"
                   value={roomForm.type}
                   onChange={handleRoomFormChange}
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   required
                   disabled={isLoading}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-green-700 mb-1.5">
+                <label className="block text-sm font-medium text-blue-700 mb-1.5">
                   Price (₱)
                 </label>
                 <input
@@ -436,20 +436,20 @@ export default function RoomManagement() {
                   onChange={handleRoomFormChange}
                   min="0"
                   step="0.01"
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   required
                   disabled={isLoading}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-green-700 mb-1.5">
+                <label className="block text-sm font-medium text-blue-700 mb-1.5">
                   Status
                 </label>
                 <select
                   name="status"
                   value={roomForm.status}
                   onChange={handleRoomFormChange}
-                  className="w-full px-4 py-2 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                  className="w-full px-4 py-2 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   disabled={isLoading}
                 >
                   <option value="Available">Available</option>
@@ -459,14 +459,14 @@ export default function RoomManagement() {
                 </select>
               </div>
               <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-green-700 mb-1.5">
+                <label className="block text-sm font-medium text-blue-700 mb-1.5">
                   Package
                 </label>
                 <select
                   name="packageId"
                   value={roomForm.packageId}
                   onChange={handleRoomFormChange}
-                  className="w-full px-4 py-2 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+                  className="w-full px-4 py-2 text-black border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   required
                   disabled={isLoading}
                 >
@@ -483,7 +483,7 @@ export default function RoomManagement() {
               <button
                 onClick={handleAddRoom}
                 disabled={isLoading}
-                className={`px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors ${
+                className={`px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors ${
                   isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -504,14 +504,14 @@ export default function RoomManagement() {
 
         {/* Room List */}
         <div>
-          <h3 className="text-lg font-large text-green-800 mb-4">Room List</h3>
+          <h3 className="text-lg font-large text-blue-800 mb-4">Room List</h3>
           <div className="mb-4">
             <input
               type="text"
               placeholder="Search rooms..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               disabled={isLoading}
             />
           </div>

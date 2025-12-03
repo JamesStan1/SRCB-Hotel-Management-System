@@ -10,7 +10,7 @@ export const LoadingComponent = () => (
   <div className="flex justify-center items-center h-screen bg-white">
       <div className="animate-pulse p-8 bg-white">
         <Image
-          src="/Joannaslogo.png"
+          src="/SRCB.png"
           alt="Hotel Logo"
           width={350}
           height={350}

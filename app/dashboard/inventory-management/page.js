@@ -296,7 +296,7 @@ export default function InventoryManagement() {
             <button
               onClick={() => setShowAddModal(true)}
               disabled={isSubmitting}
-              className={`inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg shadow-sm hover:bg-emerald-700 transition ${
+              className={`inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-700 transition ${
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -361,7 +361,7 @@ export default function InventoryManagement() {
                     disabled={isSubmitting}
                     className={`whitespace-nowrap px-4 py-2 rounded-md font-semibold ${
                       activeTab === tab
-                        ? "bg-green-600 text-white"
+                        ? "bg-blue-600 text-white"
                         : "bg-gray-200 text-gray-800 hover:bg-gray-300"
                     } ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
@@ -382,7 +382,7 @@ export default function InventoryManagement() {
           <input
             type="text"
             placeholder="Search items..."
-            className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700 focus:ring-2 focus:ring-emerald-200"
+            className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-200"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             disabled={isSubmitting}
@@ -392,7 +392,7 @@ export default function InventoryManagement() {
 
       {loading ? (
         <div className="flex justify-center items-center py-10">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       ) : filteredInventory.length === 0 ? (
         <p className="text-black text-center py-4">No items found</p>
@@ -443,7 +443,7 @@ export default function InventoryManagement() {
                       <span
                         className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${
                           item.status === "In Stock"
-                            ? "bg-emerald-100 text-emerald-800"
+                            ? "bg-blue-100 text-blue-800"
                             : item.status === "Low Stock"
                             ? "bg-amber-100 text-amber-800"
                             : "bg-rose-100 text-rose-800"
@@ -503,7 +503,7 @@ export default function InventoryManagement() {
                 </div>
                 <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${item.status === 'In Stock' ? 'bg-emerald-100 text-emerald-800' : item.status === 'Low Stock' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'}`}>{item.status}</span>
+                    <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${item.status === 'In Stock' ? 'bg-blue-100 text-blue-800' : item.status === 'Low Stock' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'}`}>{item.status}</span>
                     <span className="text-sm text-gray-500">{item.on_delivery ? 'On Delivery' : 'No Delivery'}</span>
                   </div>
                   <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -631,7 +631,7 @@ function ActivityModal({ activity, onClose }) {
           {activity.length === 0 ? (
             <p className="text-gray-600">No activity found.</p>
           ) : (
-            <table className="min-w-full text-green-700">
+            <table className="min-w-full text-blue-700">
               <thead>
                 <tr>
                   <th className="text-left">Item</th>
@@ -646,14 +646,14 @@ function ActivityModal({ activity, onClose }) {
                 {activity.map((a) => (
                 <tr key={a.id} className="border-t text-black">
                     <td className="py-2">{a.item_id}</td>
-                    <td className={`py-2 ${a.change_amount > 0 ? 'text-green-600' : 'text-red-600'}`}>{a.change_amount}</td>
+                    <td className={`py-2 ${a.change_amount > 0 ? 'text-blue-600' : 'text-red-600'}`}>{a.change_amount}</td>
                     <td className="py-2">{a.type}</td>
                     <td className="py-2">{a.note}</td>
                     <td className="py-2">
                       {a.performed_by_name ? (
                         <>
                           <div className="font-medium">{a.performed_by_name}</div>
-                          <div className="text-xs text-green-700">{a.performed_by_role || ''}</div>
+                          <div className="text-xs text-blue-700">{a.performed_by_role || ''}</div>
                         </>
                       ) : (
                         <div>System</div>
@@ -774,7 +774,7 @@ function ItemModal({ title, onClose, onSubmit, item, isSubmitting }) {
                 name="on_delivery"
                 defaultChecked={item?.on_delivery || false}
                 disabled={isSubmitting}
-                className={`h-4 w-4 text-green-600 ${
+                className={`h-4 w-4 text-blue-600 ${
                   isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               />
@@ -795,7 +795,7 @@ function ItemModal({ title, onClose, onSubmit, item, isSubmitting }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded ${
+              className={`px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded ${
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -831,7 +831,7 @@ function ViewModal({ item, onClose }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h2 className="text-xl font-bold mb-4 text-green-700">View Item</h2>
+        <h2 className="text-xl font-bold mb-4 text-blue-700">View Item</h2>
         <div className="space-y-2 text-black">
           <p><strong>Name:</strong> {item.name}</p>
           <p><strong>Category:</strong> {item.category}</p>
@@ -872,7 +872,7 @@ function WithdrawModal({ items = [], item, amount, note, isSubmitting, onClose, 
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h2 className="text-xl font-bold mb-4 text-green-700">Withdraw Item</h2>
+        <h2 className="text-xl font-bold mb-4 text-blue-700">Withdraw Item</h2>
         <div className="text-black mb-3">
           {!selected ? (
             <p className="text-sm text-gray-600">Select an item to withdraw</p>

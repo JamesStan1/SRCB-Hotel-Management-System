@@ -82,8 +82,8 @@ export async function POST(request) {
       return NextResponse.json({ message: 'Email server configuration error' }, { status: 500 });
     }
 
-    // Read the image file (use the new Joannaslogo.png placed in public/)
-    const imagePath = path.join(process.cwd(), 'public', 'Joannaslogo.png');
+    // Read the image file (use the new SRCB.png placed in public/)
+    const imagePath = path.join(process.cwd(), 'public', 'SRCB.png');
     let imageAttachment;
     try {
       imageAttachment = fs.readFileSync(imagePath);
@@ -100,7 +100,7 @@ export async function POST(request) {
       text: `Your verification code is: ${verificationCode}\n\nPlease use this code to reset your password. The code is valid for 10 minutes.`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <img src="cid:joannas-logo" alt="Joanna's Hotel Logo" style="max-width: 150px; display: block; margin: 0 auto 20px;">
+          <img src="cid:srcb-logo" alt="SRCB Logo" style="max-width: 150px; display: block; margin: 0 auto 20px;">
           <h2 style="color: #1f2937; text-align: center;">Password Reset Request</h2>
           <p style="color: #4b5563;">Your verification code is:</p>
           <h3 style="color: #15803d; text-align: center; font-size: 24px; margin: 10px 0;">${verificationCode}</h3>
@@ -110,9 +110,9 @@ export async function POST(request) {
       `,
       attachments: [
         {
-          filename: 'Joannaslogo.png',
+          filename: 'SRCB.png',
           content: imageAttachment,
-          cid: 'joannas-logo',
+          cid: 'srcb-logo',
         },
       ],
     };

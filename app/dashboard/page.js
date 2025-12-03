@@ -675,8 +675,8 @@ export default function Dashboard() {
         <div className="text-center animate-fade-in">
           <div className="mb-4">
             <img
-              src="/Joannaslogo.png"
-              alt="Joanna's Hotel Logo"
+              src="/SRCB.png"
+              alt="SRCB Logo"
               className="mx-auto w-24 h-16 sm:w-36 sm:h-24 rounded-lg animate-pulse"
             />
           </div>
@@ -873,10 +873,10 @@ export default function Dashboard() {
                       <>
                         {notifications.filter(n => n.type === 'pending_reservation').length > 0 && (
                           <div>
-                            <h4 className="px-2 text-sm font-medium text-emerald-700 mb-2">Pending Reservations</h4>
+                            <h4 className="px-2 text-sm font-medium text-blue-700 mb-2">Pending Reservations</h4>
                             <div className="space-y-2 px-2">
                               {notifications.filter(n => n.type === 'pending_reservation').map(note => (
-                                <div key={note.id} className="bg-emerald-50 border border-emerald-200 p-3 rounded-lg">
+                                <div key={note.id} className="bg-blue-50 border border-blue-200 p-3 rounded-lg">
                                   <div className="flex items-start justify-between mb-2">
                                     <div className="flex-1">
                                       <p className="text-sm font-medium text-gray-800">{note.message}</p>
@@ -1011,16 +1011,16 @@ export default function Dashboard() {
                 setSelectedPendingReservation(null);
                 setPaymentOption('');
               }}
-              className="absolute top-4 right-4 z-10 text-white hover:text-gray-200 hover:bg-emerald-700 rounded-full p-2 transition-colors"
+              className="absolute top-4 right-4 z-10 text-white hover:text-gray-200 hover:bg-blue-700 rounded-full p-2 transition-colors"
               aria-label="Close modal"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div className="sticky top-0 bg-emerald-600 text-white p-6 rounded-t-xl">
+            <div className="sticky top-0 bg-blue-600 text-white p-6 rounded-t-xl">
               <h2 className="text-2xl font-bold">Pending Reservation Request</h2>
-              <p className="text-emerald-100 text-sm mt-1">
+              <p className="text-blue-100 text-sm mt-1">
                 {selectedPendingReservation.type === 'room' ? 'Room Reservation' : 'Event Reservation'}
               </p>
             </div>
@@ -1147,7 +1147,7 @@ export default function Dashboard() {
               </button>
               <button
                 onClick={handleApprovePendingReservation}
-                className="flex-1 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!paymentOption}
               >
                 Approve Reservation
@@ -1319,8 +1319,8 @@ function Sidebar({
     <div className="flex items-center justify-center h-16 sm:h-20 bg-green-800">
         <h1 className="flex items-center text-white text-lg sm:text-xl font-bold">
           <Image
-            src="/Joannaslogo.png"
-            alt="Joanna's Hotel Logo"
+            src="/SRCB.png"
+            alt="SRCB Logo"
             width={isCollapsed ? 48 : 150}
             height={isCollapsed ? 48 : 150}
             className={`mr-2 rounded transition-all ${isCollapsed ? 'mx-auto' : ''}`}

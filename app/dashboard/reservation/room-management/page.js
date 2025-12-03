@@ -1192,7 +1192,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Reservation Contract - Joanna's Hotel</title>
+          <title>Reservation Contract - SRCB</title>
           <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
@@ -1347,7 +1347,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
         </head>
         <body>
           <div class="header">
-            <div class="logo">🏨 Joanna's Hotel</div>
+            <div class="logo">🏨 SRCB</div>
             <div class="subtitle">Reservation Contract & Agreement</div>
           </div>
 
@@ -1503,7 +1503,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
             <div class="signature-box">
               <strong>Hotel Representative</strong>
               <div style="margin-top: 5px; font-size: 11px; color: #666;">
-                Joanna's Hotel Management
+                SRCB Management
               </div>
             </div>
           </div>
@@ -1511,10 +1511,10 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
           <button class="print-button no-print" onclick="window.print()">🖨️ Print This Contract</button>
 
           <div class="footer">
-            <p><strong>Joanna's Hotel</strong></p>
+            <p><strong>SRCB</strong></p>
             <p>Thank you for choosing us! We look forward to hosting you.</p>
             <p style="margin-top: 10px;">For inquiries or changes, please contact our front desk.</p>
-            <p style="margin-top: 5px; font-size: 11px;">This is a binding contract between the guest and Joanna's Hotel</p>
+            <p style="margin-top: 5px; font-size: 11px;">This is a binding contract between the guest and SRCB</p>
           </div>
 
           <script>
@@ -2158,7 +2158,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
   <body>
     <div class="container">
       <div class="header">
-        <h1>Joanna's Hotel &amp; Café</h1>
+        <h1>SRCB & Café</h1>
         <div>Consolidated Billing Summary</div>
       </div>
       <div class="section">
@@ -2543,7 +2543,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
   <body>
     <!-- CONTRACT PAGE -->
     <div class="header">
-      <div class="logo">🏨 Joanna's Hotel</div>
+      <div class="logo">🏨 SRCB</div>
       <div class="subtitle">Reservation Contract & Agreement</div>
     </div>
 
@@ -2650,7 +2650,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
       <div class="signature-box">
         <strong>Hotel Representative</strong>
         <div style="margin-top: 5px; font-size: 11px; color: #666;">
-          Joanna's Hotel Management
+          SRCB Management
         </div>
       </div>
     </div>
@@ -2662,7 +2662,7 @@ export default function RoomManagement({ activeSubPage, isNarrow }) {
     <!-- BILLING PAGE -->
     <div class="billing-container">
       <div class="billing-header">
-        <h1>Joanna's Hotel & Café</h1>
+        <h1>SRCB & Café</h1>
         <div>Consolidated Billing Summary</div>
       </div>
       <div class="billing-section">

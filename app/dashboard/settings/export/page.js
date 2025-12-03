@@ -191,7 +191,7 @@ export default function Export() {
             .header {
               text-align: center;
               margin-bottom: 20px;
-              border-bottom: 2px solid #2e7d32;
+              border-bottom: 2px solid #2563eb;
               padding-bottom: 10px;
             }
             .header img {
@@ -200,19 +200,19 @@ export default function Export() {
             }
             h1 { 
               font-size: 24pt; 
-              color: #2e7d32; 
+              color: #2563eb; 
               margin: 0 0 20px; 
               text-align: center; 
             }
             h2 { 
               font-size: 18pt; 
-              color: #388e3c; 
+              color: #1d4ed8; 
               margin: 20px 0 10px; 
               text-align: center;
             }
             h3 { 
               font-size: 16pt; 
-              color: #4caf50; 
+              color: #3b82f6; 
               margin: 10px 0; 
               text-align: center;
             }
@@ -230,9 +230,9 @@ export default function Export() {
               vertical-align: top; 
             }
             th { 
-              background-color: #e8f5e9; 
+              background-color: #eff6ff; 
               font-weight: bold; 
-              color: #2e7d32; 
+              color: #2563eb; 
               text-transform: uppercase;
               font-size: 11pt;
             }
@@ -278,8 +278,8 @@ export default function Export() {
         </head>
         <body>
           <div class="header">
-            <img src="/Joannaslogo.png" alt="Joanna's Nook Logo" />
-            <h1>Joanna's Nook</h1>
+            <img src="/SRCB.png" alt="SRCB Logo" />
+            <h1>SRCB</h1>
             <p>123 Main Street, Springfield, USA</p>
           </div>
           ${htmlContent}
@@ -418,7 +418,7 @@ export default function Export() {
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white shadow rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <CalendarIcon className="h-6 w-6 text-green-500 mr-2" />
+              <CalendarIcon className="h-6 w-6 text-blue-500 mr-2" />
               <h2 className="text-lg font-medium text-gray-900">Data Print</h2>
             </div>
             <div className="space-y-4">
@@ -426,19 +426,19 @@ export default function Export() {
                 <div
                   className={`p-4 border-l-4 flex items-center justify-between ${
                     notification.type === "success"
-                      ? "bg-green-50 border-green-500"
+                      ? "bg-blue-50 border-blue-500"
                       : "bg-red-50 border-red-500"
                   }`}
                 >
                   <div className="flex items-center">
                     {notification.type === "success" ? (
-                      <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2" />
+                      <CheckCircleIcon className="h-5 w-5 text-blue-500 mr-2" />
                     ) : (
                       <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
                     )}
                     <p
                       className={
-                        notification.type === "success" ? "text-green-700" : "text-red-700"
+                        notification.type === "success" ? "text-blue-700" : "text-red-700"
                       }
                     >
                       {notification.message}
@@ -476,7 +476,7 @@ export default function Export() {
                     setSelectedMonth(e.target.value);
                     setNotification({ isVisible: false, type: "", message: "" });
                   }}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-green-500 focus:border-green-500 text-gray-700"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
                 />
               </div>
               <div className="space-y-2">
@@ -485,8 +485,8 @@ export default function Export() {
                   disabled={printing.events || !selectedMonth}
                   className={`w-full flex items-center justify-center px-4 py-2 rounded-md transition-colors ${
                     printing.events || !selectedMonth
-                      ? "bg-green-400 cursor-not-allowed opacity-50"
-                      : "bg-green-600 hover:bg-green-700"
+                      ? "bg-blue-400 cursor-not-allowed opacity-50"
+                      : "bg-blue-600 hover:bg-blue-700"
                   } text-white`}
                 >
                   {printing.events ? (
@@ -503,8 +503,8 @@ export default function Export() {
                   disabled={printing.rooms || !selectedMonth}
                   className={`w-full flex items-center justify-center px-4 py-2 rounded-md transition-colors ${
                     printing.rooms || !selectedMonth
-                      ? "bg-green-400 cursor-not-allowed opacity-50"
-                      : "bg-green-600 hover:bg-green-700"
+                      ? "bg-blue-400 cursor-not-allowed opacity-50"
+                      : "bg-blue-600 hover:bg-blue-700"
                   } text-white`}
                 >
                   {printing.rooms ? (
@@ -521,8 +521,8 @@ export default function Export() {
                   disabled={printing.receipts}
                   className={`w-full flex items-center justify-center px-4 py-2 rounded-md transition-colors ${
                     printing.receipts
-                      ? "bg-green-400 cursor-not-allowed opacity-50"
-                      : "bg-green-600 hover:bg-green-700"
+                      ? "bg-blue-400 cursor-not-allowed opacity-50"
+                      : "bg-blue-600 hover:bg-blue-700"
                   } text-white`}
                 >
                   {printing.receipts ? (

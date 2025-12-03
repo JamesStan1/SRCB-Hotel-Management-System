@@ -190,7 +190,7 @@ export default function AttendancePayroll({ isLoading }) {
                     return;
                   }
 
-                  if (qrData.system === "JoannaHotelAttendance" && qrData.userId) {
+                  if (qrData.system === "SRCBAttendance" && qrData.userId) {
                     let user = users.find((u) => Number(u.id) === Number(qrData.userId));
 
                     if (!user) {
@@ -457,9 +457,9 @@ export default function AttendancePayroll({ isLoading }) {
         </div>
       )}
       {successMessage && (
-        <div className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg flex justify-between items-center">
+        <div className="mb-6 p-4 bg-blue-100 text-blue-800 rounded-lg flex justify-between items-center">
           <span>{successMessage}</span>
-          <button onClick={() => setSuccessMessage(null)} className="text-green-800 font-bold">
+          <button onClick={() => setSuccessMessage(null)} className="text-blue-800 font-bold">
             X
           </button>
         </div>
@@ -468,7 +468,7 @@ export default function AttendancePayroll({ isLoading }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <div className="flex items-center">
-            <div className="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+            <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
               <UserGroupIcon className="h-6 w-6" />
             </div>
             <div>
@@ -517,14 +517,14 @@ export default function AttendancePayroll({ isLoading }) {
             type="date"
             value={selectedDate}
             onChange={handleDateChange}
-            className="text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            className="text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             max={new Date().toLocaleDateString("en-CA")}
           />
         </div>
         <div className="flex space-x-2">
           <button
             onClick={() => setShowClockInScanner(true)}
-            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             Clock In with QR
           </button>
@@ -640,7 +640,7 @@ export default function AttendancePayroll({ isLoading }) {
       )}
 
       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-lg font-semibold text-green-700 mb-4">Attendance for {selectedDate}</h2>
+        <h2 className="text-lg font-semibold text-blue-700 mb-4">Attendance for {selectedDate}</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -701,7 +701,7 @@ export default function AttendancePayroll({ isLoading }) {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {record.status === "present" ? (
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
                             Present
                           </span>
                         ) : filteredRecords.some((r) => Number(r.user_id) === Number(user.id)) ? (
@@ -718,7 +718,7 @@ export default function AttendancePayroll({ isLoading }) {
                         <div className="flex items-center space-x-2">
                           {record.clock_in ? (
                             <>
-                              <CheckIcon className="h-4 w-4 text-green-500" />
+                              <CheckIcon className="h-4 w-4 text-blue-500" />
                               <span>{formatTime(record.clock_in)}</span>
                             </>
                           ) : (
@@ -730,7 +730,7 @@ export default function AttendancePayroll({ isLoading }) {
                           <span>/</span>
                           {record.clock_out ? (
                             <>
-                              <CheckIcon className="h-4 w-4 text-green-500" />
+                              <CheckIcon className="h-4 w-4 text-blue-500" />
                               <span>{formatTime(record.clock_out)}</span>
                             </>
                           ) : (

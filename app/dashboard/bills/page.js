@@ -166,7 +166,7 @@ export default function BillsPage() {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Bill - Joanna's Hotel</title>
+          <title>Bill - SRCB</title>
           <style>
             @page { size: A4; margin: 15mm; }
             * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -262,7 +262,7 @@ export default function BillsPage() {
         </head>
         <body>
           <div class="header">
-            <div class="logo">🏨 Joanna's Hotel</div>
+            <div class="logo">🏨 SRCB</div>
             <div style="color: #666; font-size: 14px;">${
               isRoom ? "Room Reservation Bill" : "Event Reservation Bill"
             }</div>
@@ -366,8 +366,8 @@ export default function BillsPage() {
           </div>
 
           <div class="footer">
-            <div>Thank you for choosing Joanna's Hotel!</div>
-            <div style="margin-top: 10px;">For inquiries, please contact us at info@joannashotel.com</div>
+            <div>Thank you for choosing SRCB!</div>
+            <div style="margin-top: 10px;">For inquiries, please contact us at info@srcb.com</div>
           </div>
 
           <div class="no-print" style="text-align: center; margin-top: 30px;">

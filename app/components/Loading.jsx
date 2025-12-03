@@ -28,8 +28,8 @@ export default function Loading({ message = "Loading...", fullScreen = false, ov
       <div className="text-center animate-pulse">
         <div className="mb-4">
           <img
-            src="/Joannaslogo.png"
-            alt="Joanna's Hotel Logo"
+            src="/SRCB.png"
+            alt="SRCB Logo"
             className={`mx-auto rounded-md ${size === 'xl' ? 'w-48 h-28 sm:w-80 sm:h-40 md:w-74 md:h-48' : size === 'lg' ? 'w-48 h-20 sm:w-36 sm:h-28 md:w-54 md:h-32' : 'w-30 h-18 sm:w-25 sm:h-14 md:w-38 md:h-20'}`}
           />
         </div>

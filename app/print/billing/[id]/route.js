@@ -123,15 +123,15 @@ export async function GET(request, { params }) {
       .header { text-align: center; margin-bottom: 12px; }
       .brand { display:flex; align-items:center; gap:12px; justify-content:center }
       .brand img { height:72px; width:auto; border-radius:8px }
-      .hotel-name { font-size:20px; font-weight:700; color:#047857 }
+      .hotel-name { font-size:20px; font-weight:700; color:#2563eb }
       .summary { max-width: 720px; margin: 12px auto 0; }
       .row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f1f5f9 }
       .label { color:#475569 }
       .value { font-weight:600; color:#0f172a }
       .cafe { color:#92400e; font-weight:700 }
       .big-total { margin-top:18px; padding:16px; background:#ecfeff; border:1px solid #67e8f9; border-radius:8px; display:flex; justify-content:space-between; align-items:center }
-      .big-total .left { font-size:15px; color:#065f46 }
-      .big-total .amount { font-size:22px; font-weight:800; color:#065f46 }
+      .big-total .left { font-size:15px; color:#2563eb }
+      .big-total .amount { font-size:22px; font-weight:800; color:#2563eb }
       .meta { margin-top:10px; font-size:13px; color:#64748b }
       @media print { body { background: #fff; width: 210mm; min-height: 297mm; } .container { box-shadow:none; } }
     </style>
@@ -140,9 +140,9 @@ export async function GET(request, { params }) {
     <div class="container">
       <div class="header">
         <div class="brand">
-          <img src="/Joannaslogo.png" alt="Joanna's Logo" />
+          <img src="/SRCB.png" alt="SRCB Logo" />
           <div>
-            <div class="hotel-name">Joanna's Hotel & Café</div>
+            <div class="hotel-name">SRCB & Café</div>
             <div style="font-size:13px;color:#6b7280">Consolidated Billing Summary</div>
           </div>
         </div>

@@ -240,7 +240,7 @@ export default function EventReservation({ selectedPackage: preselectedPackage =
         icon: 'success',
         title: 'Event Reservation Submitted!',
         html: 'Your reservation is pending approval from our management team.<br>We will contact you shortly.',
-        confirmButtonColor: '#10b981',
+        confirmButtonColor: '#3b82f6',
         confirmButtonText: 'OK'
       });
       
@@ -290,7 +290,7 @@ export default function EventReservation({ selectedPackage: preselectedPackage =
     <main className="min-h-screen bg-white py-12 px-6">
       <div className="max-w-4xl mx-auto bg-gray-50 border rounded-lg p-6">
           <div className="text-center mb-6">
-            <Image src="/Joannaslogo.png" alt="Logo" width={96} height={96} className="mx-auto" />
+            <Image src="/SRCB.png" alt="Logo" width={96} height={96} className="mx-auto" />
             <h1 className="text-2xl font-bold mt-4">Event Reservation</h1>
             <p className="text-gray-600">Provide details for your event reservation and our team will contact you.</p>
             <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
@@ -399,9 +399,9 @@ export default function EventReservation({ selectedPackage: preselectedPackage =
                             console.error('Error setting attendees from package:', err);
                           }
                         }}
-                        className={`p-2 border rounded ${selectedPkg?.id === pkg.id ? 'border-green-500 bg-green-50' : 'border-gray-300'}`}>
+                        className={`p-2 border rounded ${selectedPkg?.id === pkg.id ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}>
                         <div className="font-medium text-gray-700">{pkg.name}</div>
-                        <div className="text-sm text-green-600">₱{parseFloat((pkg.price||'0').toString().replace(/[^\d.]/g,'')).toFixed(2)}</div>
+                        <div className="text-sm text-blue-600">₱{parseFloat((pkg.price||'0').toString().replace(/[^\d.]/g,'')).toFixed(2)}</div>
                       </button>
                     ))}
                   </div>
@@ -417,9 +417,9 @@ export default function EventReservation({ selectedPackage: preselectedPackage =
                         key={set.name}
                         type="button"
                         onClick={() => { setSelectedSet(set); setSelectedDishes([]); }}
-                        className={`p-2 border rounded ${selectedSet?.name === set.name ? 'border-green-500 bg-green-50' : 'border-gray-300'}`}>
+                        className={`p-2 border rounded ${selectedSet?.name === set.name ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}>
                         <div className="font-medium text-gray-700">{set.name}</div>
-                        <div className="text-sm text-green-600">₱{set.price.toFixed(2)}</div>
+                        <div className="text-sm text-blue-600">₱{set.price.toFixed(2)}</div>
                         <div className="text-xs text-gray-500">Up to {set.maxDishes} dishes</div>
                       </button>
                     ))}
@@ -643,7 +643,7 @@ export default function EventReservation({ selectedPackage: preselectedPackage =
               <button 
                 type="submit" 
                 disabled={submitting || !dataPrivacyAccepted || !termsConditionsAccepted} 
-                className="px-4 py-2 bg-emerald-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 {submitting ? 'Submitting...' : 'Submit Reservation'}
               </button>

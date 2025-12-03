@@ -352,7 +352,7 @@ export default function SignInForm() {
         <div className="w-full max-w-md sm:max-w-m pace-y-6 bg-white p-6 sm:p-8 md:p-12 rounded-lg shadow-lg backdrop-blur-sm">
           <div className="text-center">
             <Image
-              src="/Joannaslogo.png"
+              src="/SRCB.png"
               alt="Hotel Logo"
               width={120}
               height={120}
@@ -570,7 +570,7 @@ export default function SignInForm() {
           <div className="bg-white rounded-lg shadow-xl p-6 sm:p-8 max-w-md w-full mx-4">
             <div className="text-center mb-6">
               <Image
-                src="/Joannaslogo.png"
+                src="/SRCB.png"
                 alt="Hotel Logo"
                 width={120}
                 height={120}

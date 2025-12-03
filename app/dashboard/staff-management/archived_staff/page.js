@@ -174,7 +174,7 @@ export default function ArchivedStaff() {
           key={notification.id}
           className={`mb-4 p-4 rounded-lg flex justify-between items-center text-sm sm:text-base transition-opacity duration-300 ${
             notification.type === "success"
-              ? "bg-green-100 text-green-800"
+              ? "bg-blue-100 text-blue-800"
               : notification.type === "info"
               ? "bg-blue-100 text-blue-800"
               : "bg-red-100 text-red-800"
@@ -188,7 +188,7 @@ export default function ArchivedStaff() {
             }
             className={`font-bold ${
               notification.type === "success"
-                ? "text-green-800"
+                ? "text-blue-800"
                 : notification.type === "info"
                 ? "text-blue-800"
                 : "text-red-800"
@@ -209,7 +209,7 @@ export default function ArchivedStaff() {
               {/* Desktop Table View */}
               <div className="hidden md:block">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-green-300">
+                  <thead className="bg-blue-300">
                     <tr>
                       <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         ID
@@ -253,7 +253,7 @@ export default function ArchivedStaff() {
                           <button
                             onClick={() => handleRestore(item.id)}
                             disabled={loading}
-                            className={`text-green-600 hover:text-green-900 mr-3 sm:mr-4 ${
+                            className={`text-blue-600 hover:text-blue-900 mr-3 sm:mr-4 ${
                               loading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                             aria-label="Restore staff"
@@ -321,7 +321,7 @@ export default function ArchivedStaff() {
                       <button
                         onClick={() => handleRestore(item.id)}
                         disabled={loading}
-                        className={`text-green-600 hover:text-green-900 text-sm ${
+                        className={`text-blue-600 hover:text-blue-900 text-sm ${
                           loading ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                         aria-label="Restore staff"
@@ -355,7 +355,7 @@ export default function ArchivedStaff() {
       {viewItem && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white p-4 sm:p-6 rounded-lg w-full max-w-md text-gray-700">
-            <h2 className="text-lg sm:text-xl font-bold mb-3 text-green-700">
+            <h2 className="text-lg sm:text-xl font-bold mb-3 text-blue-700">
               Staff Details: {viewItem.name || "N/A"}
             </h2>
             <p className="text-sm">
@@ -397,8 +397,8 @@ export default function ArchivedStaff() {
                 disabled={loading}
                 className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${
                   loading
-                    ? "bg-green-400 text-white cursor-not-allowed"
-                    : "bg-green-600 hover:bg-green-700 text-white"
+                    ? "bg-blue-400 text-white cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
                 }`}
               >
                 Restore

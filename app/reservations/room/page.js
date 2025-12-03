@@ -262,7 +262,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
           icon: 'success',
           title: 'Reservation Submitted!',
           html: 'Your reservation is pending approval from our management team.<br>We will contact you shortly.',
-          confirmButtonColor: '#10b981',
+          confirmButtonColor: '#3b82f6',
           confirmButtonText: 'OK'
         });
         
@@ -320,7 +320,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
     <main className="min-h-screen bg-white py-12 px-6">
       <div className="max-w-4xl mx-auto bg-gray-50 border rounded-lg p-6">
         <div className="text-center mb-6">
-          <Image src="/Joannaslogo.png" alt="Logo" width={96} height={96} className="mx-auto" />
+          <Image src="/SRCB.png" alt="Logo" width={96} height={96} className="mx-auto" />
           <h1 className="text-2xl font-bold mt-4">Room Reservation</h1>
           <p className="text-gray-600">Fill in the details below to reserve a room.</p>
         </div>
@@ -363,7 +363,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
                   }
                 }
               }}
-              className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+              className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
               required
             >
               <option value="">Select Package</option>
@@ -404,7 +404,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
               return null;
             })()}
             {selectedPackageId && packages.find(p => p.id === parseInt(selectedPackageId)) && (
-              <div className="mt-3 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+              <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <div className="flex gap-3">
                   <Image 
                     src={packages.find(p => p.id === parseInt(selectedPackageId)).image} 
@@ -431,10 +431,10 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
                   </div>
                 </div>
                 {/* Display price immediately after selection */}
-                <div className="mt-3 pt-3 border-t border-emerald-200">
+                <div className="mt-3 pt-3 border-t border-blue-200">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-gray-700">Selected Package Price:</span>
-                    <span className="text-lg font-bold text-emerald-700">
+                    <span className="text-lg font-bold text-blue-700">
                       {packages.find(p => p.id === parseInt(selectedPackageId)).price}
                     </span>
                   </div>
@@ -574,7 +574,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
 
           {/* Display Estimated Total */}
           {selectedPackageId && (
-            <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-sm text-gray-600">Estimated Total:</p>
@@ -609,7 +609,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
                     }
                   })()}
                 </div>
-                <p className="text-2xl font-bold text-emerald-700">
+                <p className="text-2xl font-bold text-blue-700">
                   ₱{calculateEstimatedTotal().toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
               </div>
@@ -668,7 +668,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
                 checked={termsAccepted}
                 onChange={(e) => setTermsAccepted(e.target.checked)}
                 disabled={!termsScrolled}
-                className="mt-1 h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed"
                 required
               />
               <label 
@@ -734,7 +734,7 @@ export default function RoomReservation({ selectedPackage = null, onClose = null
             <button 
               type="submit" 
               disabled={submitting || !dataPrivacyAccepted || !termsConditionsAccepted} 
-              className="px-4 py-2 bg-emerald-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
               {submitting ? 'Submitting...' : 'Submit Reservation'}
             </button>

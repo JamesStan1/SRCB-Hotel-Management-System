@@ -135,14 +135,14 @@ export default function BillsHistory() {
               }
               .header {
                 text-align: center;
-                border-bottom: 3px solid #10b981;
+                border-bottom: 3px solid #3b82f6;
                 padding-bottom: 20px;
                 margin-bottom: 30px;
               }
               .logo {
                 font-size: 28px;
                 font-weight: bold;
-                color: #10b981;
+                color: #3b82f6;
                 margin-bottom: 5px;
               }
               .subtitle {
@@ -179,7 +179,7 @@ export default function BillsHistory() {
                 margin-bottom: 30px;
               }
               .items-table thead {
-                background: #10b981;
+                background: #3b82f6;
                 color: white;
               }
               .items-table th,
@@ -220,11 +220,11 @@ export default function BillsHistory() {
                 border-bottom: 1px solid #e5e7eb;
               }
               .summary-row.total {
-                border-top: 2px solid #10b981;
-                border-bottom: 2px solid #10b981;
+                border-top: 2px solid #3b82f6;
+                border-bottom: 2px solid #3b82f6;
                 font-weight: bold;
                 font-size: 18px;
-                color: #10b981;
+                color: #3b82f6;
                 margin-top: 10px;
                 padding-top: 12px;
               }
@@ -248,9 +248,9 @@ export default function BillsHistory() {
           </head>
           <body>
             <div class="header">
-              <div class="logo">🏨 Joanna's Hotel</div>
+              <div class="logo">🏨 SRCB</div>
               <div class="subtitle">Madroño St., Brgy 4, Balingasag, Misamis Oriental</div>
-              <div style="margin-top: 10px; font-size: 20px; font-weight: bold; color: #10b981;">ITEMIZED BILL</div>
+              <div style="margin-top: 10px; font-size: 20px; font-weight: bold; color: #3b82f6;">ITEMIZED BILL</div>
             </div>
 
             <div class="bill-info">
@@ -350,7 +350,7 @@ export default function BillsHistory() {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-emerald-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading bills...</p>
         </div>
       </div>
@@ -363,7 +363,7 @@ export default function BillsHistory() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
-            <DocumentTextIcon className="w-8 h-8 text-emerald-600" />
+            <DocumentTextIcon className="w-8 h-8 text-blue-600" />
             Bills & Invoices History
           </h1>
           <p className="text-gray-600 mt-2">View and print past bills and invoices</p>
@@ -376,7 +376,7 @@ export default function BillsHistory() {
             <input
               type="text"
               placeholder="Search by Invoice ID, Customer, Cashier, or Payment Method..."
-              className="flex-1 p-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="flex-1 p-2 text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -390,25 +390,25 @@ export default function BillsHistory() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-gray-600 text-sm font-medium">Total Bills</h3>
-            <p className="text-3xl font-bold text-emerald-600">{bills.length}</p>
+            <p className="text-3xl font-bold text-blue-600">{bills.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-gray-600 text-sm font-medium">Total Revenue</h3>
-            <p className="text-3xl font-bold text-emerald-600">
+            <p className="text-3xl font-bold text-blue-600">
               ₱{bills.reduce((sum, bill) => sum + (bill.total || 0), 0).toFixed(2)}
             </p>
           </div>
           <div className="bg-white rounded-lg shadow-md p-6">
             <h3 className="text-gray-600 text-sm font-medium">Search Results</h3>
-            <p className="text-3xl font-bold text-emerald-600">{filteredBills.length}</p>
+            <p className="text-3xl font-bold text-blue-600">{filteredBills.length}</p>
           </div>
         </div>
 
         {/* Bills Table */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-emerald-600 text-white">
+              <table className="w-full">
+              <thead className="bg-blue-600 text-white">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase">Invoice ID</th>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase">Date & Time</th>
@@ -458,7 +458,7 @@ export default function BillsHistory() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <div className="text-sm font-semibold text-emerald-600">
+                        <div className="text-sm font-semibold text-blue-600">
                           ₱{(bill.total || 0).toFixed(2)}
                         </div>
                         {bill.discount > 0 && (
@@ -470,7 +470,7 @@ export default function BillsHistory() {
                       <td className="px-6 py-4 text-center">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           bill.paymentMethod === 'Cash' 
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-blue-100 text-blue-800'
                             : bill.paymentMethod === 'Gcash'
                             ? 'bg-purple-100 text-purple-800'
                             : 'bg-gray-100 text-gray-800'
@@ -489,7 +489,7 @@ export default function BillsHistory() {
                           </button>
                           <button
                             onClick={() => printBill(bill)}
-                            className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                             title="Print"
                           >
                             <PrinterIcon className="w-5 h-5" />
@@ -510,7 +510,7 @@ export default function BillsHistory() {
             <button
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-emerald-600 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-emerald-700 transition-colors"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
             >
               Previous
             </button>
@@ -520,7 +520,7 @@ export default function BillsHistory() {
             <button
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-emerald-600 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-emerald-700 transition-colors"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
             >
               Next
             </button>
@@ -544,10 +544,10 @@ export default function BillsHistory() {
             
             <div className="p-8">
               {/* Preview Content */}
-              <div className="text-center border-b-2 border-emerald-600 pb-6 mb-6">
-                <div className="text-3xl font-bold text-emerald-600 mb-2">🏨 Joanna&apos;s Hotel</div>
+              <div className="text-center border-b-2 border-blue-600 pb-6 mb-6">
+                <div className="text-3xl font-bold text-blue-600 mb-2">🏨 SRCB</div>
                 <div className="text-gray-600">Madroño St., Brgy 4, Balingasag, Misamis Oriental</div>
-                <div className="mt-3 text-xl font-bold text-emerald-600">ITEMIZED BILL</div>
+                <div className="mt-3 text-xl font-bold text-blue-600">ITEMIZED BILL</div>
               </div>
 
               <div className="grid grid-cols-2 gap-6 mb-6 p-6 bg-gray-50 rounded-lg">
@@ -576,7 +576,7 @@ export default function BillsHistory() {
               </div>
 
               <table className="w-full mb-6 border-collapse">
-                <thead className="bg-emerald-600 text-white">
+                <thead className="bg-blue-600 text-white">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-semibold uppercase">#</th>
                     <th className="px-4 py-3 text-left text-xs font-semibold uppercase">Description</th>
@@ -614,7 +614,7 @@ export default function BillsHistory() {
                       <span>- ₱{selectedBill.discount.toFixed(2)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between py-3 border-t-2 border-emerald-600 mt-2 font-bold text-lg text-emerald-600">
+                  <div className="flex justify-between py-3 border-t-2 border-blue-600 mt-2 font-bold text-lg text-blue-600">
                     <span>TOTAL:</span>
                     <span>₱{(selectedBill.total || 0).toFixed(2)}</span>
                   </div>
@@ -643,7 +643,7 @@ export default function BillsHistory() {
                   printBill(selectedBill);
                   setShowPreviewModal(false);
                 }}
-                className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors flex items-center gap-2"
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
               >
                 <PrinterIcon className="w-5 h-5" />
                 Print Bill

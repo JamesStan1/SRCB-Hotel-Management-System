@@ -1,20 +1,20 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
-/* Root theme colors */
+/* Root theme colors - White and Blue */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --brand-green-50: #ecfdf5;
-  --brand-green-100: #d1fae5;
-  --brand-green-200: #a7f3d0;
-  --brand-green-300: #6ee7b7;
-  --brand-green-400: #34d399;
-  --brand-green-500: #10b981;
-  --brand-green-600: #059669;
-  --brand-green-700: #047857;
-  --brand-green-800: #065f46;
-  --brand-green-900: #064e3b;
+  --brand-blue-50: #eff6ff;
+  --brand-blue-100: #dbeafe;
+  --brand-blue-200: #bfdbfe;
+  --brand-blue-300: #93c5fd;
+  --brand-blue-400: #60a5fa;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-600: #2563eb;
+  --brand-blue-700: #1d4ed8;
+  --brand-blue-800: #1e40af;
+  --brand-blue-900: #1e3a8a;
 }
 
 /* QR code canvas image sizing */
@@ -48,23 +48,23 @@ body {
 
 /* Global typography accents */
 h1, h2, h3 {
-  color: var(--brand-green-700);
+  color: var(--brand-blue-700);
 }
 
 a {
-  color: var(--brand-green-700);
+  color: var(--brand-blue-700);
 }
 a:hover {
-  color: var(--brand-green-600);
+  color: var(--brand-blue-600);
 }
 
 /* Inputs focus ring tint */
 input, select, textarea {
-  accent-color: var(--brand-green-600);
+  accent-color: var(--brand-blue-600);
 }
 input:focus, select:focus, textarea:focus {
-  outline-color: var(--brand-green-500);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  outline-color: var(--brand-blue-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
 /* Scrollbar (WebKit) */
@@ -76,11 +76,11 @@ input:focus, select:focus, textarea:focus {
   background: #f1f5f9;
 }
 *::-webkit-scrollbar-thumb {
-  background: var(--brand-green-500);
+  background: var(--brand-blue-500);
   border-radius: 10px;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-green-600);
+  background: var(--brand-blue-600);
 }
 
 /* Sidebar / Navigation scrollbar - ensure sidebar scrollbars match the app theme
@@ -88,7 +88,7 @@ input:focus, select:focus, textarea:focus {
 */
 .dashboard-sidebar {
   /* Firefox: set thumb and track colors and make scrollbar thin */
-  scrollbar-color: var(--brand-green-500) #f1f5f9;
+  scrollbar-color: var(--brand-blue-500) #f1f5f9;
   scrollbar-width: thin;
 }
 .dashboard-sidebar *::-webkit-scrollbar {
@@ -99,11 +99,11 @@ input:focus, select:focus, textarea:focus {
   background: #f1f5f9;
 }
 .dashboard-sidebar *::-webkit-scrollbar-thumb {
-  background: var(--brand-green-500);
+  background: var(--brand-blue-500);
   border-radius: 10px;
 }
 .dashboard-sidebar *::-webkit-scrollbar-thumb:hover {
-  background: var(--brand-green-600);
+  background: var(--brand-blue-600);
 }
 
 /* Hide the visible scrollbar for the dashboard sidebar while keeping it scrollable.
@@ -147,11 +147,11 @@ input:focus, select:focus, textarea:focus {
 
 /* Selected date */
 .react-calendar__tile--active {
-  background: linear-gradient(135deg, var(--brand-green-400), var(--brand-green-600));
+  background: linear-gradient(135deg, var(--brand-blue-400), var(--brand-blue-600));
   color: #fff !important;
   border-radius: 999px;
   font-weight: bold;
-  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.35);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
 }
 
 /* Hover effect for all tiles */
@@ -162,19 +162,19 @@ input:focus, select:focus, textarea:focus {
 
 /* === Custom Highlight Classes for Reservations === */
 
-/* Occupied days (green gradient + glow) */
+/* Occupied days (blue gradient + glow) */
 .react-calendar__tile.occupied-day {
-  background: linear-gradient(135deg, #86efac, #22c55e); /* green-300 → green-500 */
+  background: linear-gradient(135deg, #93c5fd, #3b82f6); /* blue-300 → blue-500 */
   color: #fff !important;
   font-weight: 600;
   border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.4);
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .react-calendar__tile.occupied-day:hover {
-  background: linear-gradient(135deg, #bbf7d0, #16a34a); /* lighter green → dark green */
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
+  background: linear-gradient(135deg, #bfdbfe, #1e40af); /* lighter blue → dark blue */
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.7);
 }
 
 /* Reserved days (yellow gradient + glow) */
@@ -333,7 +333,7 @@ input:focus, select:focus, textarea:focus {
     left: 0;
     right: 0;
     z-index: 60;
-    background: var(--brand-green-800); /* match sidebar/header background */
+    background: var(--brand-blue-800); /* match sidebar/header background */
     border-bottom: 1px solid rgba(255,255,255,0.06);
     color: #fff; /* ensure header text is white on narrow screens */
   }
@@ -407,7 +407,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .anchored-button:focus, .anchored-button:hover {
-  background-color: rgba(4, 120, 87, 0.12);
+  background-color: rgba(30, 64, 175, 0.12);
   transform: translateY(-1px);
 }
 
@@ -417,8 +417,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 .anchored-button[aria-pressed="true"] {
-  background-color: rgba(16, 185, 129, 0.18);
-  box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+  background-color: rgba(59, 130, 246, 0.18);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
 }
 
 @media (max-width: 520px) {
@@ -498,7 +498,8 @@ input:focus, select:focus, textarea:focus {
   border-radius: 6px;
   border: 2px solid transparent; /* gives padding around thumb */
   background-clip: content-box;
-} 
+}
+ 
  
 /* Leaflet Map Customization */
 .leaflet-container {
@@ -531,7 +532,7 @@ input:focus, select:focus, textarea:focus {
 
 .leaflet-control-zoom a {
   background-color: white !important;
-  color: #059669 !important;
+  color: #2563eb !important;
   border-bottom: 1px solid #e5e7eb !important;
 }
 

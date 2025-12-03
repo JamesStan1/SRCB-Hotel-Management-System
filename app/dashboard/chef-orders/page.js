@@ -122,7 +122,7 @@ export default function ChefOrdersPage() {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'preparing': return 'bg-blue-100 text-blue-800';
-      case 'ready': return 'bg-green-100 text-green-800';
+      case 'ready': return 'bg-blue-100 text-blue-800';
       case 'served': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -163,7 +163,7 @@ export default function ChefOrdersPage() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading orders...</p>
         </div>
       </div>
@@ -242,14 +242,14 @@ export default function ChefOrdersPage() {
                 onClick={() => setFilter(tab.value)}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   filter === tab.value
-                    ? 'bg-green-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 {tab.label}
                 {tab.count > 0 && (
                   <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
-                    filter === tab.value ? 'bg-green-700' : 'bg-gray-300'
+                    filter === tab.value ? 'bg-blue-700' : 'bg-gray-300'
                   }`}>
                     {tab.count}
                   </span>
@@ -335,7 +335,7 @@ export default function ChefOrdersPage() {
                     {order.status === 'preparing' && (
                       <button
                         onClick={() => updateOrderStatus(order.id, 'ready')}
-                        className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition-colors flex items-center justify-center gap-2"
+                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors flex items-center justify-center gap-2"
                       >
                         <CheckCircleIcon className="h-5 w-5" />
                         Mark as Ready
@@ -344,7 +344,7 @@ export default function ChefOrdersPage() {
                     
                     {order.status === 'ready' && (
                       <div className="text-center">
-                        <div className="flex items-center justify-center gap-2 text-green-600 font-medium mb-2">
+                        <div className="flex items-center justify-center gap-2 text-blue-600 font-medium mb-2">
                           <CheckCircleIcon className="h-5 w-5" />
                           Ready for Serving
                         </div>
@@ -376,7 +376,7 @@ export default function ChefOrdersPage() {
               <div className="text-sm text-gray-600 mt-1">Preparing</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">
+              <div className="text-3xl font-bold text-blue-600">
                 {orders.filter(o => o.status === 'ready').length}
               </div>
               <div className="text-sm text-gray-600 mt-1">Ready</div>

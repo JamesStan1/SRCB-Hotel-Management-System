@@ -13,8 +13,8 @@ export default function LandingPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src="/login_joannas.jpg" 
-            alt="Joanna&apos;s Hotel Background" 
+            src="/SRCB.png" 
+            alt="SRCB Background" 
             fill
             className="object-cover"
             priority
@@ -27,7 +27,7 @@ export default function LandingPage() {
         {/* Content */}
         <div className="relative z-10 max-w-5xl w-full text-center">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white drop-shadow-2xl mb-6 leading-tight">
-            Welcome to Joanna&apos;s Hotel
+            Welcome to SRCB
           </h1>
           <p className="text-base sm:text-lg md:text-2xl text-white max-w-3xl mx-auto mb-4 drop-shadow-lg">
             Experience comfort, luxury, and exceptional hospitality
@@ -41,7 +41,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
             <Link 
               href="/services" 
-              className="px-6 py-3 sm:px-8 sm:py-4 bg-emerald-600 text-white text-base sm:text-lg rounded-lg hover:bg-emerald-700 transition font-semibold shadow-2xl hover:shadow-emerald-600/50 hover:scale-105 transform duration-200"
+              className="px-6 py-3 sm:px-8 sm:py-4 bg-blue-600 text-white text-base sm:text-lg rounded-lg hover:bg-blue-700 transition font-semibold shadow-2xl hover:shadow-blue-600/50 hover:scale-105 transform duration-200"
               style={{ color: 'white' }}
             >
               View Our Services
@@ -99,8 +99,8 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="bg-emerald-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="h-8 w-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-blue-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
               </div>
@@ -153,8 +153,8 @@ export default function LandingPage() {
             </div>
 
             <div className="md:w-1/2">
-              <h2 className="text-3xl font-bold text-amber-900 mb-4">Joanna&apos;s Café — Dining & Delights</h2>
-              <p className="text-amber-800 mb-4">Our on-site café complements your stay with freshly prepared dishes, specialty coffee, and a warm, inviting atmosphere. Whether you&apos;re fueling up for the day or winding down after an event, Joanna&apos;s Café offers a menu crafted for both comfort and flavor.</p>
+              <h2 className="text-3xl font-bold text-amber-900 mb-4">SRCB Café — Dining & Delights</h2>
+              <p className="text-amber-800 mb-4">Our on-site café complements your stay with freshly prepared dishes, specialty coffee, and a warm, inviting atmosphere. Whether you&apos;re fueling up for the day or winding down after an event, SRCB Café offers a menu crafted for both comfort and flavor.</p>
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                 <li className="bg-white p-3 rounded-lg shadow-sm">
@@ -189,7 +189,7 @@ export default function LandingPage() {
           </p>
           <Link 
             href="/contact"
-            className="inline-block px-8 py-4 bg-emerald-600 text-white text-lg rounded-lg hover:bg-emerald-700 transition font-semibold shadow-lg hover:shadow-xl"
+            className="inline-block px-8 py-4 bg-blue-600 text-white text-lg rounded-lg hover:bg-blue-700 transition font-semibold shadow-lg hover:shadow-xl"
           >
             Contact Us
           </Link>
@@ -199,7 +199,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-sm">© 2025 Joanna&apos;s Hotel. All rights reserved.</p>
+          <p className="text-sm">© 2025 SRCB. All rights reserved.</p>
           <p className="text-xs text-gray-400 mt-2">Experience comfort and hospitality at its finest.</p>
         </div>
       </footer>

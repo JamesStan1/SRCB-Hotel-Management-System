@@ -578,7 +578,7 @@ export default function EventCateringManagement() {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Event Reservation Confirmation - Joanna's Hotel</title>
+          <title>Event Reservation Confirmation - SRCB</title>
           <style>
             @page { size: A4; margin: 10mm; }
             * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -593,14 +593,14 @@ export default function EventCateringManagement() {
             }
             .header {
               text-align: center;
-              border-bottom: 2px solid #10b981;
+              border-bottom: 2px solid #3b82f6;
               padding-bottom: 8px;
               margin-bottom: 10px;
             }
             .logo {
               font-size: 20px;
               font-weight: bold;
-              color: #10b981;
+              color: #3b82f6;
               margin-bottom: 3px;
             }
             .subtitle {
@@ -609,7 +609,7 @@ export default function EventCateringManagement() {
             }
             .confirmation-number {
               background: #f0fdf4;
-              border: 1px solid #10b981;
+              border: 1px solid #3b82f6;
               padding: 6px;
               text-align: center;
               margin: 8px 0;
@@ -617,7 +617,7 @@ export default function EventCateringManagement() {
               font-size: 11px;
             }
             .confirmation-number strong {
-              color: #10b981;
+              color: #3b82f6;
               font-size: 12px;
             }
             .two-column-layout {
@@ -635,7 +635,7 @@ export default function EventCateringManagement() {
             .section-title {
               font-size: 12px;
               font-weight: bold;
-              color: #10b981;
+              color: #3b82f6;
               margin-bottom: 5px;
               border-bottom: 1px solid #e5e7eb;
               padding-bottom: 3px;
@@ -702,7 +702,7 @@ export default function EventCateringManagement() {
               background: #fafafa;
             }
             .acknowledgment-section h3 {
-              color: #10b981;
+              color: #3b82f6;
               margin-bottom: 5px;
               font-size: 11px;
             }
@@ -744,7 +744,7 @@ export default function EventCateringManagement() {
               }
             }
             .print-button {
-              background: #10b981;
+              background: #3b82f6;
               color: white;
               border: none;
               padding: 12px 30px;
@@ -761,7 +761,7 @@ export default function EventCateringManagement() {
         </head>
         <body>
           <div class="header">
-            <div class="logo">🏨 Joanna's Hotel</div>
+            <div class="logo">🏨 SRCB</div>
             <div class="subtitle">Event Reservation Confirmation</div>
           </div>
 
@@ -870,7 +870,7 @@ export default function EventCateringManagement() {
           <div class="acknowledgment-section">
             <h3>Reservation Confirmation Acknowledgment</h3>
             <div class="acknowledgment-text">
-              I, <strong>${eventInfo.booked_by}</strong>, acknowledge that I have read, understood, and agree to comply with all the terms and regulations stated above for the event reservation at Joanna's Hotel. I confirm that all information provided is accurate and complete. I understand that failure to comply with these terms may result in cancellation of the reservation and/or additional charges.
+              I, <strong>${eventInfo.booked_by}</strong>, acknowledge that I have read, understood, and agree to comply with all the terms and regulations stated above for the event reservation at SRCB. I confirm that all information provided is accurate and complete. I understand that failure to comply with these terms may result in cancellation of the reservation and/or additional charges.
             </div>
             <div style="display: flex; justify-content: space-between; gap: 50px;">
               <div style="flex: 1;">
@@ -885,7 +885,7 @@ export default function EventCateringManagement() {
           </div>
 
           <div class="footer">
-            <p><strong>Joanna's Hotel</strong></p>
+            <p><strong>SRCB</strong></p>
             <p>Thank you for choosing us! We look forward to hosting your event.</p>
             <p style="margin-top: 10px;">For inquiries or changes, please contact our events team.</p>
           </div>
@@ -965,7 +965,7 @@ export default function EventCateringManagement() {
         </head>
         <body>
           <div class="header">
-            <div class="logo">Joanna's Hotel — Event Bill</div>
+            <div class="logo">SRCB — Event Bill</div>
             <div class="subtitle">Event Invoice</div>
           </div>
           <div class="meta">

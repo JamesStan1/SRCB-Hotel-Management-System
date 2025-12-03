@@ -455,7 +455,7 @@ export default function Home() {
             <input
               type="text"
               placeholder="Search dishes..."
-              className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+              className="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={loading}
@@ -465,7 +465,7 @@ export default function Home() {
           <div className="flex gap-2 w-full sm:w-auto flex-wrap">
             {!isNarrow && (
               <button
-                className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 disabled:opacity-50 transition-all duration-200"
+                className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 disabled:opacity-50 transition-all duration-200"
                 onClick={printDishes}
                 disabled={loading}
               >
@@ -474,7 +474,7 @@ export default function Home() {
               </button>
             )}
             <button
-              className="w-full sm:w-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 disabled:opacity-50 transition-all duration-200"
+              className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 disabled:opacity-50 transition-all duration-200"
               onClick={() => {
                 setEditingDish(null);
                 setNewDish(initialDish);
@@ -509,7 +509,7 @@ export default function Home() {
             ) : (
               <select
                 id="category-select"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black bg-white"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black bg-white"
                 value={selectedCategory}
                 onChange={(e) => { setSelectedCategory(e.target.value); setCurrentPage(1); }}
                 disabled={loading}
@@ -531,7 +531,7 @@ export default function Home() {
                 }}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 snap-center ${
                   selectedCategory === category
-                    ? 'bg-green-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-black hover:bg-gray-300'
                 } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={loading}
@@ -556,8 +556,8 @@ export default function Home() {
               >
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-2">
-                    <h2 className="text-xl font-semibold text-green-700">{dish.name}</h2>
-                    <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                className="text-xl font-semibold text-blue-700">{dish.name}</h2>
+                    <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
                       {dish.category}
                     </span>
                   </div>
@@ -567,14 +567,14 @@ export default function Home() {
                   </p>
                   <p className="text-sm mt-2">
                     <span className="font-medium text-black">Availability: </span>
-                    <span className={dish.isAvailable ? 'text-green-600' : 'text-red-600'}>
+                    <span className={dish.isAvailable ? 'text-blue-600' : 'text-red-600'}>
                       {dish.isAvailable ? 'Available' : 'Unavailable'}
                     </span>
                   </p>
                 </div>
                 <div className="mt-4 flex flex-col sm:flex-row gap-2">
                   <button
-                    className="flex-1 px-4 py-3 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center gap-2 disabled:opacity-50 transition-all duration-200 touch-manipulation"
+                    className="flex-1 px-4 py-3 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 disabled:opacity-50 transition-all duration-200 touch-manipulation"
                     onClick={() => openEditModal(dish)}
                     disabled={loading}
                   >
@@ -624,7 +624,7 @@ export default function Home() {
                 onClick={() => handlePageChange(page)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   currentPage === page
-                    ? 'bg-green-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={loading}
@@ -650,7 +650,7 @@ export default function Home() {
         {isModalOpen && (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div className="bg-white p-4 sm:p-6 rounded-lg w-full max-w-2xl shadow-xl max-h-[90vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold mb-6 text-green-700">
+              <h2 className="text-2xl font-bold mb-6 text-blue-700">
                 {editingDish ? 'Edit Dish' : 'Add New Dish'}
               </h2>
               <form onSubmit={editingDish ? handleEditDish : handleAddDish}>
@@ -658,7 +658,7 @@ export default function Home() {
                   <label className="block text-gray-700 font-medium mb-2">Name</label>
                   <input
                     type="text"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                     value={newDish.name}
                     onChange={(e) => setNewDish({ ...newDish, name: e.target.value })}
                     required
@@ -668,7 +668,7 @@ export default function Home() {
                 <div className="mb-4">
                   <label className="block text-gray-700 font-medium mb-2">Description</label>
                   <textarea
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                     value={newDish.description}
                     onChange={(e) => setNewDish({ ...newDish, description: e.target.value })}
                     required
@@ -682,7 +682,7 @@ export default function Home() {
                     <input
                       type="number"
                       step="0.01"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                       value={newDish.price}
                       onChange={(e) => setNewDish({ ...newDish, price: e.target.value })}
                       required
@@ -693,7 +693,7 @@ export default function Home() {
                   <div>
                     <label className="block text-gray-700 font-medium mb-2">Category</label>
                     <select
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                       value={newDish.category}
                       onChange={(e) => setNewDish({ ...newDish, category: e.target.value })}
                       required
@@ -709,7 +709,7 @@ export default function Home() {
                 <div className="mb-4">
                   <label className="block text-gray-700 font-medium mb-2">Availability</label>
                   <select
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-700"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                     value={newDish.isAvailable ? 'true' : 'false'}
                     onChange={(e) => setNewDish({ ...newDish, isAvailable: e.target.value === 'true' })}
                     disabled={loading}
@@ -731,7 +731,7 @@ export default function Home() {
                   </button>
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-4 py-3 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-all duration-200"
+                    className="w-full sm:w-auto px-4 py-3 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-all duration-200"
                     disabled={loading}
                   >
                     {loading ? 'Processing...' : editingDish ? 'Update Dish' : 'Add Dish'}

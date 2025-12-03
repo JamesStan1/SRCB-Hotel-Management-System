@@ -28,7 +28,7 @@ export default function ContactPage() {
 
   // Hotel coordinates (example - replace with actual coordinates)
   const hotelPosition = [8.744403676914459, 124.78162551747702]; // Balingasag, Misamis Oriental, Philippines
-  const hotelName = "Joanna's Hotel";
+  const hotelName = "SRCB";
   const hotelAddress = "Madroño St., Balingasag, 9005 Misamis Oriental";
 
   useEffect(() => {
@@ -68,12 +68,12 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-emerald-600 text-white py-16">
+      <div className="bg-blue-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center">
             <Image 
-              src="/Joannaslogo.png" 
-              alt="Joanna&apos;s Hotel Logo" 
+              src="/SRCB.png" 
+              alt="SRCB Logo" 
               width={120} 
               height={120} 
               className="mx-auto mb-4 drop-shadow-lg" 
@@ -113,7 +113,7 @@ export default function ContactPage() {
                           href={`https://www.google.com/maps/search/?api=1&query=${hotelPosition[0]},${hotelPosition[1]}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-emerald-600 hover:text-emerald-700 text-sm mt-2 inline-block"
+                          className="text-blue-600 hover:text-blue-800 text-sm mt-2 inline-block"
                         >
                           Open in Google Maps →
                         </a>
@@ -144,8 +144,8 @@ export default function ContactPage() {
               <div className="space-y-6">
                 {/* Address */}
                 <div className="flex items-start gap-4">
-                  <div className="bg-emerald-100 p-3 rounded-full flex-shrink-0">
-                    <svg className="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-blue-100 p-3 rounded-full flex-shrink-0">
+                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
@@ -153,7 +153,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Address</h3>
                     <p className="text-gray-600">
-                      Joanna&apos;s Hotel<br />
+                      SRCB<br />
                       123 Main Street<br />
                       City, Province 1234
                     </p>
@@ -161,7 +161,7 @@ export default function ContactPage() {
                       href={`https://www.google.com/maps/search/?api=1&query=${hotelPosition[0]},${hotelPosition[1]}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-600 hover:text-emerald-700 text-sm mt-2 inline-flex items-center transition"
+                      className="text-blue-600 hover:text-blue-700 text-sm mt-2 inline-flex items-center transition"
                     >
                       <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -173,8 +173,8 @@ export default function ContactPage() {
 
                 {/* Phone */}
                 <div className="flex items-start gap-4">
-                  <div className="bg-emerald-100 p-3 rounded-full flex-shrink-0">
-                    <svg className="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-blue-100 p-3 rounded-full flex-shrink-0">
+                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
@@ -187,22 +187,22 @@ export default function ContactPage() {
 
                 {/* Email */}
                 <div className="flex items-start gap-4">
-                  <div className="bg-emerald-100 p-3 rounded-full flex-shrink-0">
-                    <svg className="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-blue-100 p-3 rounded-full flex-shrink-0">
+                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Email</h3>
-                    <p className="text-gray-600">info@joannashotel.com</p>
-                    <p className="text-gray-600">reservations@joannashotel.com</p>
+                    <p className="text-gray-600">info@srcb.com</p>
+                    <p className="text-gray-600">reservations@srcb.com</p>
                   </div>
                 </div>
 
                 {/* Hours */}
                 <div className="flex items-start gap-4">
-                  <div className="bg-emerald-100 p-3 rounded-full flex-shrink-0">
-                    <svg className="h-6 w-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="bg-blue-100 p-3 rounded-full flex-shrink-0">
+                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -216,22 +216,22 @@ export default function ContactPage() {
             </div>
 
             {/* Quick Links Card */}
-            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8">
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8">
               <h3 className="text-xl font-bold text-gray-800 mb-4">Quick Links</h3>
               <div className="space-y-3">
-                <a href="/services" className="flex items-center text-emerald-700 hover:text-emerald-800 transition">
+                <a href="/services" className="flex items-center text-blue-700 hover:text-blue-800 transition">
                   <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   View Our Services
                 </a>
-                <a href="/reservations/room" className="flex items-center text-emerald-700 hover:text-emerald-800 transition">
+                <a href="/reservations/room" className="flex items-center text-blue-700 hover:text-blue-800 transition">
                   <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   Book a Room
                 </a>
-                <a href="/reservations/event" className="flex items-center text-emerald-700 hover:text-emerald-800 transition">
+                <a href="/reservations/event" className="flex items-center text-blue-700 hover:text-blue-800 transition">
                   <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -275,7 +275,7 @@ export default function ContactPage() {
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-sm">© 2025 Joanna&apos;s Hotel. All rights reserved.</p>
+          <p className="text-sm">© 2025 SRCB. All rights reserved.</p>
           <p className="text-xs text-gray-400 mt-2">Experience comfort and hospitality at its finest.</p>
         </div>
       </footer>

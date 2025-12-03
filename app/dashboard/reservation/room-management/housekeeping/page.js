@@ -45,7 +45,7 @@ const HousekeepingTable = ({
     return () => clearTimeout(errorTimeout);
       <div className="flex items-center gap-2">
         {!alertsEnabled ? (
-          <button onClick={enableAlerts} className="px-3 py-1 bg-green-600 text-white rounded text-sm">Enable Alerts</button>
+          <button onClick={enableAlerts} className="px-3 py-1 bg-blue-600 text-white rounded text-sm">Enable Alerts</button>
         ) : (
           <button onClick={disableAlerts} className="px-3 py-1 bg-red-600 text-white rounded text-sm">Disable Alerts</button>
         )}
@@ -221,7 +221,7 @@ const HousekeepingTable = ({
           if (window.Notification && Notification.permission === 'granted' && navigator.serviceWorker && navigator.serviceWorker.controller) {
             navigator.serviceWorker.getRegistration().then(reg => {
               if (reg) {
-                reg.showNotification('Joanna\'s Hotel', { body: `You have ${total} housekeeping alert(s)`, vibrate: [200,100,200], tag: 'housekeeping' });
+                reg.showNotification('SRCB', { body: `You have ${total} housekeeping alert(s)`, vibrate: [200,100,200], tag: 'housekeeping' });
               }
             }).catch(() => {});
           }
@@ -570,7 +570,7 @@ const HousekeepingTable = ({
             {/* Desktop / larger screens: keep existing table */}
             <div className="hidden md:block">
               <table className="w-full border-collapse">
-                <thead className="sticky top-0 bg-green-100 text-left text-white dark:bg-green-700 dark:text-white">
+                <thead className="sticky top-0 bg-blue-100 text-left text-white dark:bg-blue-700 dark:text-white">>
                   <tr>
                     <th className="p-3 font-semibold">Room Number</th>
                     <th className="p-3 font-semibold">Room Status</th>
@@ -605,7 +605,7 @@ const HousekeepingTable = ({
                           <select
                             value={tempStatus[room.id] || 'pending'}
                             onChange={(e) => handleStatusChange(room.id, e.target.value)}
-                            className={`p-2 border rounded text-gray-700 focus:ring-2 focus:ring-green-500 dark:bg-white dark:text-black dark:border-white0 dark:focus:ring-green-400 ${
+                            className={`p-2 border rounded text-gray-700 focus:ring-2 focus:ring-blue-500 dark:bg-white dark:text-black dark:border-white0 dark:focus:ring-blue-400 ${
                               isLoading ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
                             disabled={isLoading}
@@ -619,7 +619,7 @@ const HousekeepingTable = ({
                         <td className="p-3">
                           <button
                             onClick={() => handleSave(room.id)}
-                            className={`bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 ${
+                            className={`bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 ${
                               isLoading ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
                             disabled={isLoading}
@@ -663,7 +663,7 @@ const HousekeepingTable = ({
                       <select
                         value={tempStatus[room.id] || 'pending'}
                         onChange={(e) => handleStatusChange(room.id, e.target.value)}
-                        className={`w-full p-3 border rounded-lg text-gray-700 focus:ring-2 focus:ring-green-500 dark:bg-white dark:text-black ${
+                        className={`w-full p-3 border rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 dark:bg-white dark:text-black ${
                           isLoading ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         disabled={isLoading}
@@ -680,7 +680,7 @@ const HousekeepingTable = ({
                         type="text"
                         value={tempNotes[room.id] || ''}
                         onChange={(e) => handleNotesChange(room.id, e.target.value)}
-                        className={`w-full p-3 border rounded-lg text-black focus:ring-2 focus:ring-green-500 dark:bg-gray-300 dark:text-black ${
+                        className={`w-full p-3 border rounded-lg text-black focus:ring-2 focus:ring-blue-500 dark:bg-gray-300 dark:text-black ${
                           isLoading ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         placeholder="Add notes..."
@@ -690,7 +690,7 @@ const HousekeepingTable = ({
                       <div className="flex items-center justify-end">
                         <button
                           onClick={() => handleSave(room.id)}
-                          className={`mt-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 ${
+                          className={`mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 ${
                             isLoading ? 'opacity-50 cursor-not-allowed' : ''
                           }`}
                           disabled={isLoading}

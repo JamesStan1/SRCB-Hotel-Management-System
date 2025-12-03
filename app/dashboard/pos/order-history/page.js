@@ -171,7 +171,7 @@ export default function OrderHistory() {
       const items = Array.isArray(order.items) ? order.items : [];
       return {
         header: `
-          Joanna's Nook
+          SRCB
           123 Main Street, Springfield, USA
           Date: ${formattedDate}
           Time: ${formattedTime}
@@ -303,7 +303,7 @@ export default function OrderHistory() {
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-emerald-600 text-white">
+              <thead className="bg-blue-600 text-white">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
                     Receipt ID
@@ -386,7 +386,7 @@ export default function OrderHistory() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right">
-                        <div className="text-sm font-semibold text-emerald-600">
+                        <div className="text-sm font-semibold text-blue-600">
                           ₱{order.total.toFixed(2)}
                         </div>
                         {order.discount > 0 && (
@@ -401,7 +401,7 @@ export default function OrderHistory() {
                       <td className="px-6 py-4 whitespace-nowrap text-center">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           order.paymentMethod === 'Cash' 
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-blue-100 text-blue-800'
                             : order.paymentMethod === 'Gcash'
                             ? 'bg-purple-100 text-purple-800'
                             : 'bg-gray-100 text-gray-800'
@@ -415,7 +415,7 @@ export default function OrderHistory() {
                             e.stopPropagation();
                             handleOrderClick(order);
                           }}
-                          className="text-emerald-600 hover:text-emerald-900 font-medium text-sm"
+                          className="text-blue-600 hover:text-blue-900 font-medium text-sm"
                         >
                           View Details
                         </button>
@@ -485,7 +485,7 @@ export default function OrderHistory() {
             </div>
             <div className="text-sm text-gray-700 space-y-4">
               <div className="text-center">
-                <h3 className="text-lg font-bold">Joanna&apos;s Nook</h3>
+                <h3 className="text-lg font-bold">SRCB</h3>
                 <p>123 Main Street, Springfield, USA</p>
                 <p>
                   Date:{" "}

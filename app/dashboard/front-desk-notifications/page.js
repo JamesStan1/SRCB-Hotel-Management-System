@@ -225,7 +225,7 @@ export default function FrontDeskNotifications() {
       <div className="mb-6 flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
-            <BellAlertIcon className="h-8 w-8 text-emerald-600" />
+            <BellAlertIcon className="h-8 w-8 text-blue-600" />
             Front Desk Notifications
           </h1>
           <p className="text-gray-600 mt-1">Food orders ready for pickup and serving</p>
@@ -249,7 +249,7 @@ export default function FrontDeskNotifications() {
               type="checkbox"
               checked={audioEnabled}
               onChange={(e) => setAudioEnabled(e.target.checked)}
-              className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
+              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
             />
             <span className="text-sm text-gray-700">Sound Alerts</span>
           </label>
@@ -258,7 +258,7 @@ export default function FrontDeskNotifications() {
           <button
             onClick={fetchNotifications}
             disabled={loading}
-            className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 flex items-center gap-2"
           >
             <svg className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -271,8 +271,8 @@ export default function FrontDeskNotifications() {
       {/* Notification Count */}
       <div className="mb-6 bg-white rounded-lg shadow-sm p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="bg-emerald-100 p-3 rounded-full">
-            <BellAlertIcon className="h-6 w-6 text-emerald-600" />
+          <div className="bg-blue-100 p-3 rounded-full">
+            <BellAlertIcon className="h-6 w-6 text-blue-600" />
           </div>
           <div>
             <div className="text-2xl font-bold text-gray-900">
@@ -305,7 +305,7 @@ export default function FrontDeskNotifications() {
       {/* Notifications List */}
       {loading && notifications.length === 0 ? (
         <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       ) : notifications.length === 0 ? (
         <div className="bg-white rounded-lg shadow-sm p-12 text-center">
@@ -376,7 +376,7 @@ export default function FrontDeskNotifications() {
                   <button
                     onClick={() => handleMarkServed(notification.id)}
                     disabled={processingId === notification.id}
-                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition font-semibold ${processingId === notification.id ? 'bg-emerald-400 text-white cursor-not-allowed' : 'bg-emerald-600 text-white hover:bg-emerald-700'}`}
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition font-semibold ${processingId === notification.id ? 'bg-blue-400 text-white cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                   >
                     <CheckCircleIcon className="h-5 w-5" />
                     {processingId === notification.id ? 'Processing...' : 'Mark as Served'}
@@ -391,7 +391,7 @@ export default function FrontDeskNotifications() {
       {/* Auto-refresh indicator */}
       <div className="mt-6 text-center text-sm text-gray-500">
         <div className="flex items-center justify-center gap-2">
-          <div className="animate-pulse w-2 h-2 bg-emerald-500 rounded-full"></div>
+          <div className="animate-pulse w-2 h-2 bg-blue-500 rounded-full"></div>
           <span>Auto-refreshing every 10 seconds</span>
         </div>
       </div>
