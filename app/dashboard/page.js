@@ -23,6 +23,8 @@ import {
   UserCircleIcon,
   CheckCircleIcon,
   BellAlertIcon,
+  CalendarIcon,
+  DocumentCheckIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
@@ -297,7 +299,7 @@ export default function Dashboard() {
   // the current user is allowed to access (RBAC -> getAvailablePages()).
   const availablePagesNow = getAvailablePages();
   const categoryMap = {
-    "Staff": ["staff", "attendance", "payroll", "reports", "archived_staff"],
+    "Staff": ["staff", "attendance", "payroll", "reports", "archived_staff", "leave-request", "leave-history", "leave-approvals"],
     "Reservations": [
       "rooms",
       "archived_rooms",
@@ -623,6 +625,9 @@ export default function Dashboard() {
       case "attendance":
       case "payroll":
       case "reports":
+      case "leave-request":
+      case "leave-history":
+      case "leave-approvals":
         return <StaffManagement activeSubPage={activePage} isLoading={isLoading} isNarrow={isNarrow} />;
       case "archived_staff":
         return <ArchivedStaff isLoading={isLoading} isNarrow={isNarrow} />;
@@ -1330,7 +1335,7 @@ function Sidebar({
             <DashboardNavItem
               icon={<UsersIcon className="h-6 w-6" />}
               title={isPrivileged ? "Staff Management" : "Staff"}
-              active={["staff", "attendance", "payroll", "reports", "archived_staff"].includes(activePage)}
+              active={["staff", "attendance", "payroll", "reports", "archived_staff", "leave-request", "leave-history", "leave-approvals"].includes(activePage)}
               onClick={(page) => setActivePage(page || "staff")}
               hasDropdown
               isDropdownOpen={staffManagementOpen}
@@ -1623,7 +1628,7 @@ function DashboardNavItem({
 }) {
   const getDropdownItems = () => {
     if (title === "Staff Management") {
-      return ["staff", "attendance", "payroll", "reports", "archived_staff"].filter((item) =>
+      return ["staff", "attendance", "payroll", "reports", "leave-request", "leave-history", "leave-approvals", "archived_staff"].filter((item) =>
         availablePages.includes(item)
       );
     } else if (title === "Cafe Management") {
@@ -1701,6 +1706,9 @@ function DashboardNavItem({
                 {sub === "attendance" && <ClockIcon className="h-5 w-5 mr-3" />}
                 {sub === "payroll" && <CurrencyDollarIcon className="h-5 w-5 mr-3" />}
                 {sub === "reports" && <DocumentTextIcon className="h-5 w-5 mr-3" />}
+                {sub === "leave-request" && <CalendarIcon className="h-5 w-5 mr-3" />}
+                {sub === "leave-history" && <CalendarIcon className="h-5 w-5 mr-3" />}
+                {sub === "leave-approvals" && <DocumentCheckIcon className="h-5 w-5 mr-3" />}
                 {sub === "archived_staff" && <ArchiveBoxIcon className="h-5 w-5 mr-3" />}
                 {sub === "cafe-management" && <CoffeeIcon className="h-5 w-5 mr-3" />}
                 {sub === "archived_cafe" && <ArchiveBoxIcon className="h-5 w-5 mr-3" />}
@@ -1727,6 +1735,9 @@ function DashboardNavItem({
                       if (s === "edit-room") return "Edit Room";
                       if (s === "archived_events") return "Archived Events";
                       if (s === "edit-package") return "Edit Package";
+                      if (s === "leave-request") return "Request Leave";
+                      if (s === "leave-history") return "Leave History";
+                      if (s === "leave-approvals") return "Leave Approvals";
                       if (s === "archived_cafe" || s === "archived_inventory" || s === "archived_staff") return "Archived";
                       return s.charAt(0).toUpperCase() + s.slice(1);
                     };

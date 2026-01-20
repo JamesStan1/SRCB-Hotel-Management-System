@@ -87,22 +87,28 @@ export function AuthProvider({ children }) {
         }
 
         try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+          
           const response = await fetch('/api/auth/verify', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${active.token}`,
             },
+            signal: controller.signal,
           });
+          clearTimeout(timeout);
+          
           if (response.ok) {
             const data = await response.json();
             // update stored user info from server in sessions
             const updated = loadedSessions.map(s => s.id === active.id ? { ...s, user: data.user } : s);
             setSessions(updated);
             localStorage.setItem('sessions', JSON.stringify(updated));
-          } else {
-            console.error('Token verification failed for active session, removing it');
-            // remove the invalid session
+          } else if (response.status === 401) {
+            // Token is invalid or user doesn't exist - remove it
+            console.error('Token verification failed (401) for active session, removing it');
             const remaining = loadedSessions.filter(s => s.id !== active.id);
             setSessions(remaining);
             localStorage.setItem('sessions', JSON.stringify(remaining));
@@ -114,10 +120,19 @@ export function AuthProvider({ children }) {
               localStorage.removeItem('activeSessionId');
               if (isProtectedPath) router.push('/components/sign-in');
             }
+          } else {
+            // Server error (5xx) or other temporary failure - keep session but don't update
+            console.warn(`Token verification returned status ${response.status}, keeping session but not updating user info`);
+            // Keep the session as-is, don't update user info
           }
         } catch (err) {
-          console.error('Error verifying token:', err);
-          if (isProtectedPath) router.push('/components/sign-in');
+          if (err.name === 'AbortError') {
+            console.warn('Token verification timed out, keeping session intact');
+          } else {
+            console.error('Error verifying token (network/timeout):', err.message);
+          }
+          // Network error or timeout - keep session intact and continue
+          // The session will be verified again on next navigation
         }
       } catch (error) {
         console.error('Initialization error:', error);

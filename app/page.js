@@ -13,7 +13,7 @@ export default function LandingPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image 
-            src="/SRCB.png" 
+            src="/bar.jpeg" 
             alt="SRCB Background" 
             fill
             className="object-cover"

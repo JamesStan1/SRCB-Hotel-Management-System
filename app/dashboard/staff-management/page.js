@@ -6,6 +6,9 @@ import AttendancePayroll from './attendance/page';
 import PayrollPage from './payroll/page';
 import ReportsPage from './reports/page';
 import ArchivedStaff from './archived_staff/page';
+import LeaveRequest from './leave-request/page';
+import LeaveHistory from './leave-history/page';
+import LeaveApprovals from './leave-approvals/page';
 
 export default function StaffManagement({ activeSubPage }) {
   return (
@@ -16,6 +19,9 @@ export default function StaffManagement({ activeSubPage }) {
       {activeSubPage === 'payroll' && <PayrollPage activeTab="payroll" />}
       {activeSubPage === 'reports' && <ReportsPage activeTab="reports" />}
       {activeSubPage === 'archived-staff' && <ArchivedStaff />}
+      {activeSubPage === 'leave-request' && <LeaveRequest />}
+      {activeSubPage === 'leave-history' && <LeaveHistory />}
+      {activeSubPage === 'leave-approvals' && <LeaveApprovals />}
     </div>
   );
 }
