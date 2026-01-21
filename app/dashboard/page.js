@@ -85,6 +85,7 @@ export default function Dashboard() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [posManagementOpen, setPosManagementOpen] = useState(false);
   const [billsManagementOpen, setBillsManagementOpen] = useState(false);
+  const [leaveManagementOpen, setLeaveManagementOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -108,6 +109,9 @@ export default function Dashboard() {
       "payroll",
       "reports",
       "archived_staff",
+      "leave-request",
+      "leave-history",
+      "leave-approvals",
       "rooms",
       "archived_rooms",
       "edit-room",
@@ -135,6 +139,9 @@ export default function Dashboard() {
       "payroll",
       "reports",
       "archived_staff",
+      "leave-request",
+      "leave-history",
+      "leave-approvals",
       "rooms",
       "archived_rooms",
       "edit-room",
@@ -703,6 +710,8 @@ export default function Dashboard() {
           setPosManagementOpen={setPosManagementOpen}
           billsManagementOpen={billsManagementOpen}
           setBillsManagementOpen={setBillsManagementOpen}
+          leaveManagementOpen={leaveManagementOpen}
+          setLeaveManagementOpen={setLeaveManagementOpen}
           userRole={user?.role}
           hasAccess={hasAccess}
           availablePages={getAvailablePages()}
@@ -736,6 +745,8 @@ export default function Dashboard() {
               setPosManagementOpen={setPosManagementOpen}
               billsManagementOpen={billsManagementOpen}
               setBillsManagementOpen={setBillsManagementOpen}
+              leaveManagementOpen={leaveManagementOpen}
+              setLeaveManagementOpen={setLeaveManagementOpen}
               userRole={user?.role}
               hasAccess={hasAccess}
               availablePages={getAvailablePages()}
@@ -1272,6 +1283,8 @@ function Sidebar({
   setPosManagementOpen,
   billsManagementOpen,
   setBillsManagementOpen,
+  leaveManagementOpen,
+  setLeaveManagementOpen,
   userRole,
   hasAccess,
   availablePages,
@@ -1284,7 +1297,7 @@ function Sidebar({
   const isCollapsed = useContext(SidebarCollapseContext);
   const showOverview = availablePages.includes("overview");
   const showStaffManagement = availablePages.some((page) =>
-    ["staff", "attendance", "payroll", "reports", "archived_staff"].includes(page)
+    ["staff", "attendance", "payroll", "reports", "archived_staff", "leave-request", "leave-history", "leave-approvals"].includes(page)
   );
   const showReservationManagement = availablePages.some((page) =>
     ["rooms", "archived_rooms", "edit-room", "event-catering", "archived_events", "edit-package", "reservation-history", "reservation-approval"].includes(page)
@@ -1342,8 +1355,11 @@ function Sidebar({
               onToggleDropdown={() => setStaffManagementOpen(!staffManagementOpen)}
               availablePages={availablePages}
               isLoading={isLoading}
-            isPrivileged={isPrivileged}
-            isCollapsed={isCollapsed}
+              isPrivileged={isPrivileged}
+              isCollapsed={isCollapsed}
+              leaveManagementOpen={leaveManagementOpen}
+              setLeaveManagementOpen={setLeaveManagementOpen}
+              activePage={activePage}
             />
           )}
 
@@ -1625,10 +1641,13 @@ function DashboardNavItem({
   isLoading,
   children,
   isPrivileged = false,
+  leaveManagementOpen = false,
+  setLeaveManagementOpen = null,
+  activePage = null,
 }) {
   const getDropdownItems = () => {
     if (title === "Staff Management") {
-      return ["staff", "attendance", "payroll", "reports", "leave-request", "leave-history", "leave-approvals", "archived_staff"].filter((item) =>
+      return ["staff", "attendance", "payroll", "reports", "archived_staff"].filter((item) =>
         availablePages.includes(item)
       );
     } else if (title === "Cafe Management") {
@@ -1746,6 +1765,78 @@ function DashboardNavItem({
                 </span>
               </button>
             ))}
+          
+          {/* Leave Management Submenu - only show for Staff Management */}
+          {title === "Staff Management" && ["leave-request", "leave-history", "leave-approvals"].some(item => availablePages.includes(item)) && (
+            <div>
+              <button
+                onClick={() => setLeaveManagementOpen && setLeaveManagementOpen(!leaveManagementOpen)}
+                className={`flex items-center justify-between px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
+                  ["leave-request", "leave-history", "leave-approvals"].includes(activePage)
+                    ? "bg-blue-600 text-white"
+                    : "text-blue-100 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white"
+                } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                disabled={isLoading}
+              >
+                <div className="flex items-center">
+                  <CalendarIcon className="h-5 w-5 mr-3" />
+                  <span className="font-medium">Leave</span>
+                </div>
+                <ChevronDownIcon
+                  className={`h-4 w-4 transition-transform ${leaveManagementOpen ? "transform rotate-180" : ""}`}
+                />
+              </button>
+              
+              {/* Leave submenu items */}
+              {leaveManagementOpen && (
+                <div className="ml-3 mt-1 space-y-1">
+                  {availablePages.includes("leave-request") && (
+                    <button
+                      onClick={() => onClick("leave-request")}
+                      className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
+                        activePage === "leave-request"
+                          ? "bg-blue-600 text-white"
+                          : "text-blue-100 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white"
+                      } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                      disabled={isLoading}
+                    >
+                      <CalendarIcon className="h-5 w-5 mr-3" />
+                      <span className="font-medium">Request Leave</span>
+                    </button>
+                  )}
+                  {availablePages.includes("leave-history") && (
+                    <button
+                      onClick={() => onClick("leave-history")}
+                      className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
+                        activePage === "leave-history"
+                          ? "bg-blue-600 text-white"
+                          : "text-blue-100 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white"
+                      } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                      disabled={isLoading}
+                    >
+                      <CalendarIcon className="h-5 w-5 mr-3" />
+                      <span className="font-medium">Leave History</span>
+                    </button>
+                  )}
+                  {availablePages.includes("leave-approvals") && (
+                    <button
+                      onClick={() => onClick("leave-approvals")}
+                      className={`flex items-center px-4 py-3 rounded-lg w-full text-left transition-colors text-sm sm:text-base ${
+                        activePage === "leave-approvals"
+                          ? "bg-blue-600 text-white"
+                          : "text-blue-100 hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white"
+                      } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                      disabled={isLoading}
+                    >
+                      <DocumentCheckIcon className="h-5 w-5 mr-3" />
+                      <span className="font-medium">Leave Approvals</span>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+          
           {children}
         </div>
       )}

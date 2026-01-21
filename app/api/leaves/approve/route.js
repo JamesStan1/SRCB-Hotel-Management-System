@@ -1,6 +1,6 @@
-import pool from "../../../../lib/db";
+import pool from "../../../lib/db";
 import jwt from "jsonwebtoken";
-import { logAudit } from "../../../../lib/auditLogger";
+import { logAudit } from "../../../lib/auditLogger";
 
 // Helper: Get user ID from authorization header
 async function getUserIdFromToken(req) {
