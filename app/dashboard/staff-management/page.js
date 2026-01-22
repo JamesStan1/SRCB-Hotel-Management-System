@@ -6,9 +6,9 @@ import AttendancePayroll from './attendance/page';
 import PayrollPage from './payroll/page';
 import ReportsPage from './reports/page';
 import ArchivedStaff from './archived_staff/page';
-import LeaveRequest from './leave-request/page';
-import LeaveHistory from './leave-history/page';
-import LeaveApprovals from './leave-approvals/page';
+import LeaveRequest from './components/LeaveRequest.jsx';
+import LeaveHistory from './components/LeaveHistory.jsx';
+import LeaveApprovals from './components/LeaveApprovals.jsx';
 
 export default function StaffManagement({ activeSubPage }) {
   return (
