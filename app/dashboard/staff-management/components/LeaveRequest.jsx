@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import {
   CheckCircleIcon,
-  ExclamationIcon,
+  ExclamationTriangleIcon,
   CalendarIcon,
   PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
@@ -248,7 +248,7 @@ export default function LeaveRequest() {
           {selectedLeaveType && (
             <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex gap-3">
-                <ExclamationIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <ExclamationTriangleIcon className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-blue-800">
                   <p className="font-medium mb-1">Leave Information:</p>
                   <ul className="list-disc list-inside space-y-1">

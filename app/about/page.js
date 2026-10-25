@@ -19,7 +19,7 @@ export default function AboutPage() {
           </p>
 
           <p className="text-gray-700 mb-4">
-            Today, SRCB blends classic hospitality with modern convenience. Our team continues SRCB's legacy of
+            Today, SRCB blends classic hospitality with modern convenience. Our team continues SRCB&apos;s legacy of
             welcoming guests with heart — whether they visit for business, leisure, or a special event.
           </p>
 

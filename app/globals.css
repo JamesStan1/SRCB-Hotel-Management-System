@@ -58,6 +58,95 @@ a:hover {
   color: var(--brand-blue-600);
 }
 
+.public-site-nav a {
+  color: #4b5563;
+}
+.public-site-nav a:hover {
+  color: #15803d;
+}
+.public-site-login,
+.public-site-login:hover {
+  color: #fff;
+}
+.public-landing h1 {
+  color: #fff;
+}
+.public-landing h2,
+.public-landing h3 {
+  color: #1f2937;
+}
+.public-landing .cafe-feature h2,
+.public-landing .cafe-feature h3 {
+  color: #78350f;
+}
+.public-landing .landing-cta,
+.public-landing .landing-cta:hover {
+  color: #fff;
+}
+.public-landing .service-link {
+  color: #15803d;
+}
+.public-landing .service-link:hover {
+  color: #166534;
+}
+.public-landing .directions-link,
+.public-landing .directions-link:hover {
+  color: #166534;
+}
+.public-footer h2 {
+  color: #4ade80;
+}
+.public-footer h3 {
+  color: #fff;
+}
+.public-footer a,
+.public-footer a:hover {
+  color: #94a3b8;
+}
+.public-footer .footer-brand,
+.public-footer .footer-brand:hover {
+  color: #fff;
+}
+.public-footer .footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+}
+.public-footer .footer-link:hover {
+  color: #4ade80;
+}
+.public-footer .footer-cta,
+.public-footer .footer-cta:hover {
+  color: #fff;
+}
+.public-footer .footer-social,
+.public-footer .footer-social:hover {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #1e293b;
+  color: #cbd5e1;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.public-footer .footer-social:hover {
+  background: #15803d;
+  color: #fff;
+}
+.public-help-widget h2 {
+  color: #fff;
+}
+.public-help-widget .public-help-contact,
+.public-help-widget .public-help-contact:hover {
+  color: #fff;
+}
+.public-terms-dialog h2 {
+  color: #111827;
+}
+
 /* Inputs focus ring tint */
 input, select, textarea {
   accent-color: var(--brand-blue-600);
